@@ -40,7 +40,7 @@
 
   var NAME = 'parallax';
   var DEFAULTS = {
-    easing: 'all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1)',
+    transition: '0.5s cubic-bezier(0.165, 0.84, 0.44, 1)',
     calibrationThreshold: 100,
     calibrationDelay: 500,
     invertX: true,
@@ -63,7 +63,7 @@
 
     // Data Extraction
     var data = {
-      easing: this.$context.data('easing') || null,
+      transition: this.$context.data('transition') || null,
       invertX: this.$context.data('invert-x') || null,
       invertY: this.$context.data('invert-y') || null,
       limitX: parseFloat(this.$context.data('limit-x')) || null,
@@ -79,6 +79,9 @@
 
     // Compose Settings Object
     $.extend(this, DEFAULTS, options, data);
+
+    // Set Transition Properties
+    this.transition = 'all ' + this.transition;
 
     // States
     this.calibrationTimer = null;
@@ -172,17 +175,15 @@
       position:'relative'
     });
 
-    // Cache Layer Depths
+    // Add Layer Transitions & Cache Depths
     this.$layers.each($.proxy(function(index, element) {
       this.depths.push($(element).data('depth') || 0);
+      this.css(element, 'transition', this.transition);
     }, this));
 
     // Hardware Accelerate Elements
     this.accelerate(this.$context);
     this.accelerate(this.$layers);
-
-    // Layer Easing
-    this.ease(this.$layers);
 
     // Enable
     this.enable();
@@ -240,12 +241,6 @@
       this.css(element, 'transform', 'translate3d(0,0,0)');
       this.css(element, 'transform-style', 'preserve-3d');
       this.css(element, 'backface-visibility', 'hidden');
-    }, this));
-  };
-
-  Plugin.prototype.ease = function($element) {
-    $element.each($.proxy(function(index, element) {
-      this.css(element, 'transition', this.easing);
     }, this));
   };
 
