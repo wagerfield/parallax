@@ -26,7 +26,6 @@
     this.element = element;
 
     // Selections
-    this.$window = $(window);
     this.$context = $(element).data('api', this);
     this.$layers = this.$context.find('.layer');
 
@@ -167,12 +166,12 @@
   };
 
   Plugin.prototype.enable = function() {
-    this.$window.on('deviceorientation', $.proxy(this.onDeviceOrientation, this));
+    window.addEventListener('deviceorientation', $.proxy(this.onDeviceOrientation, this));
     this.raf = requestAnimationFrame($.proxy(this.onAnimationFrame, this));
   };
 
   Plugin.prototype.disable = function() {
-    this.$window.off('deviceorientation', this.onDeviceOrientation);
+    window.removeEventListener('deviceorientation', this.onDeviceOrientation);
     cancelAnimationFrame(this.raf);
   };
 
