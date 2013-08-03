@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+
+	<title>Parallax.js</title>
+
+	<!-- Behavioral Meta Data -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+	<!-- Core Meta Data -->
+	<meta name="author" content="Matthew Wagerfield">
+	<meta name="description" content="Simple, lightweight Parallax Engine that reacts to the orientation of a smart device.">
+	<meta name="keywords" content="parallax,javascript,jquery,zepto,plugin">
+
+	<!-- Open Graph Meta Data -->
+	<meta property="og:description" content="Simple, lightweight Parallax Engine that reacts to the orientation of a smart device.">
+	<meta property="og:image" content="http://wagerfield.github.io/parallax/assets/thumbnail.jpg">
+	<meta property="og:site_name" content="Parallax.js">
+	<meta property="og:title" content="Parallax.js">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="http://wagerfield.github.io/parallax/">
+
+	<!-- Twitter Card Meta Data -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="http://wagerfield.github.io/parallax/">
+	<meta name="twitter:creator" content="@mwagerfield">
+	<meta name="twitter:title" content="Parallax.js">
+	<meta name="twitter:description" content="Simple, lightweight Parallax Engine that reacts to the orientation of a smart device.">
+	<meta name="twitter:image" content="http://wagerfield.github.io/parallax/assets/thumbnail.jpg">
+
+	<!-- Styles -->
+	<style>
+	body {
+		background: #111;
+		margin: 0;
+	}
+	body:after {
+		background-image: url(graphics/grid.png);
+		background-size: 80px 80px;
+		position: absolute;
+		position: fixed;
+		display: block;
+		content: "";
+		opacity: 0.2;
+		height: 100%;
+		width: 100%;
+		left: 0;
+		top: 0;
+	}
+	img {
+		display: block;
+		width: 100%;
+	}
+	h1 {
+		font-family: Monaco, monospace;
+		text-align: center;
+		position: absolute;
+		font-size: 24px;
+		bottom: 80px;
+		width: 100%;
+		color: #486;
+	}
+	.scene {
+		max-width: 500px;
+		overflow: hidden;
+		margin: 0 auto;
+		padding: 0;
+	}
+	.layer {
+		opacity: 0.75;
+	}
+	</style>
+
+</head>
+<body>
+
+	<div id="container" class="container">
+		<h1>parallax.js</h1>
+		<ul class="scene">
+			<li class="layer" data-depth="0.00"><img src="graphics/layer6.png"></li>
+			<li class="layer" data-depth="0.20"><img src="graphics/layer5.png"></li>
+			<li class="layer" data-depth="0.40"><img src="graphics/layer4.png"></li>
+			<li class="layer" data-depth="0.60"><img src="graphics/layer3.png"></li>
+			<li class="layer" data-depth="0.80"><img src="graphics/layer2.png"></li>
+			<li class="layer" data-depth="1.00"><img src="graphics/layer1.png"></li>
+		</ul>
+	</div>
+
+	<!-- Scripts -->
+	<script src="scripts/jquery.js"></script>
+	<script src="../deploy/jquery.parallax.js"></script>
+	<script>
+
+	// Yep, that's it!
+	$('.scene').parallax();
+
+	</script>
+
+</body>
+</html>
