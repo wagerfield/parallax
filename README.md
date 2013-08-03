@@ -1,10 +1,10 @@
 # Parallax.js
 
-Simple, lightweight **Parallax Engine** that reacts to the **orientation** of a
+Simple, lightweight **Parallax Engine** that reacts to the orientation of a
 smart device. Where no gyroscope or motion detection hardware is available, the
 position of the cursor is used instead.
 
-Check out this [demo][demo] to see it in action!
+Check out this **[demo][demo]** to see it in action!
 
 ## Setup
 
@@ -13,7 +13,7 @@ your parallax scene a class of `layer` and a `data-depth` attribute specifying
 its depth within the scene. A depth of **0** will cause the layer to remain
 stationary, and a depth of **1** will cause the layer to move by the total
 effect of the calculated motion. Values inbetween **0** and **1** will cause the
-layer to move by a reduced amount relative to its depth.
+layer to move by an amount relative to the supplied ratio.
 
 ```html
 <ul id="scene">
@@ -26,8 +26,8 @@ layer to move by a reduced amount relative to its depth.
 </ul>
 ```
 
-To start a **Parallax** scene, simply select you parent DOM Element and pass it
-to the **Parallax** constructor.
+To kickoff a **Parallax** scene, simply select your parent DOM Element and pass
+it to the **Parallax** constructor.
 
 ```javascript
 var scene = document.getElementById('scene');
@@ -38,13 +38,23 @@ var parallax = new Parallax(scene);
 
 There are a number of behaviors that you can setup for any given **Parallax**
 instance. These behaviors can either be specified in the markup via data
-attributes or in JavaScript via the constructor or API.
+attributes or in JavaScript via the constructor or later on through the API.
+
+| Behavior      | Values              | Description                                                                                              |
+| ------------- | ------------------- | -------------------------------------------------------------------------------------------------------- |
+| `transition`  | `0.8s ease-out`     | CSS transition string specifying the duration and easing.                                                |
+| `invert-x`    | `true` or `false`   | `true` moves layers in oposition to the device motion, `false` slides them away.                         |
+| `invert-y`    | `true` or `false`   | `true` moves layers in oposition to the device motion, `false` slides them away.                         |
+| `limit-x`     | `number` or `false` | A numeric value limits the total range of motion, `false` allows layers to move with a complete freedom. |
+| `limit-y`     | `number` or `false` | A numeric value limits the total range of motion, `false` allows layers to move with a complete freedom. |
+| `scalar-x`    | `number`            | Multiplies the input motion by this value, increasing or decreasing the sensitivity of the layer motion. |
+| `scalar-y`    | `number`            | Multiplies the input motion by this value, increasing or decreasing the sensitivity of the layer motion. |
 
 ### Behaviors: Data Attributes
 
 ```html
 <ul id="scene"
-  data-easing="false"
+  data-transition="1s ease-out"
   data-invert-x="false"
   data-invert-y="true"
   data-limit-x="false"
