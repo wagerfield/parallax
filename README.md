@@ -45,12 +45,12 @@ attributes or in JavaScript via the constructor or later on through the API.
 | `transition`  | `0.8s ease-out`     | CSS transition string specifying the duration and easing.                                                |
 | `invert-x`    | `true` or `false`   | `true` moves layers in oposition to the device motion, `false` slides them away.                         |
 | `invert-y`    | `true` or `false`   | `true` moves layers in oposition to the device motion, `false` slides them away.                         |
-| `limit-x`     | `number` or `false` | A numeric value limits the total range of motion, `false` allows layers to move with a complete freedom. |
-| `limit-y`     | `number` or `false` | A numeric value limits the total range of motion, `false` allows layers to move with a complete freedom. |
+| `limit-x`     | `number` or `false` | A numeric value limits the total range of motion, `false` allows layers to move with complete freedom.   |
+| `limit-y`     | `number` or `false` | A numeric value limits the total range of motion, `false` allows layers to move with complete freedom.   |
 | `scalar-x`    | `number`            | Multiplies the input motion by this value, increasing or decreasing the sensitivity of the layer motion. |
 | `scalar-y`    | `number`            | Multiplies the input motion by this value, increasing or decreasing the sensitivity of the layer motion. |
 
-### Behaviors: Data Attributes
+### Behaviors: Data Attributes Example
 
 ```html
 <ul id="scene"
@@ -70,7 +70,7 @@ attributes or in JavaScript via the constructor or later on through the API.
 </ul>
 ```
 
-### Behaviors: Constructor Object
+### Behaviors: Constructor Object Example
 
 ```javascript
 var scene = document.getElementById('scene');
@@ -84,7 +84,7 @@ var parallax = new Parallax(scene, {
 });
 ```
 
-### API
+### Behaviors: API Example
 
 ```javascript
 var scene = document.getElementById('scene');
@@ -96,7 +96,10 @@ parallax.limit(false, 10);
 parallax.scalar(2, 8);
 ```
 
-### jQuery
+## jQuery
+
+If you're using **[jQuery][jquery]** or **[Zepto][zepto]** and would prefer to
+use **Parallax.js** as a plugin, you're in luck!
 
 ```javascript
 $('.scene').parallax();
@@ -127,12 +130,14 @@ $scene.parallax('scalar', 2, 8);
 
 ## Author
 
-Matthew Wagerfield: [@mwagerfield][mwagerfield]
+Matthew Wagerfield: [@mwagerfield][twitter]
 
 ## License
 
 Licensed under [MIT][mit]. Enjoy.
 
 [demo]: http://wagerfield.github.com/parallax/
-[mwagerfield]: http://twitter.com/mwagerfield
+[twitter]: http://twitter.com/mwagerfield
 [mit]: http://www.opensource.org/licenses/mit-license.php
+[jquery]: http://jquery.com/
+[zepto]: http://zeptojs.com/
