@@ -17,7 +17,7 @@
 
 	<!-- Open Graph Meta Data -->
 	<meta property="og:description" content="Simple, lightweight Parallax Engine that reacts to the orientation of a smart device.">
-	<meta property="og:image" content="http://wagerfield.github.io/parallax/assets/thumbnail.jpg">
+	<meta property="og:image" content="http://wagerfield.github.io/parallax/assets/thumbnail.png">
 	<meta property="og:site_name" content="Parallax.js">
 	<meta property="og:title" content="Parallax.js">
 	<meta property="og:type" content="website">
@@ -38,7 +38,7 @@
 		margin: 0;
 	}
 	body:after {
-		background-image: url(graphics/grid.png);
+		background-image: url(examples/graphics/grid.png);
 		background-size: 80px 80px;
 		position: absolute;
 		position: fixed;
@@ -69,8 +69,23 @@
 		margin: 0 auto;
 		padding: 0;
 	}
-	.layer {
+	.layer:nth-child(1) {
+		opacity: 0.15;
+	}
+	.layer:nth-child(2) {
+		opacity: 0.30;
+	}
+	.layer:nth-child(3) {
+		opacity: 0.45;
+	}
+	.layer:nth-child(4) {
+		opacity: 0.60;
+	}
+	.layer:nth-child(5) {
 		opacity: 0.75;
+	}
+	.layer:nth-child(6) {
+		opacity: 0.90;
 	}
 	</style>
 
@@ -80,12 +95,12 @@
 	<div id="container" class="container">
 		<h1>parallax.js</h1>
 		<ul class="scene">
-			<li class="layer" data-depth="0.00"><img src="examples/graphics/layer6.png"></li>
-			<li class="layer" data-depth="0.20"><img src="examples/graphics/layer5.png"></li>
-			<li class="layer" data-depth="0.40"><img src="examples/graphics/layer4.png"></li>
-			<li class="layer" data-depth="0.60"><img src="examples/graphics/layer3.png"></li>
-			<li class="layer" data-depth="0.80"><img src="examples/graphics/layer2.png"></li>
 			<li class="layer" data-depth="1.00"><img src="examples/graphics/layer1.png"></li>
+			<li class="layer" data-depth="0.80"><img src="examples/graphics/layer2.png"></li>
+			<li class="layer" data-depth="0.60"><img src="examples/graphics/layer3.png"></li>
+			<li class="layer" data-depth="0.40"><img src="examples/graphics/layer4.png"></li>
+			<li class="layer" data-depth="0.20"><img src="examples/graphics/layer5.png"></li>
+			<li class="layer" data-depth="0.00"><img src="examples/graphics/layer6.png"></li>
 		</ul>
 	</div>
 
