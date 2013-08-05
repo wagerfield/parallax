@@ -39,16 +39,20 @@
 ;(function($, window, document, undefined) {
 
   var NAME = 'parallax';
+  var MAGIC_NUMBER = 30;
   var DEFAULTS = {
-    transition: '0.5s cubic-bezier(0.165, 0.84, 0.44, 1)',
     calibrationThreshold: 100,
     calibrationDelay: 500,
+    calibrateX: false,
+    calibrateY: true,
     invertX: true,
     invertY: true,
     limitX: false,
     limitY: false,
-    scalarX: 0.5,
-    scalarY: 0.5
+    scalarX: 10.0,
+    scalarY: 10.0,
+    frictionX: 0.1,
+    frictionY: 0.1
   };
 
   function Plugin(element, options) {
@@ -62,13 +66,16 @@
 
     // Data Extraction
     var data = {
-      transition: this.$context.data('transition') || null,
+      calibrateX: this.$context.data('calibrate-x') || null,
+      calibrateY: this.$context.data('calibrate-y') || null,
       invertX: this.$context.data('invert-x') || null,
       invertY: this.$context.data('invert-y') || null,
       limitX: parseFloat(this.$context.data('limit-x')) || null,
       limitY: parseFloat(this.$context.data('limit-y')) || null,
       scalarX: parseFloat(this.$context.data('scalar-x')) || null,
-      scalarY: parseFloat(this.$context.data('scalar-y')) || null
+      scalarY: parseFloat(this.$context.data('scalar-y')) || null,
+      frictionX: parseFloat(this.$context.data('friction-x')) || null,
+      frictionY: parseFloat(this.$context.data('friction-y')) || null
     };
 
     // Delete Null Data Values
@@ -79,28 +86,34 @@
     // Compose Settings Object
     $.extend(this, DEFAULTS, options, data);
 
-    // Set Transition Properties
-    this.transition = 'all ' + this.transition;
-
     // States
     this.calibrationTimer = null;
     this.calibrationFlag = true;
+    this.enabled = false;
     this.depths = [];
     this.raf = null;
-
-    // Calibration
-    this.cx = 0;
-    this.cy = 0;
-    this.cz = 0;
-
-    // Rotation
-    this.rx = 0;
-    this.ry = 0;
-    this.rz = 0;
 
     // Offset
     this.ox = 0;
     this.oy = 0;
+    this.ow = 0;
+    this.oh = 0;
+
+    // Calibration
+    this.cx = 0;
+    this.cy = 0;
+
+    // Input
+    this.ix = 0;
+    this.iy = 0;
+
+    // Motion
+    this.mx = 0;
+    this.my = 0;
+
+    // Velocity
+    this.vx = 0;
+    this.vy = 0;
 
     // Initialise
     this.initialise();
@@ -147,7 +160,11 @@
     return featureSupport;
   };
 
-  Plugin.prototype.portrait = true;
+  Plugin.prototype.ww = null;
+  Plugin.prototype.wh = null;
+  Plugin.prototype.hw = null;
+  Plugin.prototype.hh = null;
+  Plugin.prototype.portrait = null;
   Plugin.prototype.vendors = ['O','ms','Moz','webkit',null];
   Plugin.prototype.motionSupport = window.DeviceMotionEvent !== undefined;
   Plugin.prototype.orientationSupport = window.DeviceOrientationEvent !== undefined;
@@ -174,22 +191,37 @@
       position:'relative'
     });
 
-    // Add Layer Transitions & Cache Depths
+    // Cache Depths
     this.$layers.each($.proxy(function(index, element) {
       this.depths.push($(element).data('depth') || 0);
-      this.css(element, 'transition', this.transition);
     }, this));
 
     // Hardware Accelerate Elements
     this.accelerate(this.$context);
     this.accelerate(this.$layers);
 
-    // Enable
+    // Setup
+    this.updateDimensions();
     this.enable();
-    this.calibrate(this.calibrationDelay);
+    this.queueCalibration(this.calibrationDelay);
   };
 
-  Plugin.prototype.calibrate = function(delay) {
+  Plugin.prototype.updateDimensions = function() {
+
+    // Cache Context Dimensions
+    this.ox = this.$context.offset().left;
+    this.oy = this.$context.offset().top;
+    this.ow = this.$context.width();
+    this.oh = this.$context.height();
+
+    // Cache Window Dimensions
+    this.ww = window.innerWidth;
+    this.wh = window.innerHeight;
+    this.hw = this.ww / 2;
+    this.hh = this.wh / 2;
+  };
+
+  Plugin.prototype.queueCalibration = function(delay) {
     clearTimeout(this.calibrationTimer);
     this.calibrationTimer = setTimeout($.proxy(function(){
       this.calibrationFlag = true;
@@ -197,18 +229,51 @@
   };
 
   Plugin.prototype.enable = function() {
-    window.addEventListener('deviceorientation', $.proxy(this.onDeviceOrientation, this));
-    this.raf = requestAnimationFrame($.proxy(this.onAnimationFrame, this));
+    if (!this.enabled) {
+      this.enabled = true;
+      if (this.orientationSupport) {
+        this.portrait = null;
+        this.onDeviceOrientationProxy = $.proxy(this.onDeviceOrientation, this);
+        window.addEventListener('deviceorientation', this.onDeviceOrientationProxy);
+      } else {
+        this.cx = 0;
+        this.cy = 0;
+        this.portrait = false;
+        this.onMouseMoveProxy = $.proxy(this.onMouseMove, this);
+        window.addEventListener('mousemove', this.onMouseMoveProxy);
+      }
+      this.onWindowResizeProxy = $.proxy(this.onWindowResize, this);
+      window.addEventListener('resize', this.onWindowResizeProxy);
+      this.raf = requestAnimationFrame($.proxy(this.onAnimationFrame, this));
+    }
   };
 
   Plugin.prototype.disable = function() {
-    window.removeEventListener('deviceorientation', this.onDeviceOrientation);
-    cancelAnimationFrame(this.raf);
+    if (this.enabled) {
+      this.enabled = false;
+      if (this.orientationSupport) {
+        window.removeEventListener('deviceorientation', this.onDeviceOrientationProxy);
+      } else {
+        window.removeEventListener('mousemove', this.onMouseMoveProxy);
+      }
+      window.removeEventListener('resize', this.onWindowResizeProxy);
+      cancelAnimationFrame(this.raf);
+    }
+  };
+
+  Plugin.prototype.calibrate = function(x, y) {
+    this.calibrateX = x === undefined ? this.calibrateX : x;
+    this.calibrateY = y === undefined ? this.calibrateY : y;
   };
 
   Plugin.prototype.invert = function(x, y) {
     this.invertX = x === undefined ? this.invertX : x;
     this.invertY = y === undefined ? this.invertY : y;
+  };
+
+  Plugin.prototype.friction = function(x, y) {
+    this.frictionX = x === undefined ? this.frictionX : x;
+    this.frictionY = y === undefined ? this.frictionY : y;
   };
 
   Plugin.prototype.scalar = function(x, y) {
@@ -256,29 +321,35 @@
     }
   };
 
+  Plugin.prototype.onWindowResize = function(event) {
+    this.updateDimensions();
+  };
+
   Plugin.prototype.onAnimationFrame = function() {
-    var dx = this.rx - this.cx;
-    var dy = this.ry - this.cy;
+    var dx = this.ix - this.cx;
+    var dy = this.iy - this.cy;
     if ((Math.abs(dx) > this.calibrationThreshold) || (Math.abs(dy) > this.calibrationThreshold)) {
-      this.calibrate(0);
+      this.queueCalibration(0);
     }
     if (this.portrait) {
-      this.ox = dy * this.scalarX;
-      this.oy = dx * this.scalarY;
+      this.mx = (this.calibrateX ? dy : this.iy) * this.scalarX;
+      this.my = (this.calibrateY ? dx : this.ix) * this.scalarY;
     } else {
-      this.ox = dx * this.scalarX;
-      this.oy = dy * this.scalarY;
+      this.mx = (this.calibrateX ? dx : this.ix) * this.scalarX;
+      this.my = (this.calibrateY ? dy : this.iy) * this.scalarY;
     }
     if (!isNaN(parseFloat(this.limitX))) {
-      this.ox = this.clamp(this.ox, -this.limitX, this.limitX);
+      this.mx = this.clamp(this.mx, -this.limitX, this.limitX);
     }
     if (!isNaN(parseFloat(this.limitY))) {
-      this.oy = this.clamp(this.oy, -this.limitY, this.limitY);
+      this.my = this.clamp(this.my, -this.limitY, this.limitY);
     }
+    this.vx += (this.mx - this.vx) * this.frictionX;
+    this.vy += (this.my - this.vy) * this.frictionY;
     this.$layers.each($.proxy(function(index, element) {
       var depth = this.depths[index];
-      var xOffset = this.ox * depth * (this.invertX ? -1 : 1);
-      var yOffset = this.oy * depth * (this.invertY ? -1 : 1);
+      var xOffset = this.vx * depth * (this.invertX ? -1 : 1);
+      var yOffset = this.vy * depth * (this.invertY ? -1 : 1);
       this.setPosition(element, xOffset, yOffset);
     }, this));
     this.raf = requestAnimationFrame($.proxy(this.onAnimationFrame, this));
@@ -286,10 +357,17 @@
 
   Plugin.prototype.onDeviceOrientation = function(event) {
 
+    // Update Orientation Support Flag
+    if (event.beta === null || event.gamma === null) {
+      this.disable();
+      this.orientationSupport = false;
+      this.enable();
+      return false;
+    }
+
     // Extract Rotation
-    var x = event.beta  || 0; //  -90 :: 90
-    var y = event.gamma || 0; // -180 :: 180
-    var z = event.alpha || 0; //    0 :: 360
+    var x = (event.beta  || 0) / MAGIC_NUMBER; //  -90 :: 90
+    var y = (event.gamma || 0) / MAGIC_NUMBER; // -180 :: 180
 
     // Detect Orientation Change
     var portrait = window.innerHeight > window.innerWidth;
@@ -298,23 +376,30 @@
       this.calibrationFlag = true;
     }
 
-    // Set Calibration Rotation
+    // Set Calibration
     if (this.calibrationFlag) {
       this.calibrationFlag = false;
       this.cx = x;
       this.cy = y;
-      this.cz = z;
     }
 
-    // Set Rotation
-    this.rx = x;
-    this.ry = y;
-    this.rz = z;
+    // Set Input
+    this.ix = x;
+    this.iy = y;
+  };
+
+  Plugin.prototype.onMouseMove = function(event) {
+
+    // Calculate Input
+    this.ix = (event.pageX - this.hw) / this.hw;
+    this.iy = (event.pageY - this.hh) / this.hh;
   };
 
   var API = {
     enable: Plugin.prototype.enable,
     disable: Plugin.prototype.disable,
+    calibrate: Plugin.prototype.calibrate,
+    friction: Plugin.prototype.friction,
     invert: Plugin.prototype.invert,
     scalar: Plugin.prototype.scalar,
     limit: Plugin.prototype.limit

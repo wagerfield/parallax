@@ -40,27 +40,33 @@ There are a number of behaviors that you can setup for any given **Parallax**
 instance. These behaviors can either be specified in the markup via data
 attributes or in JavaScript via the constructor or later on through the API.
 
-| Behavior      | Values              | Description                                                                                              |
-| ------------- | ------------------- | -------------------------------------------------------------------------------------------------------- |
-| `transition`  | `0.8s ease-out`     | CSS transition string specifying the duration and easing.                                                |
-| `invert-x`    | `true` or `false`   | `true` moves layers in oposition to the device motion, `false` slides them away.                         |
-| `invert-y`    | `true` or `false`   | `true` moves layers in oposition to the device motion, `false` slides them away.                         |
-| `limit-x`     | `number` or `false` | A numeric value limits the total range of motion, `false` allows layers to move with complete freedom.   |
-| `limit-y`     | `number` or `false` | A numeric value limits the total range of motion, `false` allows layers to move with complete freedom.   |
-| `scalar-x`    | `number`            | Multiplies the input motion by this value, increasing or decreasing the sensitivity of the layer motion. |
-| `scalar-y`    | `number`            | Multiplies the input motion by this value, increasing or decreasing the sensitivity of the layer motion. |
+| Behavior      | Values              | Description                                                                                                    |
+| ------------- | ------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `calibrate-x` | `true` or `false`   | Specifies whether or not to cache & calculate the motion relative to the `x` axis on initialising parallax.js. |
+| `calibrate-y` | `true` or `false`   | Specifies whether or not to cache & calculate the motion relative to the `y` axis on initialising parallax.js. |
+| `invert-x`    | `true` or `false`   | `true` moves layers in oposition to the device motion, `false` slides them away.                               |
+| `invert-y`    | `true` or `false`   | `true` moves layers in oposition to the device motion, `false` slides them away.                               |
+| `limit-x`     | `number` or `false` | A numeric value limits the total range of motion, `false` allows layers to move with complete freedom.         |
+| `limit-y`     | `number` or `false` | A numeric value limits the total range of motion, `false` allows layers to move with complete freedom.         |
+| `scalar-x`    | `number`            | Multiplies the input motion by this value, increasing or decreasing the sensitivity of the layer motion.       |
+| `scalar-y`    | `number`            | Multiplies the input motion by this value, increasing or decreasing the sensitivity of the layer motion.       |
+| `friction-x`  | `number` (0 - 1)    | The amount of friction the layers experience. This essentially adds some easing to the layer motion.           |
+| `friction-y`  | `number` (0 - 1)    | The amount of friction the layers experience. This essentially adds some easing to the layer motion.           |
 
 ### Behaviors: Data Attributes Example
 
 ```html
 <ul id="scene"
-  data-transition="1s ease-out"
+  data-calibrate-x="false"
+  data-calibrate-y="true"
   data-invert-x="false"
   data-invert-y="true"
   data-limit-x="false"
   data-limit-y="10"
   data-scalar-x="2"
-  data-scalar-y="8">
+  data-scalar-y="8"
+  data-friction-x="0.2"
+  data-friction-y="0.8">
   <li class="layer" data-depth="0.00"><img src="graphics/layer6.png"></li>
   <li class="layer" data-depth="0.20"><img src="graphics/layer5.png"></li>
   <li class="layer" data-depth="0.40"><img src="graphics/layer4.png"></li>
@@ -75,12 +81,16 @@ attributes or in JavaScript via the constructor or later on through the API.
 ```javascript
 var scene = document.getElementById('scene');
 var parallax = new Parallax(scene, {
+  calibrateX: false,
+  calibrateY: true,
   invertX: false,
   invertY: true,
   limitX: false,
   limitY: 10,
   scalarX: 2,
-  scalarY: 8
+  scalarY: 8,
+  frictionX: 0.2,
+  frictionY: 0.8
 });
 ```
 
@@ -91,9 +101,11 @@ var scene = document.getElementById('scene');
 var parallax = new Parallax(scene);
 parallax.enable();
 parallax.disable();
+parallax.calibrate(false, true);
 parallax.invert(false, true);
 parallax.limit(false, 10);
 parallax.scalar(2, 8);
+parallax.friction(0.2, 0.8);
 ```
 
 ## jQuery
@@ -109,12 +121,16 @@ $('.scene').parallax();
 
 ```javascript
 $('.scene').parallax({
+  calibrateX: false,
+  calibrateY: true,
   invertX: false,
   invertY: true,
   limitX: false,
   limitY: 10,
   scalarX: 2,
-  scalarY: 8
+  scalarY: 8,
+  frictionX: 0.2,
+  frictionY: 0.8
 });
 ```
 ### jQuery: API
@@ -123,9 +139,11 @@ $('.scene').parallax({
 var $scene = $('.scene').parallax();
 $scene.parallax('enable');
 $scene.parallax('disable');
+$scene.parallax('calibrate', false, true);
 $scene.parallax('invert', false, true);
 $scene.parallax('limit', false, 10);
 $scene.parallax('scalar', 2, 8);
+$scene.parallax('friction', 0.2, 0.8);
 ```
 
 ## Author
