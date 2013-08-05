@@ -33,6 +33,25 @@
 
 	<!-- Styles -->
 	<link rel="stylesheet" type="text/css" href="examples/styles/styles.css"/>
+	<style>
+	header,
+	footer {
+		text-align: center;
+		position: absolute;
+		width: 100%;
+		z-index: 1;
+		left: 0;
+	}
+	header {
+		-webkit-font-smoothing: antialiased;
+		font-family: monospace;
+		color: #0FA;
+		top: 80px;
+	}
+	footer {
+		bottom: 80px;
+	}
+	</style>
 
 	<script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -47,7 +66,9 @@
 <body>
 
 	<div class="container">
-		<h1>parallax.js</h1>
+		<header>
+			<h1>parallax.js</h1>
+		</header>
 		<ul class="scene">
 			<li class="layer" data-depth="1.00"><img src="examples/graphics/layer1.png"></li>
 			<li class="layer" data-depth="0.80"><img src="examples/graphics/layer2.png"></li>
