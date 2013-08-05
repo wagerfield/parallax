@@ -1,0 +1,48 @@
+body {
+  background: #111;
+  margin: 0;
+}
+
+body:after {
+  background: url(../graphics/grid.png) center center;
+  background-size: 80px 80px;
+  position: absolute;
+  position: fixed;
+  display: block;
+  content: "";
+  opacity: 0.1;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+
+img {
+  display: block;
+  width: 100%;
+}
+
+.scene {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.layer:nth-child(1) {
+  opacity: 0.15;
+}
+.layer:nth-child(2) {
+  opacity: 0.30;
+}
+.layer:nth-child(3) {
+  opacity: 0.45;
+}
+.layer:nth-child(4) {
+  opacity: 0.60;
+}
+.layer:nth-child(5) {
+  opacity: 0.75;
+}
+.layer:nth-child(6) {
+  opacity: 0.90;
+}
