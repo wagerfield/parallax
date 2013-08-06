@@ -4,7 +4,6 @@ var uglify = require('uglify-js');
 
 // Settings
 var FILE_ENCODING = 'utf-8',
-    PROJECT_NAME  = 'jquery.parallax',
     LICENSE       = '../LICENSE.md',
     SOURCE_DIR    = '../source',
     OUTPUT_DIR    = '../deploy',
@@ -23,7 +22,7 @@ function getPath() {
 }
 
 // Processes the specified files, creating a concatenated and a concatenated and minified output
-function process(scripts) {
+function process(scripts, name) {
     var joined, license, unminified, minified;
 
     // Read the license
@@ -41,14 +40,14 @@ function process(scripts) {
     minified = license + uglify.minify(joined, {fromString: true}).code;
 
     // Write out the concatenated file
-    fs.writeFileSync(getPath(OUTPUT_DIR, PROJECT_NAME + '.js'), unminified, FILE_ENCODING);
+    fs.writeFileSync(getPath(OUTPUT_DIR, name + '.js'), unminified, FILE_ENCODING);
 
     // Write out the minfied file
-    fs.writeFileSync(getPath(OUTPUT_DIR, PROJECT_NAME + '.min.js'), minified, FILE_ENCODING);
+    fs.writeFileSync(getPath(OUTPUT_DIR, name + '.min.js'), minified, FILE_ENCODING);
 
     console.log('build complete');
 }
 
 // GO!
-// process(MAIN_SCRIPTS);
-process(JQUERY_SCRIPTS);
+process(MAIN_SCRIPTS, 'parallax');
+process(JQUERY_SCRIPTS, 'jquery.parallax');
