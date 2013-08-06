@@ -4,7 +4,7 @@
 
 	<meta charset="utf-8">
 
-	<title>Parallax.js | jQuery Example</title>
+	<title>Parallax.js | Simple Example</title>
 
 	<!-- Behavioral Meta Data -->
 	<meta name="apple-mobile-web-app-capable" content="yes">
@@ -17,7 +17,8 @@
 <body>
 
 	<div id="container" class="container">
-		<ul id="scene" class="scene">
+		<ul id="scene" class="scene"
+			data-calibrate-x="false">
 			<li class="layer" data-depth="1.00"><img src="graphics/layer1.png"></li>
 			<li class="layer" data-depth="0.80"><img src="graphics/layer2.png"></li>
 			<li class="layer" data-depth="0.60"><img src="graphics/layer3.png"></li>
@@ -28,12 +29,12 @@
 	</div>
 
 	<!-- Scripts -->
-	<script src="scripts/jquery.js"></script>
-	<script src="../deploy/jquery.parallax.js"></script>
+	<script src="../deploy/parallax.js"></script>
 	<script>
 
-	// Yep, that's it!
-	$('.scene').parallax();
+	// Pretty simple huh?
+	var scene = document.getElementById('scene');
+	var parallax = new Parallax(scene);
 
 	</script>
 
