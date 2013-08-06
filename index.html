@@ -65,11 +65,11 @@
 </head>
 <body>
 
-	<div class="container">
+	<div id="container" class="container">
 		<header>
 			<h1>parallax.js</h1>
 		</header>
-		<ul class="scene">
+		<ul id="scene" class="scene">
 			<li class="layer" data-depth="1.00"><img src="examples/graphics/layer1.png"></li>
 			<li class="layer" data-depth="0.80"><img src="examples/graphics/layer2.png"></li>
 			<li class="layer" data-depth="0.60"><img src="examples/graphics/layer3.png"></li>
@@ -83,12 +83,12 @@
 	</div>
 
 	<!-- Scripts -->
-	<script src="examples/scripts/jquery.js"></script>
-	<script src="deploy/jquery.parallax.js"></script>
+	<script src="deploy/parallax.js"></script>
 	<script>
 
-	// Yep, that's it!
-	$('.scene').parallax();
+	// Pretty simple huh?
+	var scene = document.getElementById('scene');
+	var parallax = new Parallax(scene);
 
 	</script>
 	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
