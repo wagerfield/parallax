@@ -53,8 +53,6 @@ attributes or in JavaScript via the constructor and API.
 | `friction-x`  | `number` `0 - 1`    | The amount of friction the layers experience. This essentially adds some easing to the layer motion.               |
 | `friction-y`  | `number` `0 - 1`    | The amount of friction the layers experience. This essentially adds some easing to the layer motion.               |
 
-## API
-
 In addition to the behaviours described above, there are **two** methods `enable()`
 and `disable()` that *activate* and *deactivate* the **Parallax** instance respectively.
 
