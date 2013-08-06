@@ -17,12 +17,12 @@ layer to move by an amount relative to the supplied ratio.
 
 ```html
 <ul id="scene">
-  <li class="layer" data-depth="0.00"><img src="graphics/layer6.png"></li>
-  <li class="layer" data-depth="0.20"><img src="graphics/layer5.png"></li>
-  <li class="layer" data-depth="0.40"><img src="graphics/layer4.png"></li>
-  <li class="layer" data-depth="0.60"><img src="graphics/layer3.png"></li>
-  <li class="layer" data-depth="0.80"><img src="graphics/layer2.png"></li>
-  <li class="layer" data-depth="1.00"><img src="graphics/layer1.png"></li>
+  <li class="layer" data-depth="0.00"><img src="layer6.png"></li>
+  <li class="layer" data-depth="0.20"><img src="layer5.png"></li>
+  <li class="layer" data-depth="0.40"><img src="layer4.png"></li>
+  <li class="layer" data-depth="0.60"><img src="layer3.png"></li>
+  <li class="layer" data-depth="0.80"><img src="layer2.png"></li>
+  <li class="layer" data-depth="1.00"><img src="layer1.png"></li>
 </ul>
 ```
 
@@ -34,24 +34,27 @@ var scene = document.getElementById('scene');
 var parallax = new Parallax(scene);
 ```
 
-## Behaviors
+## Behaviours
 
-There are a number of behaviors that you can setup for any given **Parallax**
-instance. These behaviors can either be specified in the markup via data
-attributes or in JavaScript via the constructor or later on through the API.
+There are a number of behaviours that you can setup for any given **Parallax**
+instance. These behaviours can either be specified in the markup via data
+attributes or in JavaScript via the constructor and API.
 
 | Behavior      | Values              | Description                                                                                                        |
 | ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | `calibrate-x` | `true` or `false`   | Specifies whether or not to cache & calculate the motion relative to the initial `x` axis value on initialisation. |
 | `calibrate-y` | `true` or `false`   | Specifies whether or not to cache & calculate the motion relative to the initial `y` axis value on initialisation. |
-| `invert-x`    | `true` or `false`   | `true` moves layers in oposition to the device motion, `false` slides them away.                                   |
-| `invert-y`    | `true` or `false`   | `true` moves layers in oposition to the device motion, `false` slides them away.                                   |
-| `limit-x`     | `number` or `false` | A numeric value limits the total range of motion, `false` allows layers to move with complete freedom.             |
-| `limit-y`     | `number` or `false` | A numeric value limits the total range of motion, `false` allows layers to move with complete freedom.             |
+| `invert-x`    | `true` or `false`   | `true` moves layers in opposition to the device motion, `false` slides them away.                                  |
+| `invert-y`    | `true` or `false`   | `true` moves layers in opposition to the device motion, `false` slides them away.                                  |
+| `limit-x`     | `number` or `false` | A numeric value limits the total range of motion in `x`, `false` allows layers to move with complete freedom.      |
+| `limit-y`     | `number` or `false` | A numeric value limits the total range of motion in `y`, `false` allows layers to move with complete freedom.      |
 | `scalar-x`    | `number`            | Multiplies the input motion by this value, increasing or decreasing the sensitivity of the layer motion.           |
 | `scalar-y`    | `number`            | Multiplies the input motion by this value, increasing or decreasing the sensitivity of the layer motion.           |
-| `friction-x`  | `number` (0 - 1)    | The amount of friction the layers experience. This essentially adds some easing to the layer motion.               |
-| `friction-y`  | `number` (0 - 1)    | The amount of friction the layers experience. This essentially adds some easing to the layer motion.               |
+| `friction-x`  | `number` `0 - 1`    | The amount of friction the layers experience. This essentially adds some easing to the layer motion.               |
+| `friction-y`  | `number` `0 - 1`    | The amount of friction the layers experience. This essentially adds some easing to the layer motion.               |
+
+In addition to the behaviours described above, there are **two** methods `enable()`
+and `disable()` that *activate* and *deactivate* the **Parallax** instance respectively.
 
 ### Behaviors: Data Attributes Example
 
