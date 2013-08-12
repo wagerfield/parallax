@@ -409,7 +409,7 @@
     var args = arguments;
     return this.each(function () {
       var $this = $(this);
-      var plugin = $(this).data(NAME);
+      var plugin = $this.data(NAME);
       if (!plugin) {
         plugin = new Plugin(this, value);
         $this.data(NAME, plugin);
