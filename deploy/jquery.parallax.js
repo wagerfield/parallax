@@ -165,13 +165,16 @@
   Plugin.prototype.hw = null;
   Plugin.prototype.hh = null;
   Plugin.prototype.portrait = null;
-  Plugin.prototype.vendors = ['O','ms','Moz','webkit',null];
+  Plugin.prototype.vendors = ['O','ms','Moz','Webkit',null];
   Plugin.prototype.motionSupport = window.DeviceMotionEvent !== undefined;
   Plugin.prototype.orientationSupport = window.DeviceOrientationEvent !== undefined;
   Plugin.prototype.transform2DSupport = Plugin.prototype.transformSupport('2D');
   Plugin.prototype.transform3DSupport = Plugin.prototype.transformSupport('3D');
 
   Plugin.prototype.initialise = function() {
+
+    // Add mode data attribute to context.
+    this.$context.attr('data-mode', this.orientationSupport ? 'orientation' : 'cursor');
 
     // Configure Styles
     if (this.$context.css('position') === 'static') {
@@ -361,6 +364,7 @@
     if (event.beta === null || event.gamma === null) {
       this.disable();
       this.orientationSupport = false;
+      this.$context.attr('data-mode', this.orientationSupport ? 'orientation' : 'cursor');
       this.enable();
       return false;
     }
