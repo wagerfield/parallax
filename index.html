@@ -173,7 +173,7 @@
 			</div>
 		</div>
 		<footer>
-			<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://wagerfield.github.io/parallax/" data-via="mwagerfield" data-hashtags="parallax.js">Tweet</a>
+			<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://wagerfield.github.io/parallax/" data-text="Tilting is fun! Check out #parallax.js by @mwagerfield & @claudioguglieri »">Tweet</a>
 		</footer>
 	</div>
 
@@ -200,9 +200,9 @@
 
 	// Add touch functionality.
 	if (Hammer.HAS_TOUCHEVENTS) {
-    $container.hammer({drag_lock_to_axis: true});
-    _.tap($html, 'a,button,[data-tap]');
-  }
+		$container.hammer({drag_lock_to_axis: true});
+		_.tap($html, 'a,button,[data-tap]');
+	}
 
 	// Add touch or mouse class to html element.
 	$html.addClass(Hammer.HAS_TOUCHEVENTS ? 'touch' : 'mouse');
