@@ -134,6 +134,7 @@
   Plugin.prototype.hw = null;
   Plugin.prototype.hh = null;
   Plugin.prototype.portrait = null;
+  Plugin.prototype.desktop = !navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/);
   Plugin.prototype.vendors = ['O','ms','Moz','webkit',null];
   Plugin.prototype.motionSupport = window.DeviceMotionEvent !== undefined;
   Plugin.prototype.orientationSupport = window.DeviceOrientationEvent !== undefined;
@@ -327,7 +328,7 @@
   Plugin.prototype.onDeviceOrientation = function(event) {
 
     // Update Orientation Support Flag
-    if (event.beta === null || event.gamma === null) {
+    if (this.desktop || event.beta === null || event.gamma === null) {
       this.disable();
       this.orientationSupport = false;
       this.enable();

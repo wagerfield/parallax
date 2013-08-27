@@ -188,6 +188,7 @@
   Parallax.prototype.hw = null;
   Parallax.prototype.hh = null;
   Parallax.prototype.portrait = null;
+  Parallax.prototype.desktop = !navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/);
   Parallax.prototype.vendors = ['O','ms','Moz','webkit',null];
   Parallax.prototype.motionSupport = window.DeviceMotionEvent !== undefined;
   Parallax.prototype.orientationSupport = window.DeviceOrientationEvent !== undefined;
@@ -375,7 +376,7 @@
   Parallax.prototype.onDeviceOrientation = function(event) {
 
     // Update Orientation Support Flag
-    if (event.beta === null || event.gamma === null) {
+    if (this.desktop || event.beta === null || event.gamma === null) {
       this.disable();
       this.orientationSupport = false;
       this.enable();
