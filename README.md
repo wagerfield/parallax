@@ -149,6 +149,14 @@ $scene.parallax('scalar', 2, 8);
 $scene.parallax('friction', 0.2, 0.8);
 ```
 
+## Build
+
+```
+cd build
+npm install
+node build.js
+```
+
 ## Author
 
 Matthew Wagerfield: [@mwagerfield][twitter]

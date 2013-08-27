@@ -1,0 +1,20 @@
+{
+    "name": "parallax"
+  , "description": "Simple, lightweight parallax engine that reacts to the orientation of a smart device"
+  , "author": "Matthew Wagerfield <@mwagerfield>"
+  , "version": "1.0.0"
+  , "homepage": "http://wagerfield.github.io/parallax/index.html"
+  , "repository": {
+      "type": "git"
+    , "url": "https://github.com/wagerfield/parallax.git"
+  }
+  , "licenses": [
+    {
+        "type": "MIT"
+      , "url": "https://raw.github.com/wagerfield/parallax/master/LICENSE.md"
+    }
+  ]
+  , "devDependencies": {
+      "uglify-js": "2.2.x"
+  }
+}
