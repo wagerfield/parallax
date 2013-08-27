@@ -275,6 +275,14 @@ button {
   button.hide {
     opacity: 0; }
 
+footer {
+  position: absolute;
+  padding: 18px 0;
+  bottom: 0;
+  right: 0; }
+  footer .twitter-share-button {
+    display: block; }
+
 .accelerate {
   -webkit-transform: translate3d(0,0,0);
   -moz-transform: translate3d(0,0,0);
@@ -589,6 +597,12 @@ button {
   max-width: 300px;
   width: 82%; }
 .prompt .panel {
+  -webkit-perspective: none;
+  -moz-perspective: none;
+  perspective: none;
+  -webkit-transform-style: flat;
+  -moz-transform-style: flat;
+  transform-style: flat;
   -webkit-transition: all 1.8s cubic-bezier(0.77, 0, 0.175, 1);
   -moz-transition: all 1.8s cubic-bezier(0.77, 0, 0.175, 1);
   transition: all 1.8s cubic-bezier(0.77, 0, 0.175, 1);
@@ -605,6 +619,15 @@ button {
     margin: 0 10% 1.25em;
     line-height: 1.25em;
     color: #999999; }
+.prompt .tilt-scene {
+  -webkit-perspective: 1000px;
+  -moz-perspective: 1000px;
+  perspective: 1000px;
+  -webkit-transform: translate3d(0,0,100px);
+  -moz-transform: translate3d(0,0,100px);
+  transform: translate3d(0,0,100px);
+  margin: 0 auto;
+  width: 60%; }
 .prompt .tilt {
   -webkit-animation: tilt 4s infinite alternate cubic-bezier(0.455, 0.03, 0.515, 0.955);
   -moz-animation: tilt 4s infinite alternate cubic-bezier(0.455, 0.03, 0.515, 0.955);

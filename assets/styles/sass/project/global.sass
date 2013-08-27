@@ -84,6 +84,14 @@ button
   &.hide
     opacity: 0
 
+footer
+  position: absolute
+  padding: 18px 0
+  bottom: 0
+  right: 0
+  .twitter-share-button
+    display: block
+
 
 
 //----------------------------------------
@@ -366,6 +374,8 @@ button
     max-width: 300px
     width: 82%
   .panel
+    +perspective(none)
+    +transform-style("flat")
     +transition("all 1.8s #{$easeInOutQuart}")
     border: 1px solid $FROSTED_GLASS
     background-color: $SMOKED_GLASS
@@ -380,6 +390,11 @@ button
       margin: 0 10% 1.25em
       line-height: 1.25em
       color: $METAL
+  .tilt-scene
+    +perspective($PERSPECTIVE)
+    +transform("translate3d(0,0,100px)")
+    margin: 0 auto
+    width: 60%
   .tilt
     +animation("tilt 4s infinite alternate #{$easeInOutQuad}")
 

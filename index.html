@@ -163,13 +163,18 @@
 							<div class="y"></div>
 						</div>
 					</button>
-					<img class="tilt" src="assets/images/tilt.png">
+					<div class="tilt-scene">
+						<img class="tilt" src="assets/images/tilt.png">
+					</div>
 					<h2>Tilting is fun!</h2>
 					<p>For the best experience, check out this site on a mobile or tablet equipped with a gyroscope</p>
 					<p>(iPad's are the coolest)</p>
 				</div>
 			</div>
 		</div>
+		<footer>
+			<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://wagerfield.github.io/parallax/" data-via="mwagerfield" data-hashtags="parallax.js">Tweet</a>
+		</footer>
 	</div>
 
 	<!-- Scripts -->
@@ -254,7 +259,7 @@
 	},1000);
 
 	// Twitter stuff.
-	!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+	!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
 	</script>
 
 </body>
