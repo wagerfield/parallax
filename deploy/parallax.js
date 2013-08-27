@@ -251,7 +251,6 @@
     }
 
     // Setup
-    this.deviceOrientationStatus = 0;
     this.updateDimensions();
     this.enable();
     this.queueCalibration(this.calibrationDelay);
@@ -286,19 +285,16 @@
         this.portrait = null;
         this.onDeviceOrientationProxy = this.proxy(this.onDeviceOrientation, this);
         window.addEventListener('deviceorientation', this.onDeviceOrientationProxy);
+
         this.deviceOrientationStatus = 1;
 
-        document.getElementById('debug').innerHTML += "this.deviceOrientationStatus " + this.deviceOrientationStatus + "<br>";
-
-          var ldoc = function() {
-              document.getElementById('debug').innerHTML += "lateDeviceOrientationCheck" + this.deviceOrientationStatus + "<br>";
-                if(this.deviceOrientationStatus == 1) {
-                    document.getElementById('debug').innerHTML += "Device orientation not detected, reenabling<br>";
-                    this.disable();
-                    this.orientationSupport = false;
-                    this.enable();
-                }
-            }
+        var ldoc = function() {
+          if(this.deviceOrientationStatus == 1) {
+            this.disable();
+            this.orientationSupport = false;
+            this.enable();
+          }
+        }
 
         setTimeout(this.proxy(ldoc, this) , 100);
       } else {
@@ -421,9 +417,7 @@
   };
 
   Parallax.prototype.onDeviceOrientation = function(event) {
-
-
-      this.deviceOrientationStatus = 2;
+    this.deviceOrientationStatus = 2;
 
     // Update Orientation Support Flag
     if (this.desktop || event.beta === null || event.gamma === null) {

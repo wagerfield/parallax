@@ -259,7 +259,6 @@
 
         var ldoc = function() {
           if(this.deviceOrientationStatus == 1) {
-            document.getElementById('debug').innerHTML += "Device orientation not detected, reenabling<br>";
             this.disable();
             this.orientationSupport = false;
             this.enable();
