@@ -278,6 +278,22 @@
       if (this.orientationSupport) {
         this.portrait = null;
         window.addEventListener('deviceorientation', this.onDeviceOrientation);
+
+        this.deviceOrientationStatus = 0;
+
+        var ldoc = (
+          function(t) {
+            return function() {
+              if(t.deviceOrientationStatus == 0) {
+                t.disable();
+                t.orientationSupport = false;
+                t.enable();
+              }
+            }
+          }
+        )(this);
+
+        setTimeout(ldoc, 100);
       } else {
         this.cx = 0;
         this.cy = 0;
@@ -400,6 +416,8 @@
   };
 
   Parallax.prototype.onDeviceOrientation = function(event) {
+
+    this.deviceOrientationStatus = 1;
 
     // Update Orientation Support Flag
     if (this.desktop || event.beta === null || event.gamma === null) {
