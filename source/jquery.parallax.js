@@ -84,6 +84,13 @@
     this.vx = 0;
     this.vy = 0;
 
+    // Callbacks
+    this.onMouseMove = this.onMouseMove.bind(this);
+    this.onDeviceOrientation = this.onDeviceOrientation.bind(this);
+    this.onCalibrationTimer = this.onCalibrationTimer.bind(this);
+    this.onAnimationFrame = this.onAnimationFrame.bind(this);
+    this.onWindowResize = this.onWindowResize.bind(this);
+
     // Initialise
     this.initialise();
   }
@@ -134,7 +141,7 @@
   Plugin.prototype.hw = null;
   Plugin.prototype.hh = null;
   Plugin.prototype.portrait = null;
-  Plugin.prototype.desktop = !navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/);
+  Plugin.prototype.desktop = !navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|BB10|IEMobile)/);
   Plugin.prototype.vendors = ['O','ms','Moz','webkit',null];
   Plugin.prototype.motionSupport = window.DeviceMotionEvent !== undefined;
   Plugin.prototype.orientationSupport = window.DeviceOrientationEvent !== undefined;
@@ -193,9 +200,7 @@
 
   Plugin.prototype.queueCalibration = function(delay) {
     clearTimeout(this.calibrationTimer);
-    this.calibrationTimer = setTimeout($.proxy(function(){
-      this.calibrationFlag = true;
-    },this),delay);
+    this.calibrationTimer = setTimeout(this.onCalibrationTimer, delay);
   };
 
   Plugin.prototype.enable = function() {
@@ -203,18 +208,15 @@
       this.enabled = true;
       if (this.orientationSupport) {
         this.portrait = null;
-        this.onDeviceOrientationProxy = $.proxy(this.onDeviceOrientation, this);
-        window.addEventListener('deviceorientation', this.onDeviceOrientationProxy);
+        window.addEventListener('deviceorientation', this.onDeviceOrientation);
       } else {
         this.cx = 0;
         this.cy = 0;
         this.portrait = false;
-        this.onMouseMoveProxy = $.proxy(this.onMouseMove, this);
-        window.addEventListener('mousemove', this.onMouseMoveProxy);
+        window.addEventListener('mousemove', this.onMouseMove);
       }
-      this.onWindowResizeProxy = $.proxy(this.onWindowResize, this);
-      window.addEventListener('resize', this.onWindowResizeProxy);
-      this.raf = requestAnimationFrame($.proxy(this.onAnimationFrame, this));
+      window.addEventListener('resize', this.onWindowResize);
+      this.raf = requestAnimationFrame(this.onAnimationFrame);
     }
   };
 
@@ -222,11 +224,11 @@
     if (this.enabled) {
       this.enabled = false;
       if (this.orientationSupport) {
-        window.removeEventListener('deviceorientation', this.onDeviceOrientationProxy);
+        window.removeEventListener('deviceorientation', this.onDeviceOrientation);
       } else {
-        window.removeEventListener('mousemove', this.onMouseMoveProxy);
+        window.removeEventListener('mousemove', this.onMouseMove);
       }
-      window.removeEventListener('resize', this.onWindowResizeProxy);
+      window.removeEventListener('resize', this.onWindowResize);
       cancelAnimationFrame(this.raf);
     }
   };
@@ -271,11 +273,12 @@
   };
 
   Plugin.prototype.accelerate = function($element) {
-    $element.each($.proxy(function(index, element) {
+    for (var i = 0, l = $element.length; i < l; i++) {
+      var element = $element[i];
       this.css(element, 'transform', 'translate3d(0,0,0)');
       this.css(element, 'transform-style', 'preserve-3d');
       this.css(element, 'backface-visibility', 'hidden');
-    }, this));
+    }
   };
 
   Plugin.prototype.setPosition = function(element, x, y) {
@@ -289,6 +292,10 @@
       element.style.left = x;
       element.style.top = y;
     }
+  };
+
+  Plugin.prototype.onCalibrationTimer = function(event) {
+    this.calibrationFlag = true;
   };
 
   Plugin.prototype.onWindowResize = function(event) {
@@ -316,13 +323,14 @@
     }
     this.vx += (this.mx - this.vx) * this.frictionX;
     this.vy += (this.my - this.vy) * this.frictionY;
-    this.$layers.each($.proxy(function(index, element) {
-      var depth = this.depths[index];
+    for (var i = 0, l = this.$layers.length; i < l; i++) {
+      var depth = this.depths[i];
+      var layer = this.$layers[i];
       var xOffset = this.vx * depth * (this.invertX ? -1 : 1);
       var yOffset = this.vy * depth * (this.invertY ? -1 : 1);
-      this.setPosition(element, xOffset, yOffset);
-    }, this));
-    this.raf = requestAnimationFrame($.proxy(this.onAnimationFrame, this));
+      this.setPosition(layer, xOffset, yOffset);
+    }
+    this.raf = requestAnimationFrame(this.onAnimationFrame);
   };
 
   Plugin.prototype.onDeviceOrientation = function(event) {
