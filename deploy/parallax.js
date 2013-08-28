@@ -112,6 +112,13 @@
     this.vx = 0;
     this.vy = 0;
 
+    // Callbacks
+    this.onMouseMove = this.onMouseMove.bind(this);
+    this.onDeviceOrientation = this.onDeviceOrientation.bind(this);
+    this.onCalibrationTimer = this.onCalibrationTimer.bind(this);
+    this.onAnimationFrame = this.onAnimationFrame.bind(this);
+    this.onWindowResize = this.onWindowResize.bind(this);
+
     // Initialise
     this.initialise();
   }
@@ -143,17 +150,6 @@
       return parseFloat(value);
     } else {
       return value;
-    }
-  };
-
-  Parallax.prototype.proxy = function(fn, context) {
-    if (typeof fn === 'function') {
-      var proxy = function() {
-        return fn.apply(context, arguments);
-      };
-      return proxy;
-    } else {
-      throw new TypeError("expected function");
     }
   };
 
@@ -219,7 +215,7 @@
   Parallax.prototype.hw = null;
   Parallax.prototype.hh = null;
   Parallax.prototype.portrait = null;
-  Parallax.prototype.desktop = !navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/);
+  Parallax.prototype.desktop = !navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|BB10|IEMobile)/);
   Parallax.prototype.vendors = ['O','ms','Moz','webkit',null];
   Parallax.prototype.motionSupport = window.DeviceMotionEvent !== undefined;
   Parallax.prototype.orientationSupport = window.DeviceOrientationEvent !== undefined;
@@ -273,9 +269,7 @@
 
   Parallax.prototype.queueCalibration = function(delay) {
     clearTimeout(this.calibrationTimer);
-    this.calibrationTimer = setTimeout(this.proxy(function() {
-      this.calibrationFlag = true;
-    }, this), delay);
+    this.calibrationTimer = setTimeout(this.onCalibrationTimer, delay);
   };
 
   Parallax.prototype.enable = function() {
@@ -283,18 +277,15 @@
       this.enabled = true;
       if (this.orientationSupport) {
         this.portrait = null;
-        this.onDeviceOrientationProxy = this.proxy(this.onDeviceOrientation, this);
-        window.addEventListener('deviceorientation', this.onDeviceOrientationProxy);
+        window.addEventListener('deviceorientation', this.onDeviceOrientation);
       } else {
         this.cx = 0;
         this.cy = 0;
         this.portrait = false;
-        this.onMouseMoveProxy = this.proxy(this.onMouseMove, this);
-        window.addEventListener('mousemove', this.onMouseMoveProxy);
+        window.addEventListener('mousemove', this.onMouseMove);
       }
-      this.onWindowResizeProxy = this.proxy(this.onWindowResize, this);
-      window.addEventListener('resize', this.onWindowResizeProxy);
-      this.raf = requestAnimationFrame(this.proxy(this.onAnimationFrame, this));
+      window.addEventListener('resize', this.onWindowResize);
+      this.raf = requestAnimationFrame(this.onAnimationFrame);
     }
   };
 
@@ -302,11 +293,11 @@
     if (this.enabled) {
       this.enabled = false;
       if (this.orientationSupport) {
-        window.removeEventListener('deviceorientation', this.onDeviceOrientationProxy);
+        window.removeEventListener('deviceorientation', this.onDeviceOrientation);
       } else {
-        window.removeEventListener('mousemove', this.onMouseMoveProxy);
+        window.removeEventListener('mousemove', this.onMouseMove);
       }
-      window.removeEventListener('resize', this.onWindowResizeProxy);
+      window.removeEventListener('resize', this.onWindowResize);
       cancelAnimationFrame(this.raf);
     }
   };
@@ -369,6 +360,10 @@
     }
   };
 
+  Parallax.prototype.onCalibrationTimer = function(event) {
+    this.calibrationFlag = true;
+  };
+
   Parallax.prototype.onWindowResize = function(event) {
     this.updateDimensions();
   };
@@ -401,7 +396,7 @@
       var yOffset = this.vy * depth * (this.invertY ? -1 : 1);
       this.setPosition(layer, xOffset, yOffset);
     }
-    this.raf = requestAnimationFrame(this.proxy(this.onAnimationFrame, this));
+    this.raf = requestAnimationFrame(this.onAnimationFrame);
   };
 
   Parallax.prototype.onDeviceOrientation = function(event) {
