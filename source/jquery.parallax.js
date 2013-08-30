@@ -87,6 +87,7 @@
     // Callbacks
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onDeviceOrientation = this.onDeviceOrientation.bind(this);
+    this.onOrientationTimer = this.onOrientationTimer.bind(this);
     this.onCalibrationTimer = this.onCalibrationTimer.bind(this);
     this.onAnimationFrame = this.onAnimationFrame.bind(this);
     this.onWindowResize = this.onWindowResize.bind(this);
@@ -97,14 +98,20 @@
 
   Plugin.prototype.transformSupport = function(value) {
     var element = document.createElement('div');
-    var id = 'crash-test-dummy';
     var propertySupport = false;
+    var propertyValue = null;
     var featureSupport = false;
-    element.id = id;
+    var cssProperty = null;
+    var jsProperty = null;
     for (var i = 0, l = this.vendors.length; i < l; i++) {
-      var vendorPrefix = this.vendors[i];
-      var vendorProperty = vendorPrefix === null ? 'transform' : $.camelCase(vendorPrefix+'-transform');
-      if (element.style[vendorProperty] !== undefined) {
+      if (this.vendors[i] !== null) {
+        cssProperty = this.vendors[i][0] + 'transform';
+        jsProperty = this.vendors[i][1] + 'Transform';
+      } else {
+        cssProperty = 'transform';
+        jsProperty = 'transform';
+      }
+      if (element.style[jsProperty] !== undefined) {
         propertySupport = true;
         break;
       }
@@ -115,20 +122,10 @@
         break;
       case '3D':
         if (propertySupport) {
-          // Testing technique taken from Modernizr
-          // @see http://modernizr.com/
-          var css = '@media (transform-3d),(-webkit-transform-3d){#'+id+'{left:9px;position:absolute;height:3px;}}';
-          var style = document.createElement('style');
-          style.type = 'text/css';
-          if (style.styleSheet){
-            style.styleSheet.cssText = css;
-          } else {
-            style.appendChild(document.createTextNode(css));
-          }
-          document.head.appendChild(style);
           document.body.appendChild(element);
-          featureSupport = element.offsetLeft === 9 && element.offsetHeight === 3;
-          document.head.removeChild(style);
+          element.style[jsProperty] = 'translate3d(1px,1px,1px)';
+          propertyValue = window.getComputedStyle(element).getPropertyValue(cssProperty);
+          featureSupport = propertyValue !== undefined && propertyValue.length > 0 && propertyValue !== "none";
           document.body.removeChild(element);
         }
         break;
@@ -142,9 +139,10 @@
   Plugin.prototype.hh = null;
   Plugin.prototype.portrait = null;
   Plugin.prototype.desktop = !navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|BB10|IEMobile)/);
-  Plugin.prototype.vendors = ['O','ms','Moz','webkit',null];
+  Plugin.prototype.vendors = [null,['-webkit-','webkit'],['-moz-','Moz'],['-o-','O'],['-ms-','ms']];
   Plugin.prototype.motionSupport = window.DeviceMotionEvent !== undefined;
   Plugin.prototype.orientationSupport = window.DeviceOrientationEvent !== undefined;
+  Plugin.prototype.orientationStatus = 0;
   Plugin.prototype.transform2DSupport = Plugin.prototype.transformSupport('2D');
   Plugin.prototype.transform3DSupport = Plugin.prototype.transformSupport('3D');
 
@@ -209,22 +207,7 @@
       if (this.orientationSupport) {
         this.portrait = null;
         window.addEventListener('deviceorientation', this.onDeviceOrientation);
-
-        this.deviceOrientationStatus = 0;
-
-        var ldoc = (
-          function(t) {
-            return function() {
-              if(t.deviceOrientationStatus == 0) {
-                t.disable();
-                t.orientationSupport = false;
-                t.enable();
-              }
-            }
-          }
-        )(this);
-
-        setTimeout(ldoc, 100);
+        setTimeout(this.onOrientationTimer, 100);
       } else {
         this.cx = 0;
         this.cy = 0;
@@ -281,10 +264,17 @@
   };
 
   Plugin.prototype.css = function(element, property, value) {
+    var jsProperty = null;
     for (var i = 0, l = this.vendors.length; i < l; i++) {
-      var vendorPrefix = this.vendors[i];
-      var vendorProperty = vendorPrefix === null ? property : $.camelCase(vendorPrefix+'-'+property);
-      element.style[vendorProperty] = value;
+      if (this.vendors[i] !== null) {
+        jsProperty = $.camelCase(this.vendors[i][1] + '-' + property);
+      } else {
+        jsProperty = property;
+      }
+      if (element.style[jsProperty] !== undefined) {
+        element.style[jsProperty] = value;
+        break;
+      }
     }
   };
 
@@ -307,6 +297,14 @@
     } else {
       element.style.left = x;
       element.style.top = y;
+    }
+  };
+
+  Plugin.prototype.onOrientationTimer = function(event) {
+    if (this.orientationSupport && this.orientationStatus === 0) {
+      this.disable();
+      this.orientationSupport = false;
+      this.enable();
     }
   };
 
@@ -351,14 +349,14 @@
 
   Plugin.prototype.onDeviceOrientation = function(event) {
 
-    this.deviceOrientationStatus = 1;
-
     // Update Orientation Support Flag
     if (this.desktop || event.beta === null || event.gamma === null) {
       this.disable();
       this.orientationSupport = false;
       this.enable();
       return false;
+    } else {
+      this.orientationStatus = 1;
     }
 
     // Extract Rotation

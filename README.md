@@ -123,7 +123,7 @@ $('.scene').parallax();
 ### jQuery: Passing Options
 
 ```javascript
-$('.scene').parallax({
+$('#scene').parallax({
   calibrateX: false,
   calibrateY: true,
   invertX: false,
@@ -139,7 +139,7 @@ $('.scene').parallax({
 ### jQuery: API
 
 ```javascript
-var $scene = $('.scene').parallax();
+var $scene = $('#scene').parallax();
 $scene.parallax('enable');
 $scene.parallax('disable');
 $scene.parallax('calibrate', false, true);
