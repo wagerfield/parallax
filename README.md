@@ -117,7 +117,7 @@ If you're using **[jQuery][jquery]** or **[Zepto][zepto]** and would prefer to
 use **Parallax.js** as a plugin, you're in luck!
 
 ```javascript
-$('.scene').parallax();
+$('#scene').parallax();
 ```
 
 ### jQuery: Passing Options
