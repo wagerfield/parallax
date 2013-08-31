@@ -3,20 +3,6 @@ body {
   margin: 0;
 }
 
-body:after {
-  background: url(../graphics/grid.png) center center;
-  background-size: 80px 80px;
-  position: absolute;
-  position: fixed;
-  display: block;
-  content: "";
-  opacity: 0.1;
-  height: 100%;
-  width: 100%;
-  left: 0;
-  top: 0;
-}
-
 img {
   display: block;
   width: 100%;

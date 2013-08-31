@@ -12,6 +12,7 @@
   var DEFAULTS = {
     calibrationThreshold: 100,
     calibrationDelay: 500,
+    supportDelay: 500,
     calibrateX: false,
     calibrateY: true,
     invertX: true,
@@ -207,7 +208,7 @@
       if (this.orientationSupport) {
         this.portrait = null;
         window.addEventListener('deviceorientation', this.onDeviceOrientation);
-        setTimeout(this.onOrientationTimer, 100);
+        setTimeout(this.onOrientationTimer, this.supportDelay);
       } else {
         this.cx = 0;
         this.cy = 0;
@@ -349,37 +350,34 @@
 
   Plugin.prototype.onDeviceOrientation = function(event) {
 
-    // Update Orientation Support Flag
-    if (this.desktop || event.beta === null || event.gamma === null) {
-      this.disable();
-      this.orientationSupport = false;
-      this.enable();
-      return false;
-    } else {
+    // Validate environment and event properties.
+    if (!this.desktop && event.beta !== null && event.gamma !== null) {
+
+      // Set orientation status.
       this.orientationStatus = 1;
+
+      // Extract Rotation
+      var x = (event.beta  || 0) / MAGIC_NUMBER; //  -90 :: 90
+      var y = (event.gamma || 0) / MAGIC_NUMBER; // -180 :: 180
+
+      // Detect Orientation Change
+      var portrait = window.innerHeight > window.innerWidth;
+      if (this.portrait !== portrait) {
+        this.portrait = portrait;
+        this.calibrationFlag = true;
+      }
+
+      // Set Calibration
+      if (this.calibrationFlag) {
+        this.calibrationFlag = false;
+        this.cx = x;
+        this.cy = y;
+      }
+
+      // Set Input
+      this.ix = x;
+      this.iy = y;
     }
-
-    // Extract Rotation
-    var x = (event.beta  || 0) / MAGIC_NUMBER; //  -90 :: 90
-    var y = (event.gamma || 0) / MAGIC_NUMBER; // -180 :: 180
-
-    // Detect Orientation Change
-    var portrait = window.innerHeight > window.innerWidth;
-    if (this.portrait !== portrait) {
-      this.portrait = portrait;
-      this.calibrationFlag = true;
-    }
-
-    // Set Calibration
-    if (this.calibrationFlag) {
-      this.calibrationFlag = false;
-      this.cx = x;
-      this.cy = y;
-    }
-
-    // Set Input
-    this.ix = x;
-    this.iy = y;
   };
 
   Plugin.prototype.onMouseMove = function(event) {
