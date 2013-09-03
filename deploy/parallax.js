@@ -213,7 +213,7 @@
   Parallax.prototype.hw = null;
   Parallax.prototype.hh = null;
   Parallax.prototype.portrait = null;
-  Parallax.prototype.desktop = !navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|BB10|IEMobile)/);
+  Parallax.prototype.desktop = !navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|BB10|mobi|tablet|opera mini|nexus 7)/i);
   Parallax.prototype.vendors = [null,['-webkit-','webkit'],['-moz-','Moz'],['-o-','O'],['-ms-','ms']];
   Parallax.prototype.motionSupport = window.DeviceMotionEvent !== undefined;
   Parallax.prototype.orientationSupport = window.DeviceOrientationEvent !== undefined;

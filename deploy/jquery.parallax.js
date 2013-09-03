@@ -170,7 +170,7 @@
   Plugin.prototype.hw = null;
   Plugin.prototype.hh = null;
   Plugin.prototype.portrait = null;
-  Plugin.prototype.desktop = !navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|BB10|IEMobile)/);
+  Plugin.prototype.desktop = !navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|BB10|mobi|tablet|opera mini|nexus 7)/i);
   Plugin.prototype.vendors = [null,['-webkit-','webkit'],['-moz-','Moz'],['-o-','O'],['-ms-','ms']];
   Plugin.prototype.motionSupport = window.DeviceMotionEvent !== undefined;
   Plugin.prototype.orientationSupport = window.DeviceOrientationEvent !== undefined;
