@@ -33,35 +33,6 @@ it to the **Parallax** constructor.
 var scene = document.getElementById('scene');
 var parallax = new Parallax(scene);
 ```
-## iOS
-
-If your application is a webapp (i.e. will run on Safari), then there is nothing you need to do. 
-If you are writing a native application and would like to use a `UIWebView` using this
-framework, then you will need to do a bit more work to get the parallax effect. UIWebViews no longer get
-the deviceorientation event. So, the native app has to intercept the gyro events and reroute them to the
-UIWebView:
-
-1. First, include the CoreMotion framework as `#import <CoreMotion/CoreMotion.h>` and have a reference 
-to the UIWebView (eg. add it as a property: `@property(nonatomic,strong) IBOutlet UIWebView *parallaxWebView;`)
-2. Add a property to the app delegate (or whatever controller will own the UIWebView you wish to add parallax on) `@property(nonatomic,strong) CMMotionManager *motionManager;`
-3. Finally, make the following calls:
-
-```Objective-C
-  self.motionManager = [[CMMotionManager alloc] init];
-  
-  if(self.motionManager.isGyroAvailable && !self.motionManager.isGyroActive) {
-  
-    [self.motionManager setGyroUpdateInterval:0.5f]; // send event every half second
-            
-    [self.motionManager startGyroUpdatesToQueue:NSOperationQueue.mainQueue
-                                            withHandler:^(CMGyroData *gyroData, NSError *error) {
-                 
-                 NSString *js =[NSString stringWithFormat:@"parallax.onDeviceOrientation({beta : %f, gamma : %f})", gyroData.rotationRate.x, gyroData.rotationRate.y];
-                 [self.parallaxWebView stringByEvaluatingJavaScriptFromString:js];
-             }];
-  }
-```
-This will send the latest gyro (x and y rotations) to the UIWebView. 
 
 ## Behaviours
 
@@ -176,6 +147,39 @@ $scene.parallax('invert', false, true);
 $scene.parallax('limit', false, 10);
 $scene.parallax('scalar', 2, 8);
 $scene.parallax('friction', 0.2, 0.8);
+```
+
+## iOS
+
+If you are writing a **native iOS application** and would like to use **parallax.js**
+within a `UIWebView`, you will need to do a little bit of work to get it running.
+
+`UIWebView` no longer automatically receives the `deviceorientation` event, so
+your native application must intercept the events from the gyroscope and reroute
+them to the `UIWebView`:
+
+1. Include the **CoreMotion** framework `#import <CoreMotion/CoreMotion.h>`
+and create a reference to the **UIWebView** `@property(nonatomic, strong) IBOutlet UIWebView *parallaxWebView;`)
+2. Add a property to the app delegate (or controller that will own the **UIWebView**)
+`@property(nonatomic, strong) CMMotionManager *motionManager;`
+3. Finally, make the following calls:
+
+```Objective-C
+  self.motionManager = [[CMMotionManager alloc] init];
+
+  if (self.motionManager.isGyroAvailable && !self.motionManager.isGyroActive) {
+
+    [self.motionManager setGyroUpdateInterval:0.5f]; // send event every half second
+
+    [self.motionManager startGyroUpdatesToQueue:NSOperationQueue.mainQueue
+                                    withHandler:^(CMGyroData *gyroData, NSError *error) {
+
+      NSString *js = [NSString stringWithFormat:@"parallax.onDeviceOrientation({beta:%f, gamma:%f})", gyroData.rotationRate.x, gyroData.rotationRate.y];
+
+      [self.parallaxWebView stringByEvaluatingJavaScriptFromString:js];
+
+    }];
+  }
 ```
 
 ## Build
