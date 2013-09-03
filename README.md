@@ -159,7 +159,7 @@ your native application must intercept the events from the gyroscope and reroute
 them to the `UIWebView`:
 
 1. Include the **CoreMotion** framework `#import <CoreMotion/CoreMotion.h>`
-and create a reference to the **UIWebView** `@property(nonatomic, strong) IBOutlet UIWebView *parallaxWebView;`)
+and create a reference to the **UIWebView** `@property(nonatomic, strong) IBOutlet UIWebView *parallaxWebView;`
 2. Add a property to the app delegate (or controller that will own the **UIWebView**)
 `@property(nonatomic, strong) CMMotionManager *motionManager;`
 3. Finally, make the following calls:
@@ -169,7 +169,7 @@ and create a reference to the **UIWebView** `@property(nonatomic, strong) IBOutl
 
   if (self.motionManager.isGyroAvailable && !self.motionManager.isGyroActive) {
 
-    [self.motionManager setGyroUpdateInterval:0.5f]; // send event every half second
+    [self.motionManager setGyroUpdateInterval:0.5f]; // Set the event update frequency (in seconds)
 
     [self.motionManager startGyroUpdatesToQueue:NSOperationQueue.mainQueue
                                     withHandler:^(CMGyroData *gyroData, NSError *error) {
