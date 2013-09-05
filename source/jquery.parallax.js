@@ -141,8 +141,8 @@
   Plugin.prototype.portrait = null;
   Plugin.prototype.desktop = !navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|BB10|mobi|tablet|opera mini|nexus 7)/i);
   Plugin.prototype.vendors = [null,['-webkit-','webkit'],['-moz-','Moz'],['-o-','O'],['-ms-','ms']];
-  Plugin.prototype.motionSupport = window.DeviceMotionEvent !== undefined;
-  Plugin.prototype.orientationSupport = window.DeviceOrientationEvent !== undefined;
+  Plugin.prototype.motionSupport = !!window.DeviceMotionEvent;
+  Plugin.prototype.orientationSupport = !!window.DeviceOrientationEvent;
   Plugin.prototype.orientationStatus = 0;
   Plugin.prototype.transform2DSupport = Plugin.prototype.transformSupport('2D');
   Plugin.prototype.transform3DSupport = Plugin.prototype.transformSupport('3D');
