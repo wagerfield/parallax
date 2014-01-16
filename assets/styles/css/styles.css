@@ -333,7 +333,6 @@ button.hide {
 
 footer {
   position: absolute;
-  padding: 17px 10px;
   text-align: right;
   bottom: 0;
   right: 0;
@@ -348,7 +347,10 @@ footer .fb-like {
 }
 footer .twitter-share-button {
   display: inline-block;
+  position: absolute;
   margin-left: 12px;
+  bottom: 20px;
+  right: 10px;
 }
 
 .accelerate {
@@ -1426,7 +1428,11 @@ footer .twitter-share-button {
     width: 56px;
   }
 
-  footer .fb-like {
+  footer {
+    padding: 0 10px 17px;
+  }
+  footer .fb-like,
+  footer .twitter-share-button {
     position: static;
     bottom: auto;
     right: auto;
