@@ -17,12 +17,12 @@ layer to move by an amount relative to the supplied ratio.
 
 ```html
 <ul id="scene">
-  <li class="layer" data-depth="0.00"><img src="layer6.png"></li>
-  <li class="layer" data-depth="0.20"><img src="layer5.png"></li>
-  <li class="layer" data-depth="0.40"><img src="layer4.png"></li>
-  <li class="layer" data-depth="0.60"><img src="layer3.png"></li>
-  <li class="layer" data-depth="0.80"><img src="layer2.png"></li>
-  <li class="layer" data-depth="1.00"><img src="layer1.png"></li>
+  <li class="layer" data-depth="0.00"><img src="layer1.png"></li>
+  <li class="layer" data-depth="0.20"><img src="layer2.png"></li>
+  <li class="layer" data-depth="0.40"><img src="layer3.png"></li>
+  <li class="layer" data-depth="0.60"><img src="layer4.png"></li>
+  <li class="layer" data-depth="0.80"><img src="layer5.png"></li>
+  <li class="layer" data-depth="1.00"><img src="layer6.png"></li>
 </ul>
 ```
 
@@ -40,7 +40,7 @@ There are a number of behaviours that you can setup for any given **Parallax**
 instance. These behaviours can either be specified in the markup via data
 attributes or in JavaScript via the constructor and API.
 
-| Behavior      | Values              | Description                                                                                                        |
+| Behaviour     | Values              | Description                                                                                                        |
 | ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | `calibrate-x` | `true` or `false`   | Specifies whether or not to cache & calculate the motion relative to the initial `x` axis value on initialisation. |
 | `calibrate-y` | `true` or `false`   | Specifies whether or not to cache & calculate the motion relative to the initial `y` axis value on initialisation. |
@@ -56,7 +56,7 @@ attributes or in JavaScript via the constructor and API.
 In addition to the behaviours described above, there are **two** methods `enable()`
 and `disable()` that *activate* and *deactivate* the **Parallax** instance respectively.
 
-### Behaviors: Data Attributes Example
+### Behaviours: Data Attributes Example
 
 ```html
 <ul id="scene"
@@ -79,7 +79,7 @@ and `disable()` that *activate* and *deactivate* the **Parallax** instance respe
 </ul>
 ```
 
-### Behaviors: Constructor Object Example
+### Behaviours: Constructor Object Example
 
 ```javascript
 var scene = document.getElementById('scene');
@@ -97,7 +97,7 @@ var parallax = new Parallax(scene, {
 });
 ```
 
-### Behaviors: API Example
+### Behaviours: API Example
 
 ```javascript
 var scene = document.getElementById('scene');
