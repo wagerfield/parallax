@@ -2697,7 +2697,7 @@ html.touch .links a.tap {
     display: none;
   }
 }
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dppx) {
   #awwwards a {
     -webkit-background-size: 70px 105px;
     -moz-background-size: 70px 105px;
