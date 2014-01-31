@@ -2,7 +2,7 @@
 //
 // The MIT License
 //
-// Copyright (C) 2013 Matthew Wagerfield - @mwagerfield
+// Copyright (C) 2014 Matthew Wagerfield - @mwagerfield
 //
 // Permission is hereby granted, free of charge, to any
 // person obtaining a copy of this software and associated
@@ -38,6 +38,10 @@
  */
 ;(function(window, document, undefined) {
 
+  // Strict Mode
+  "use strict";
+
+  // Constants
   var NAME = 'Parallax';
   var MAGIC_NUMBER = 30;
   var DEFAULTS = {
@@ -156,10 +160,17 @@
   };
 
   Parallax.prototype.offset = function(element) {
-    var x = 0, y = 0;
+    var x = 0, y = 0, scrollLeft, scrollTop;
     while (element && !isNaN(element.offsetLeft) && !isNaN(element.offsetTop)) {
-      x += element.offsetLeft - element.scrollLeft;
-      y += element.offsetTop - element.scrollTop;
+      if (element === document.body) {
+        scrollLeft = document.documentElement.scrollLeft;
+        scrollTop = document.documentElement.scrollTop;
+      } else {
+        scrollLeft = element.scrollLeft;
+        scrollTop = element.scrollTop;
+      }
+      x += element.offsetLeft - scrollLeft;
+      y += element.offsetTop - scrollTop;
       element = element.offsetParent;
     }
     return {top:y, left:x};
