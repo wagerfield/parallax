@@ -1,5 +1,5 @@
 /**
- * jQuery/Zepto Parallax Plugin
+ * jQuery || Zepto Parallax Plugin
  * @author Matthew Wagerfield - @mwagerfield
  * @description Creates a parallax effect between an array of layers,
  *              driving the motion from the gyroscope output of a smartdevice.
@@ -7,6 +7,10 @@
  */
 ;(function($, window, document, undefined) {
 
+  // Strict Mode
+  "use strict";
+
+  // Constants
   var NAME = 'parallax';
   var MAGIC_NUMBER = 30;
   var DEFAULTS = {
