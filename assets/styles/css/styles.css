@@ -334,6 +334,8 @@ button.hide {
 footer {
   position: absolute;
   text-align: right;
+  line-height: 0;
+  font-size: 0;
   bottom: 0;
   right: 0;
   left: 0;
@@ -342,7 +344,7 @@ footer .fb-like {
   display: inline-block;
   position: absolute;
   margin-left: 12px;
-  bottom: 43px;
+  bottom: 48px;
   right: 22px;
 }
 footer .twitter-share-button {
@@ -1429,7 +1431,7 @@ footer .twitter-share-button {
   }
 
   footer {
-    padding: 0 10px 17px;
+    padding: 0 10px 20px;
   }
   footer .fb-like,
   footer .twitter-share-button {
