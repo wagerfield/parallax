@@ -26,7 +26,8 @@
     scalarX: 10.0,
     scalarY: 10.0,
     frictionX: 0.1,
-    frictionY: 0.1
+    frictionY: 0.1,
+    clientMeasurement: false
   };
 
   function Plugin(element, options) {
@@ -49,7 +50,8 @@
       scalarX: parseFloat(this.$context.data('scalar-x')) || null,
       scalarY: parseFloat(this.$context.data('scalar-y')) || null,
       frictionX: parseFloat(this.$context.data('friction-x')) || null,
-      frictionY: parseFloat(this.$context.data('friction-y')) || null
+      frictionY: parseFloat(this.$context.data('friction-y')) || null,
+      clientMeasurement: parseFloat(this.$context.data('client-measurement')) || null
     };
 
     // Delete Null Data Values
@@ -387,8 +389,11 @@
   Plugin.prototype.onMouseMove = function(event) {
 
     // Calculate Input
-    this.ix = (event.pageX - this.hw) / this.hw;
-    this.iy = (event.pageY - this.hh) / this.hh;
+    var positionX = this.clientMeasurement ? event.clientX : event.pageX;
+    var positionY = this.clientMeasurement ? event.clientY : event.pageY;
+
+    this.ix = (positionX - this.hw) / this.hw;
+    this.iy = (positionY - this.hh) / this.hh;
   };
 
   var API = {
