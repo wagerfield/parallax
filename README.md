@@ -1,6 +1,6 @@
 # Parallax.js
 
-Simple, lightweight **Parallax Engine** that reacts to the orientation of a
+Simple, lightweight **Parallax Engifne** that reacts to the orientation of a
 smart device. Where no gyroscope or motion detection hardware is available, the
 position of the cursor is used instead.
 
@@ -52,6 +52,7 @@ attributes or in JavaScript via the constructor and API.
 | `scalar-y`    | `number`            | Multiplies the input motion by this value, increasing or decreasing the sensitivity of the layer motion.           |
 | `friction-x`  | `number` `0 - 1`    | The amount of friction the layers experience. This essentially adds some easing to the layer motion.               |
 | `friction-y`  | `number` `0 - 1`    | The amount of friction the layers experience. This essentially adds some easing to the layer motion.               |
+| `client-measurement`  | `true` or `false`    | Specifies whether or not to measure the mouse movement by the absolute position of the cursor within the clients viewport. Else it will be measured by the absolute position on the whole page. (DEFAULT: false)              |
 
 In addition to the behaviours described above, there are **two** methods `enable()`
 and `disable()` that *activate* and *deactivate* the **Parallax** instance respectively.
@@ -69,7 +70,8 @@ and `disable()` that *activate* and *deactivate* the **Parallax** instance respe
   data-scalar-x="2"
   data-scalar-y="8"
   data-friction-x="0.2"
-  data-friction-y="0.8">
+  data-friction-y="0.8"
+  data-client-measurement="true">
   <li class="layer" data-depth="0.00"><img src="graphics/layer1.png"></li>
   <li class="layer" data-depth="0.20"><img src="graphics/layer2.png"></li>
   <li class="layer" data-depth="0.40"><img src="graphics/layer3.png"></li>
@@ -133,7 +135,8 @@ $('#scene').parallax({
   scalarX: 2,
   scalarY: 8,
   frictionX: 0.2,
-  frictionY: 0.8
+  frictionY: 0.8,
+  clientMeasurement: true
 });
 ```
 ### jQuery: API
