@@ -26,7 +26,8 @@
     scalarX: 10.0,
     scalarY: 10.0,
     frictionX: 0.1,
-    frictionY: 0.1
+    frictionY: 0.1,
+    clientMeasurement: false
   };
 
   function Parallax(element, options) {
@@ -46,7 +47,8 @@
       scalarX: this.data(this.element, 'scalar-x'),
       scalarY: this.data(this.element, 'scalar-y'),
       frictionX: this.data(this.element, 'friction-x'),
-      frictionY: this.data(this.element, 'friction-y')
+      frictionY: this.data(this.element, 'friction-y'),
+      clientMeasurement: this.data(this.element, 'client-measurement')
     };
 
     // Delete Null Data Values
@@ -429,8 +431,11 @@
   Parallax.prototype.onMouseMove = function(event) {
 
     // Calculate Input
-    this.ix = (event.pageX - this.hw) / this.hw;
-    this.iy = (event.pageY - this.hh) / this.hh;
+    var positionX = this.clientMeasurement ? event.clientX : event.pageX;
+    var positionY = this.clientMeasurement ? event.clientY : event.pageY;
+
+    this.ix = (positionX - this.hw) / this.hw;
+    this.iy = (positionY - this.hh) / this.hh;
   };
 
   // Expose Parallax
