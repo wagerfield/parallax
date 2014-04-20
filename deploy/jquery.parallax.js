@@ -225,7 +225,7 @@
   Plugin.prototype.updateDimensions = function() {
     this.ww = window.innerWidth;
     this.wh = window.innerHeight;
-    this.wcw = this.ww / 2;
+    this.wcx = this.ww / 2;
     this.wcy = this.wh / 2;
   };
 
