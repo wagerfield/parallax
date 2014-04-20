@@ -45,6 +45,8 @@
   var NAME = 'parallax';
   var MAGIC_NUMBER = 30;
   var DEFAULTS = {
+    relativeInput: false,
+    clipRelativeInput: false,
     calibrationThreshold: 100,
     calibrationDelay: 500,
     supportDelay: 500,
@@ -98,11 +100,14 @@
     this.depths = [];
     this.raf = null;
 
-    // Offset
-    this.ox = 0;
-    this.oy = 0;
-    this.ow = 0;
-    this.oh = 0;
+    // Element
+    this.bounds = null;
+    this.ex = 0;
+    this.ey = 0;
+    this.ew = 0;
+    this.eh = 0;
+    this.ecx = 0;
+    this.ecy = 0;
 
     // Calibration
     this.cx = 0;
@@ -171,8 +176,8 @@
 
   Plugin.prototype.ww = null;
   Plugin.prototype.wh = null;
-  Plugin.prototype.hw = null;
-  Plugin.prototype.hh = null;
+  Plugin.prototype.wcx = null;
+  Plugin.prototype.wcy = null;
   Plugin.prototype.portrait = null;
   Plugin.prototype.desktop = !navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|BB10|mobi|tablet|opera mini|nexus 7)/i);
   Plugin.prototype.vendors = [null,['-webkit-','webkit'],['-moz-','Moz'],['-o-','O'],['-ms-','ms']];
@@ -218,18 +223,10 @@
   };
 
   Plugin.prototype.updateDimensions = function() {
-
-    // Cache Context Dimensions
-    this.ox = this.$context.offset().left;
-    this.oy = this.$context.offset().top;
-    this.ow = this.$context.width();
-    this.oh = this.$context.height();
-
-    // Cache Window Dimensions
     this.ww = window.innerWidth;
     this.wh = window.innerHeight;
-    this.hw = this.ww / 2;
-    this.hh = this.wh / 2;
+    this.wcw = this.ww / 2;
+    this.wcy = this.wh / 2;
   };
 
   Plugin.prototype.queueCalibration = function(delay) {
@@ -417,9 +414,34 @@
 
   Plugin.prototype.onMouseMove = function(event) {
 
-    // Calculate Input
-    this.ix = (event.pageX - this.hw) / this.hw;
-    this.iy = (event.pageY - this.hh) / this.hh;
+    // Calculate Mouse Input
+    if (!this.orientationSupport && this.relativeInput) {
+
+      // Calculate input relative to the element.
+      this.bounds = this.element.getBoundingClientRect();
+      this.ex = this.bounds.left;
+      this.ey = this.bounds.top;
+      this.ew = this.bounds.width;
+      this.eh = this.bounds.height;
+      this.ecx = this.ew / 2;
+      this.ecy = this.eh / 2;
+      this.ix = (event.clientX - this.ex - this.ecx) / this.ecx;
+      this.iy = (event.clientY - this.ey - this.ecy) / this.ecy;
+
+      // Clip input to the element bounds.
+      if (this.clipRelativeInput) {
+        this.ix = Math.max(this.ix,-1);
+        this.ix = Math.min(this.ix, 1);
+        this.iy = Math.max(this.iy,-1);
+        this.iy = Math.min(this.iy, 1);
+      }
+
+    } else {
+
+      // Calculate input relative to the window.
+      this.ix = (event.clientX - this.wcx) / this.wcx;
+      this.iy = (event.clientY - this.wcy) / this.wcy;
+    }
   };
 
   var API = {

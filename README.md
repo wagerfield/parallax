@@ -40,18 +40,20 @@ There are a number of behaviours that you can setup for any given **Parallax**
 instance. These behaviours can either be specified in the markup via data
 attributes or in JavaScript via the constructor and API.
 
-| Behaviour     | Values              | Description                                                                                                        |
-| ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `calibrate-x` | `true` or `false`   | Specifies whether or not to cache & calculate the motion relative to the initial `x` axis value on initialisation. |
-| `calibrate-y` | `true` or `false`   | Specifies whether or not to cache & calculate the motion relative to the initial `y` axis value on initialisation. |
-| `invert-x`    | `true` or `false`   | `true` moves layers in opposition to the device motion, `false` slides them away.                                  |
-| `invert-y`    | `true` or `false`   | `true` moves layers in opposition to the device motion, `false` slides them away.                                  |
-| `limit-x`     | `number` or `false` | A numeric value limits the total range of motion in `x`, `false` allows layers to move with complete freedom.      |
-| `limit-y`     | `number` or `false` | A numeric value limits the total range of motion in `y`, `false` allows layers to move with complete freedom.      |
-| `scalar-x`    | `number`            | Multiplies the input motion by this value, increasing or decreasing the sensitivity of the layer motion.           |
-| `scalar-y`    | `number`            | Multiplies the input motion by this value, increasing or decreasing the sensitivity of the layer motion.           |
-| `friction-x`  | `number` `0 - 1`    | The amount of friction the layers experience. This essentially adds some easing to the layer motion.               |
-| `friction-y`  | `number` `0 - 1`    | The amount of friction the layers experience. This essentially adds some easing to the layer motion.               |
+| Behaviour           | Values              | Description                                                                                                                                 |
+| ------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `relativeInput`     | `true` or `false`   | Specifies whether or not to use the coordinate system of the `element` passed to the parallax `constructor`. **Mouse input only.**          |
+| `clipRelativeInput` | `true` or `false`   | Specifies whether or not to clip the mouse input to the bounds of the `element` passed to the parallax `constructor`. **Mouse input only.** |
+| `calibrate-x`       | `true` or `false`   | Specifies whether or not to cache & calculate the motion relative to the initial `x` axis value on initialisation.                          |
+| `calibrate-y`       | `true` or `false`   | Specifies whether or not to cache & calculate the motion relative to the initial `y` axis value on initialisation.                          |
+| `invert-x`          | `true` or `false`   | `true` moves layers in opposition to the device motion, `false` slides them away.                                                           |
+| `invert-y`          | `true` or `false`   | `true` moves layers in opposition to the device motion, `false` slides them away.                                                           |
+| `limit-x`           | `number` or `false` | A numeric value limits the total range of motion in `x`, `false` allows layers to move with complete freedom.                               |
+| `limit-y`           | `number` or `false` | A numeric value limits the total range of motion in `y`, `false` allows layers to move with complete freedom.                               |
+| `scalar-x`          | `number`            | Multiplies the input motion by this value, increasing or decreasing the sensitivity of the layer motion.                                    |
+| `scalar-y`          | `number`            | Multiplies the input motion by this value, increasing or decreasing the sensitivity of the layer motion.                                    |
+| `friction-x`        | `number` `0 - 1`    | The amount of friction the layers experience. This essentially adds some easing to the layer motion.                                        |
+| `friction-y`        | `number` `0 - 1`    | The amount of friction the layers experience. This essentially adds some easing to the layer motion.                                        |
 
 In addition to the behaviours described above, there are **two** methods `enable()`
 and `disable()` that *activate* and *deactivate* the **Parallax** instance respectively.
