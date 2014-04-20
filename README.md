@@ -184,10 +184,17 @@ and create a reference to the **UIWebView** `@property(nonatomic, strong) IBOutl
 
 ## Build
 
+> As a prerequisite, you will need [gulp][gulp] installed: `npm install -g gulp`
+
 ```
-cd build
 npm install
-node build.js
+gulp
+```
+
+During development you can have gulp watch the `source` directory for changes and automatically build the `deploy` files by running:
+
+```
+gulp watch
 ```
 
 ## Author
@@ -203,3 +210,4 @@ Licensed under [MIT][mit]. Enjoy.
 [mit]: http://www.opensource.org/licenses/mit-license.php
 [jquery]: http://jquery.com/
 [zepto]: http://zeptojs.com/
+[gulp]: http://gulpjs.com/

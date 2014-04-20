@@ -8,7 +8,7 @@
 ;(function($, window, document, undefined) {
 
   // Strict Mode
-  "use strict";
+  'use strict';
 
   // Constants
   var NAME = 'parallax';
