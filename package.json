@@ -1,0 +1,39 @@
+{
+  "name": "parallax",
+  "description": "Parallax Engine that reacts to the orientation of a smart device.",
+  "version": "1.0.0",
+  "license": "MIT",
+  "homepage": "http://wagerfield.github.io/parallax/",
+  "author": "Matthew Wagerfield <matthew@wagerfield.com>",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "build": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/wagerfield/parallax.git"
+  },
+  "keywords": [
+    "parallax",
+    "gyroscope",
+    "jquery",
+    "javascript",
+    "library"
+  ],
+  "bugs": {
+    "url": "https://github.com/wagerfield/parallax/issues"
+  },
+  "devDependencies": {
+    "gulp": "^3.6.1",
+    "gulp-load-plugins": "^0.5.0",
+    "gulp-clean": "^0.2.4",
+    "gulp-concat": "^2.2.0",
+    "gulp-notify": "^1.2.5",
+    "gulp-rename": "^1.2.0",
+    "gulp-jshint": "^1.5.3",
+    "gulp-uglify": "^0.2.1",
+    "jshint-stylish": "^0.1.5"
+  }
+}
