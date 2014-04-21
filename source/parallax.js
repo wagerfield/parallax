@@ -28,7 +28,9 @@
     scalarX: 10.0,
     scalarY: 10.0,
     frictionX: 0.1,
-    frictionY: 0.1
+    frictionY: 0.1,
+    originX: 0.5,
+    originY: 0.5
   };
 
   function Parallax(element, options) {
@@ -133,23 +135,6 @@
     }
   };
 
-  Parallax.prototype.offset = function(element) {
-    var x = 0, y = 0, scrollLeft, scrollTop;
-    while (element && !isNaN(element.offsetLeft) && !isNaN(element.offsetTop)) {
-      if (element === document.body) {
-        scrollLeft = document.documentElement.scrollLeft;
-        scrollTop = document.documentElement.scrollTop;
-      } else {
-        scrollLeft = element.scrollLeft;
-        scrollTop = element.scrollTop;
-      }
-      x += element.offsetLeft - scrollLeft;
-      y += element.offsetTop - scrollTop;
-      element = element.offsetParent;
-    }
-    return {top:y, left:x};
-  };
-
   Parallax.prototype.camelCase = function(value) {
     return value.replace(/-+(.)?/g, function(match, character){
       return character ? character.toUpperCase() : '';
@@ -182,11 +167,12 @@
         break;
       case '3D':
         if (propertySupport) {
-          document.body.appendChild(element);
+          var body = document.body || document.createElement('body');
+          body.appendChild(element);
           element.style[jsProperty] = 'translate3d(1px,1px,1px)';
           propertyValue = window.getComputedStyle(element).getPropertyValue(cssProperty);
           featureSupport = propertyValue !== undefined && propertyValue.length > 0 && propertyValue !== "none";
-          document.body.removeChild(element);
+          body.removeChild(element);
         }
         break;
     }
@@ -239,8 +225,8 @@
   Parallax.prototype.updateDimensions = function() {
     this.ww = window.innerWidth;
     this.wh = window.innerHeight;
-    this.wcx = this.ww / 2;
-    this.wcy = this.wh / 2;
+    this.wcx = this.ww * this.originX;
+    this.wcy = this.wh * this.originY;
   };
 
   Parallax.prototype.queueCalibration = function(delay) {
@@ -428,14 +414,16 @@
     // Calculate Mouse Input
     if (!this.orientationSupport && this.relativeInput) {
 
-      // Calculate input relative to the element.
+      // Extract element bounds.
       this.bounds = this.element.getBoundingClientRect();
       this.ex = this.bounds.left;
       this.ey = this.bounds.top;
       this.ew = this.bounds.width;
       this.eh = this.bounds.height;
-      this.ecx = this.ew / 2;
-      this.ecy = this.eh / 2;
+      this.ecx = this.ew * this.originX;
+      this.ecy = this.eh * this.originY;
+
+      // Calculate input relative to the element.
       this.ix = (event.clientX - this.ex - this.ecx) / this.ecx;
       this.iy = (event.clientY - this.ey - this.ecy) / this.ecy;
 
