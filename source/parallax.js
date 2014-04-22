@@ -6,7 +6,6 @@
  *              If no gyroscope is available, the cursor position is used.
  */
 ;(function(window, document, undefined) {
-
   // Strict Mode
   'use strict';
 
@@ -96,7 +95,6 @@
     // Callbacks
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onDeviceOrientation = this.onDeviceOrientation.bind(this);
-    this.onOrientationTimer = this.onOrientationTimer.bind(this);
     this.onCalibrationTimer = this.onCalibrationTimer.bind(this);
     this.onAnimationFrame = this.onAnimationFrame.bind(this);
     this.onWindowResize = this.onWindowResize.bind(this);
@@ -237,16 +235,11 @@
   Parallax.prototype.enable = function() {
     if (!this.enabled) {
       this.enabled = true;
-      if (this.orientationSupport) {
-        this.portrait = null;
-        window.addEventListener('deviceorientation', this.onDeviceOrientation);
-        setTimeout(this.onOrientationTimer, this.supportDelay);
-      } else {
-        this.cx = 0;
-        this.cy = 0;
-        this.portrait = false;
-        window.addEventListener('mousemove', this.onMouseMove);
-      }
+      this.portrait = null;
+      window.addEventListener('deviceorientation', this.onDeviceOrientation);
+      this.cx = 0;
+      this.cy = 0;
+      window.addEventListener('mousemove', this.onMouseMove);
       window.addEventListener('resize', this.onWindowResize);
       this.raf = requestAnimationFrame(this.onAnimationFrame);
     }
@@ -255,11 +248,8 @@
   Parallax.prototype.disable = function() {
     if (this.enabled) {
       this.enabled = false;
-      if (this.orientationSupport) {
-        window.removeEventListener('deviceorientation', this.onDeviceOrientation);
-      } else {
-        window.removeEventListener('mousemove', this.onMouseMove);
-      }
+      window.removeEventListener('deviceorientation', this.onDeviceOrientation);
+      window.removeEventListener('mousemove', this.onMouseMove);
       window.removeEventListener('resize', this.onWindowResize);
       cancelAnimationFrame(this.raf);
     }
@@ -330,14 +320,6 @@
     }
   };
 
-  Parallax.prototype.onOrientationTimer = function(event) {
-    if (this.orientationSupport && this.orientationStatus === 0) {
-      this.disable();
-      this.orientationSupport = false;
-      this.enable();
-    }
-  };
-
   Parallax.prototype.onCalibrationTimer = function(event) {
     this.calibrationFlag = true;
   };
@@ -378,9 +360,8 @@
   };
 
   Parallax.prototype.onDeviceOrientation = function(event) {
-
-    // Validate environment and event properties.
-    if (!this.desktop && event.beta !== null && event.gamma !== null) {
+    // Validate environment and event properties: ch: REMOVED !this.desktop as event properties should be ok
+    if (event.beta !== null && event.gamma !== null) {
 
       // Set orientation status.
       this.orientationStatus = 1;
