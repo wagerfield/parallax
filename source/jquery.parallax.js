@@ -28,7 +28,9 @@
     scalarX: 10.0,
     scalarY: 10.0,
     frictionX: 0.1,
-    frictionY: 0.1
+    frictionY: 0.1,
+    originX: 0.5,
+    originY: 0.5
   };
 
   function Plugin(element, options) {
@@ -132,11 +134,21 @@
         break;
       case '3D':
         if (propertySupport) {
-          document.body.appendChild(element);
+          var body = document.body || document.createElement('body');
+          var documentElement = document.documentElement;
+          var documentOverflow = documentElement.style.overflow;
+          if (!document.body) {
+            documentElement.style.overflow = 'hidden';
+            documentElement.appendChild(body);
+            body.style.overflow = 'hidden';
+            body.style.background = '';
+          }
+          body.appendChild(element);
           element.style[jsProperty] = 'translate3d(1px,1px,1px)';
           propertyValue = window.getComputedStyle(element).getPropertyValue(cssProperty);
           featureSupport = propertyValue !== undefined && propertyValue.length > 0 && propertyValue !== "none";
-          document.body.removeChild(element);
+          documentElement.style.overflow = documentOverflow;
+          body.removeChild(element);
         }
         break;
     }
@@ -155,6 +167,7 @@
   Plugin.prototype.orientationStatus = 0;
   Plugin.prototype.transform2DSupport = Plugin.prototype.transformSupport('2D');
   Plugin.prototype.transform3DSupport = Plugin.prototype.transformSupport('3D');
+  Plugin.prototype.propertyCache = {};
 
   Plugin.prototype.initialise = function() {
 
@@ -167,8 +180,6 @@
     this.$layers.css({
       position:'absolute',
       display:'block',
-      height:'100%',
-      width:'100%',
       left: 0,
       top: 0
     });
@@ -194,8 +205,18 @@
   Plugin.prototype.updateDimensions = function() {
     this.ww = window.innerWidth;
     this.wh = window.innerHeight;
-    this.wcx = this.ww / 2;
-    this.wcy = this.wh / 2;
+    this.wcx = this.ww * this.originX;
+    this.wcy = this.wh * this.originY;
+  };
+
+  Plugin.prototype.updateBounds = function() {
+    this.bounds = this.element.getBoundingClientRect();
+    this.ex = this.bounds.left;
+    this.ey = this.bounds.top;
+    this.ew = this.bounds.width;
+    this.eh = this.bounds.height;
+    this.ecx = this.ew * this.originX;
+    this.ecy = this.eh * this.originY;
   };
 
   Plugin.prototype.queueCalibration = function(delay) {
@@ -266,18 +287,21 @@
   };
 
   Plugin.prototype.css = function(element, property, value) {
-    var jsProperty = null;
-    for (var i = 0, l = this.vendors.length; i < l; i++) {
-      if (this.vendors[i] !== null) {
-        jsProperty = $.camelCase(this.vendors[i][1] + '-' + property);
-      } else {
-        jsProperty = property;
-      }
-      if (element.style[jsProperty] !== undefined) {
-        element.style[jsProperty] = value;
-        break;
+    var jsProperty = this.propertyCache[property];
+    if (!jsProperty) {
+      for (var i = 0, l = this.vendors.length; i < l; i++) {
+        if (this.vendors[i] !== null) {
+          jsProperty = $.camelCase(this.vendors[i][1] + '-' + property);
+        } else {
+          jsProperty = property;
+        }
+        if (element.style[jsProperty] !== undefined) {
+          this.propertyCache[property] = jsProperty;
+          break;
+        }
       }
     }
+    element.style[jsProperty] = value;
   };
 
   Plugin.prototype.accelerate = function($element) {
@@ -290,8 +314,8 @@
   };
 
   Plugin.prototype.setPosition = function(element, x, y) {
-    x += '%';
-    y += '%';
+    x += 'px';
+    y += 'px';
     if (this.transform3DSupport) {
       this.css(element, 'transform', 'translate3d('+x+','+y+',0)');
     } else if (this.transform2DSupport) {
@@ -319,18 +343,21 @@
   };
 
   Plugin.prototype.onAnimationFrame = function() {
+    this.updateBounds();
     var dx = this.ix - this.cx;
     var dy = this.iy - this.cy;
     if ((Math.abs(dx) > this.calibrationThreshold) || (Math.abs(dy) > this.calibrationThreshold)) {
       this.queueCalibration(0);
     }
     if (this.portrait) {
-      this.mx = (this.calibrateX ? dy : this.iy) * this.scalarX;
-      this.my = (this.calibrateY ? dx : this.ix) * this.scalarY;
+      this.mx = this.calibrateX ? dy : this.iy;
+      this.my = this.calibrateY ? dx : this.ix;
     } else {
-      this.mx = (this.calibrateX ? dx : this.ix) * this.scalarX;
-      this.my = (this.calibrateY ? dy : this.iy) * this.scalarY;
+      this.mx = this.calibrateX ? dx : this.ix;
+      this.my = this.calibrateY ? dy : this.iy;
     }
+    this.mx *= this.ew / this.scalarX;
+    this.my *= this.eh / this.scalarY;
     if (!isNaN(parseFloat(this.limitX))) {
       this.mx = this.clamp(this.mx, -this.limitX, this.limitX);
     }
@@ -387,13 +414,6 @@
     if (!this.orientationSupport && this.relativeInput) {
 
       // Calculate input relative to the element.
-      this.bounds = this.element.getBoundingClientRect();
-      this.ex = this.bounds.left;
-      this.ey = this.bounds.top;
-      this.ew = this.bounds.width;
-      this.eh = this.bounds.height;
-      this.ecx = this.ew / 2;
-      this.ecy = this.eh / 2;
       this.ix = (event.clientX - this.ex - this.ecx) / this.ecx;
       this.iy = (event.clientY - this.ey - this.ecy) / this.ecy;
 

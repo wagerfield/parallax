@@ -1,19 +1,12 @@
 # Parallax.js
 
-Simple, lightweight **Parallax Engine** that reacts to the orientation of a
-smart device. Where no gyroscope or motion detection hardware is available, the
-position of the cursor is used instead.
+Parallax Engine that reacts to the orientation of a smart device. Where no gyroscope or motion detection hardware is available, the position of the cursor is used instead.
 
 Check out this **[demo][demo]** to see it in action!
 
 ## Setup
 
-Simply create a list of elements giving each item that you want to move within
-your parallax scene a class of `layer` and a `data-depth` attribute specifying
-its depth within the scene. A depth of **0** will cause the layer to remain
-stationary, and a depth of **1** will cause the layer to move by the total
-effect of the calculated motion. Values inbetween **0** and **1** will cause the
-layer to move by an amount relative to the supplied ratio.
+Create a list of elements giving each item that you want to move within your parallax scene a class of `layer` and a `data-depth` attribute specifying its depth within the scene. A depth of **0** will cause the layer to remain stationary, and a depth of **1** will cause the layer to move by the total effect of the calculated motion. Values inbetween **0** and **1** will cause the layer to move by an amount relative to the supplied ratio.
 
 ```html
 <ul id="scene">
@@ -26,19 +19,38 @@ layer to move by an amount relative to the supplied ratio.
 </ul>
 ```
 
-To kickoff a **Parallax** scene, simply select your parent DOM Element and pass
-it to the **Parallax** constructor.
+To kickoff a **Parallax** scene, select your parent DOM Element and pass it to the **Parallax** constructor.
 
 ```javascript
 var scene = document.getElementById('scene');
 var parallax = new Parallax(scene);
 ```
 
+## Understanding Layer Motion Calculations
+
+The amount of motion that each layer moves by depends on 3 contributing factors:
+
+1. The `scalarX` and `scalarY` values (see [Behaviours](#behaviours) below for configuration)
+2. The dimensions of the parent DOM element
+3. The `depth` of a layer within a parallax scene (specified by it's `data-depth` attribute)
+
+The calculation for this motion is as follows:
+
+```coffeescript
+xMotion = parentElement.width  / scalarX * layerDepth
+yMotion = parentElement.height / scalarY * layerDepth
+```
+
+So for a layer with a `data-depth` value of `0.5` within a scene that has both the `scalarX` and `scalarY` values set to `10` ( *the default* ) where the containing scene element is `1000px x 1000px`, the total motion of the layer in both `x` and `y` would be:
+
+```coffeescript
+xMotion = 1000 / 10 * 0.5 = 50 # 50px of positive and negative motion in x
+yMotion = 1000 / 10 * 0.5 = 50 # 50px of positive and negative motion in y
+```
+
 ## Behaviours
 
-There are a number of behaviours that you can setup for any given **Parallax**
-instance. These behaviours can either be specified in the markup via data
-attributes or in JavaScript via the constructor and API.
+There are a number of behaviours that you can setup for any given **Parallax** instance. These behaviours can either be specified in the markup via data attributes or in JavaScript via the constructor and API.
 
 | Behaviour           | Values              | Description                                                                                                                                 |
 | ------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -55,8 +67,7 @@ attributes or in JavaScript via the constructor and API.
 | `friction-x`        | `number` `0 - 1`    | The amount of friction the layers experience. This essentially adds some easing to the layer motion.                                        |
 | `friction-y`        | `number` `0 - 1`    | The amount of friction the layers experience. This essentially adds some easing to the layer motion.                                        |
 
-In addition to the behaviours described above, there are **two** methods `enable()`
-and `disable()` that *activate* and *deactivate* the **Parallax** instance respectively.
+In addition to the behaviours described above, there are **two** methods `enable()` and `disable()` that *activate* and *deactivate* the **Parallax** instance respectively.
 
 ### Behaviours: Data Attributes Example
 
@@ -153,35 +164,24 @@ $scene.parallax('friction', 0.2, 0.8);
 
 ## iOS
 
-If you are writing a **native iOS application** and would like to use **parallax.js**
-within a `UIWebView`, you will need to do a little bit of work to get it running.
+If you are writing a **native iOS application** and would like to use **parallax.js** within a `UIWebView`, you will need to do a little bit of work to get it running.
 
-`UIWebView` no longer automatically receives the `deviceorientation` event, so
-your native application must intercept the events from the gyroscope and reroute
-them to the `UIWebView`:
+`UIWebView` no longer automatically receives the `deviceorientation` event, so your native application must intercept the events from the gyroscope and reroute them to the `UIWebView`:
 
-1. Include the **CoreMotion** framework `#import <CoreMotion/CoreMotion.h>`
-and create a reference to the **UIWebView** `@property(nonatomic, strong) IBOutlet UIWebView *parallaxWebView;`
-2. Add a property to the app delegate (or controller that will own the **UIWebView**)
-`@property(nonatomic, strong) CMMotionManager *motionManager;`
+1. Include the **CoreMotion** framework `#import <CoreMotion/CoreMotion.h>` and create a reference to the **UIWebView** `@property(nonatomic, strong) IBOutlet UIWebView *parallaxWebView;`
+2. Add a property to the app delegate (or controller that will own the **UIWebView**) `@property(nonatomic, strong) CMMotionManager *motionManager;`
 3. Finally, make the following calls:
 
 ```Objective-C
-  self.motionManager = [[CMMotionManager alloc] init];
-
-  if (self.motionManager.isGyroAvailable && !self.motionManager.isGyroActive) {
-
-    [self.motionManager setGyroUpdateInterval:0.5f]; // Set the event update frequency (in seconds)
-
-    [self.motionManager startGyroUpdatesToQueue:NSOperationQueue.mainQueue
-                                    withHandler:^(CMGyroData *gyroData, NSError *error) {
-
-      NSString *js = [NSString stringWithFormat:@"parallax.onDeviceOrientation({beta:%f, gamma:%f})", gyroData.rotationRate.x, gyroData.rotationRate.y];
-
-      [self.parallaxWebView stringByEvaluatingJavaScriptFromString:js];
-
-    }];
-  }
+self.motionManager = [[CMMotionManager alloc] init];
+if (self.motionManager.isGyroAvailable && !self.motionManager.isGyroActive) {
+  [self.motionManager setGyroUpdateInterval:0.5f]; // Set the event update frequency (in seconds)
+  [self.motionManager startGyroUpdatesToQueue:NSOperationQueue.mainQueue
+                                  withHandler:^(CMGyroData *gyroData, NSError *error) {
+    NSString *js = [NSString stringWithFormat:@"parallax.onDeviceOrientation({beta:%f, gamma:%f})", gyroData.rotationRate.x, gyroData.rotationRate.y];
+    [self.parallaxWebView stringByEvaluatingJavaScriptFromString:js];
+  }];
+}
 ```
 
 ## Build
