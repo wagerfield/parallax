@@ -387,8 +387,8 @@
       this.mx = this.calibrateX ? dx : this.ix;
       this.my = this.calibrateY ? dy : this.iy;
     }
-    this.mx *= this.ew / this.scalarX;
-    this.my *= this.eh / this.scalarY;
+    this.mx *= this.ew * (this.scalarX / 100);
+    this.my *= this.eh * (this.scalarY / 100);
     if (!isNaN(parseFloat(this.limitX))) {
       this.mx = this.clamp(this.mx, -this.limitX, this.limitX);
     }
