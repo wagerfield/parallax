@@ -37,15 +37,15 @@ The amount of motion that each layer moves by depends on 3 contributing factors:
 The calculation for this motion is as follows:
 
 ```coffeescript
-xMotion = parentElement.width  / scalarX * layerDepth
-yMotion = parentElement.height / scalarY * layerDepth
+xMotion = parentElement.width  * (scalarX / 100) * layerDepth
+yMotion = parentElement.height * (scalarY / 100) * layerDepth
 ```
 
 So for a layer with a `data-depth` value of `0.5` within a scene that has both the `scalarX` and `scalarY` values set to `10` ( *the default* ) where the containing scene element is `1000px x 1000px`, the total motion of the layer in both `x` and `y` would be:
 
 ```coffeescript
-xMotion = 1000 / 10 * 0.5 = 50 # 50px of positive and negative motion in x
-yMotion = 1000 / 10 * 0.5 = 50 # 50px of positive and negative motion in y
+xMotion = 1000 * (10 / 100) * 0.5 = 50 # 50px of positive and negative motion in x
+yMotion = 1000 * (10 / 100) * 0.5 = 50 # 50px of positive and negative motion in y
 ```
 
 ## Behaviours
