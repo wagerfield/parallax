@@ -168,10 +168,19 @@
       case '3D':
         if (propertySupport) {
           var body = document.body || document.createElement('body');
+          var documentElement = document.documentElement;
+          var documentOverflow = documentElement.style.overflow;
+          if (!document.body) {
+            documentElement.style.overflow = 'hidden';
+            documentElement.appendChild(body);
+            body.style.overflow = 'hidden';
+            body.style.background = '';
+          }
           body.appendChild(element);
           element.style[jsProperty] = 'translate3d(1px,1px,1px)';
           propertyValue = window.getComputedStyle(element).getPropertyValue(cssProperty);
           featureSupport = propertyValue !== undefined && propertyValue.length > 0 && propertyValue !== "none";
+          documentElement.style.overflow = documentOverflow;
           body.removeChild(element);
         }
         break;
@@ -191,6 +200,7 @@
   Parallax.prototype.orientationStatus = 0;
   Parallax.prototype.transform2DSupport = Parallax.prototype.transformSupport('2D');
   Parallax.prototype.transform3DSupport = Parallax.prototype.transformSupport('3D');
+  Parallax.prototype.propertyCache = {};
 
   Parallax.prototype.initialise = function() {
 
@@ -207,8 +217,6 @@
       if (this.transform3DSupport) this.accelerate(layer);
       layer.style.position = i ? 'absolute' : 'relative';
       layer.style.display = 'block';
-      layer.style.height = '100%';
-      layer.style.width = '100%';
       layer.style.left = 0;
       layer.style.top = 0;
 
@@ -227,6 +235,16 @@
     this.wh = window.innerHeight;
     this.wcx = this.ww * this.originX;
     this.wcy = this.wh * this.originY;
+  };
+
+  Parallax.prototype.updateBounds = function() {
+    this.bounds = this.element.getBoundingClientRect();
+    this.ex = this.bounds.left;
+    this.ey = this.bounds.top;
+    this.ew = this.bounds.width;
+    this.eh = this.bounds.height;
+    this.ecx = this.ew * this.originX;
+    this.ecy = this.eh * this.originY;
   };
 
   Parallax.prototype.queueCalibration = function(delay) {
@@ -297,18 +315,21 @@
   };
 
   Parallax.prototype.css = function(element, property, value) {
-    var jsProperty = null;
-    for (var i = 0, l = this.vendors.length; i < l; i++) {
-      if (this.vendors[i] !== null) {
-        jsProperty = this.camelCase(this.vendors[i][1] + '-' + property);
-      } else {
-        jsProperty = property;
-      }
-      if (element.style[jsProperty] !== undefined) {
-        element.style[jsProperty] = value;
-        break;
+    var jsProperty = this.propertyCache[property];
+    if (!jsProperty) {
+      for (var i = 0, l = this.vendors.length; i < l; i++) {
+        if (this.vendors[i] !== null) {
+          jsProperty = this.camelCase(this.vendors[i][1] + '-' + property);
+        } else {
+          jsProperty = property;
+        }
+        if (element.style[jsProperty] !== undefined) {
+          this.propertyCache[property] = jsProperty;
+          break;
+        }
       }
     }
+    element.style[jsProperty] = value;
   };
 
   Parallax.prototype.accelerate = function(element) {
@@ -318,8 +339,8 @@
   };
 
   Parallax.prototype.setPosition = function(element, x, y) {
-    x += '%';
-    y += '%';
+    x += 'px';
+    y += 'px';
     if (this.transform3DSupport) {
       this.css(element, 'transform', 'translate3d('+x+','+y+',0)');
     } else if (this.transform2DSupport) {
@@ -347,18 +368,21 @@
   };
 
   Parallax.prototype.onAnimationFrame = function() {
+    this.updateBounds();
     var dx = this.ix - this.cx;
     var dy = this.iy - this.cy;
     if ((Math.abs(dx) > this.calibrationThreshold) || (Math.abs(dy) > this.calibrationThreshold)) {
       this.queueCalibration(0);
     }
     if (this.portrait) {
-      this.mx = (this.calibrateX ? dy : this.iy) * this.scalarX;
-      this.my = (this.calibrateY ? dx : this.ix) * this.scalarY;
+      this.mx = this.calibrateX ? dy : this.iy;
+      this.my = this.calibrateY ? dx : this.ix;
     } else {
-      this.mx = (this.calibrateX ? dx : this.ix) * this.scalarX;
-      this.my = (this.calibrateY ? dy : this.iy) * this.scalarY;
+      this.mx = this.calibrateX ? dx : this.ix;
+      this.my = this.calibrateY ? dy : this.iy;
     }
+    this.mx *= this.ew / this.scalarX;
+    this.my *= this.eh / this.scalarY;
     if (!isNaN(parseFloat(this.limitX))) {
       this.mx = this.clamp(this.mx, -this.limitX, this.limitX);
     }
@@ -413,15 +437,6 @@
 
     // Calculate Mouse Input
     if (!this.orientationSupport && this.relativeInput) {
-
-      // Extract element bounds.
-      this.bounds = this.element.getBoundingClientRect();
-      this.ex = this.bounds.left;
-      this.ey = this.bounds.top;
-      this.ew = this.bounds.width;
-      this.eh = this.bounds.height;
-      this.ecx = this.ew * this.originX;
-      this.ecy = this.eh * this.originY;
 
       // Calculate input relative to the element.
       this.ix = (event.clientX - this.ex - this.ecx) / this.ecx;
