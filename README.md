@@ -84,7 +84,9 @@ In addition to the behaviours described above, there are **two** methods `enable
   data-scalar-x="2"
   data-scalar-y="8"
   data-friction-x="0.2"
-  data-friction-y="0.8">
+  data-friction-y="0.8"
+  data-origin-x="0.0"
+  data-origin-y="1.0">
   <li class="layer" data-depth="0.00"><img src="graphics/layer1.png"></li>
   <li class="layer" data-depth="0.20"><img src="graphics/layer2.png"></li>
   <li class="layer" data-depth="0.40"><img src="graphics/layer3.png"></li>
@@ -108,7 +110,9 @@ var parallax = new Parallax(scene, {
   scalarX: 2,
   scalarY: 8,
   frictionX: 0.2,
-  frictionY: 0.8
+  frictionY: 0.8,
+  originX: 0.0,
+  originY: 1.0
 });
 ```
 
@@ -124,6 +128,7 @@ parallax.invert(false, true);
 parallax.limit(false, 10);
 parallax.scalar(2, 8);
 parallax.friction(0.2, 0.8);
+parallax.origin(0.0, 1.0);
 ```
 
 ## jQuery
@@ -148,7 +153,9 @@ $('#scene').parallax({
   scalarX: 2,
   scalarY: 8,
   frictionX: 0.2,
-  frictionY: 0.8
+  frictionY: 0.8,
+  originX: 0.0,
+  originY: 1.0
 });
 ```
 ### jQuery: API
@@ -162,6 +169,7 @@ $scene.parallax('invert', false, true);
 $scene.parallax('limit', false, 10);
 $scene.parallax('scalar', 2, 8);
 $scene.parallax('friction', 0.2, 0.8);
+$scene.parallax('origin', 0.0, 1.0);
 ```
 
 ## iOS
