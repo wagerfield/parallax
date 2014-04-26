@@ -84,7 +84,9 @@
       scalarX: parseFloat(this.$context.data('scalar-x')) || null,
       scalarY: parseFloat(this.$context.data('scalar-y')) || null,
       frictionX: parseFloat(this.$context.data('friction-x')) || null,
-      frictionY: parseFloat(this.$context.data('friction-y')) || null
+      frictionY: parseFloat(this.$context.data('friction-y')) || null,
+      originX: parseFloat(this.$context.data('origin-x')) || null,
+      originY: parseFloat(this.$context.data('origin-y')) || null
     };
 
     // Delete Null Data Values
@@ -323,6 +325,11 @@
     this.limitY = y === undefined ? this.limitY : y;
   };
 
+  Plugin.prototype.origin = function(x, y) {
+    this.originX = x === undefined ? this.originX : x;
+    this.originY = y === undefined ? this.originY : y;
+  };
+
   Plugin.prototype.clamp = function(value, min, max) {
     value = Math.max(value, min);
     value = Math.min(value, max);
@@ -487,7 +494,8 @@
     friction: Plugin.prototype.friction,
     invert: Plugin.prototype.invert,
     scalar: Plugin.prototype.scalar,
-    limit: Plugin.prototype.limit
+    limit: Plugin.prototype.limit,
+    origin: Plugin.prototype.origin
   };
 
   $.fn[NAME] = function (value) {

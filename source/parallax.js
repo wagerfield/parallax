@@ -50,7 +50,9 @@
       scalarX: this.data(this.element, 'scalar-x'),
       scalarY: this.data(this.element, 'scalar-y'),
       frictionX: this.data(this.element, 'friction-x'),
-      frictionY: this.data(this.element, 'friction-y')
+      frictionY: this.data(this.element, 'friction-y'),
+      originX: this.data(this.element, 'origin-x'),
+      originY: this.data(this.element, 'origin-y')
     };
 
     // Delete Null Data Values
@@ -318,6 +320,11 @@
   Parallax.prototype.limit = function(x, y) {
     this.limitX = x === undefined ? this.limitX : x;
     this.limitY = y === undefined ? this.limitY : y;
+  };
+
+  Parallax.prototype.origin = function(x, y) {
+    this.originX = x === undefined ? this.originX : x;
+    this.originY = y === undefined ? this.originY : y;
   };
 
   Parallax.prototype.clamp = function(value, min, max) {
