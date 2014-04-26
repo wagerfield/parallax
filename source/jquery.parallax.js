@@ -187,6 +187,24 @@
         position:'relative'
       });
     }
+
+    // Hardware Accelerate Context
+    this.accelerate(this.$context);
+
+    // Setup
+    this.updateLayers();
+    this.updateDimensions();
+    this.enable();
+    this.queueCalibration(this.calibrationDelay);
+  };
+
+  Plugin.prototype.updateLayers = function() {
+
+    // Cache Layer Elements
+    this.$layers = this.$context.find('.layer');
+    this.depths = [];
+
+    // Configure Layer Styles
     this.$layers.css({
       position:'absolute',
       display:'block',
@@ -197,19 +215,13 @@
       position:'relative'
     });
 
+    // Hardware Accelerate Layers
+    this.accelerate(this.$layers);
+
     // Cache Depths
     this.$layers.each($.proxy(function(index, element) {
       this.depths.push($(element).data('depth') || 0);
     }, this));
-
-    // Hardware Accelerate Elements
-    this.accelerate(this.$context);
-    this.accelerate(this.$layers);
-
-    // Setup
-    this.updateDimensions();
-    this.enable();
-    this.queueCalibration(this.calibrationDelay);
   };
 
   Plugin.prototype.updateDimensions = function() {
@@ -459,6 +471,7 @@
   var API = {
     enable: Plugin.prototype.enable,
     disable: Plugin.prototype.disable,
+    updateLayers: Plugin.prototype.updateLayers,
     calibrate: Plugin.prototype.calibrate,
     friction: Plugin.prototype.friction,
     invert: Plugin.prototype.invert,
