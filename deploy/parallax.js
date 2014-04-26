@@ -99,14 +99,20 @@
     this.depths = [];
     this.raf = null;
 
-    // Element
+    // Element Bounds
     this.bounds = null;
     this.ex = 0;
     this.ey = 0;
     this.ew = 0;
     this.eh = 0;
+
+    // Element Center
     this.ecx = 0;
     this.ecy = 0;
+
+    // Element Range
+    this.erx = 0;
+    this.ery = 0;
 
     // Calibration
     this.cx = 0;
@@ -223,6 +229,8 @@
   Parallax.prototype.wh = null;
   Parallax.prototype.wcx = null;
   Parallax.prototype.wcy = null;
+  Parallax.prototype.wrx = null;
+  Parallax.prototype.wry = null;
   Parallax.prototype.portrait = null;
   Parallax.prototype.desktop = !navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|BB10|mobi|tablet|opera mini|nexus 7)/i);
   Parallax.prototype.vendors = [null,['-webkit-','webkit'],['-moz-','Moz'],['-o-','O'],['-ms-','ms']];
@@ -266,6 +274,8 @@
     this.wh = window.innerHeight;
     this.wcx = this.ww * this.originX;
     this.wcy = this.wh * this.originY;
+    this.wrx = Math.max(this.wcx, this.ww - this.wcx);
+    this.wry = Math.max(this.wcy, this.wh - this.wcy);
   };
 
   Parallax.prototype.updateBounds = function() {
@@ -276,6 +286,8 @@
     this.eh = this.bounds.height;
     this.ecx = this.ew * this.originX;
     this.ecy = this.eh * this.originY;
+    this.erx = Math.max(this.ecx, this.ew - this.ecx);
+    this.ery = Math.max(this.ecy, this.eh - this.ecy);
   };
 
   Parallax.prototype.queueCalibration = function(delay) {
@@ -466,26 +478,30 @@
 
   Parallax.prototype.onMouseMove = function(event) {
 
+    // Cache mouse coordinates.
+    var clientX = event.clientX;
+    var clientY = event.clientY;
+
     // Calculate Mouse Input
     if (!this.orientationSupport && this.relativeInput) {
 
-      // Calculate input relative to the element.
-      this.ix = (event.clientX - this.ex - this.ecx) / this.ecx;
-      this.iy = (event.clientY - this.ey - this.ecy) / this.ecy;
-
-      // Clip input to the element bounds.
+      // Clip mouse coordinates inside element bounds.
       if (this.clipRelativeInput) {
-        this.ix = Math.max(this.ix,-1);
-        this.ix = Math.min(this.ix, 1);
-        this.iy = Math.max(this.iy,-1);
-        this.iy = Math.min(this.iy, 1);
+        clientX = Math.max(clientX, this.ex);
+        clientX = Math.min(clientX, this.ex + this.ew);
+        clientY = Math.max(clientY, this.ey);
+        clientY = Math.min(clientY, this.ey + this.eh);
       }
+
+      // Calculate input relative to the element.
+      this.ix = (clientX - this.ex - this.ecx) / this.erx;
+      this.iy = (clientY - this.ey - this.ecy) / this.ery;
 
     } else {
 
       // Calculate input relative to the window.
-      this.ix = (event.clientX - this.wcx) / this.wcx;
-      this.iy = (event.clientY - this.wcy) / this.wcy;
+      this.ix = (clientX - this.wcx) / this.wrx;
+      this.iy = (clientY - this.wcy) / this.wry;
     }
   };
 
