@@ -1,7 +1,7 @@
 {
   "name": "parallax",
   "description": "Parallax Engine that reacts to the orientation of a smart device.",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "license": "MIT",
   "homepage": "http://wagerfield.github.io/parallax/",
   "authors": [

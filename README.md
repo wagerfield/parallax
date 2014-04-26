@@ -123,6 +123,7 @@ var scene = document.getElementById('scene');
 var parallax = new Parallax(scene);
 parallax.enable();
 parallax.disable();
+parallax.updateLayers(); // Useful for reparsing the layers in your scene if you change their data-depth value
 parallax.calibrate(false, true);
 parallax.invert(false, true);
 parallax.limit(false, 10);
@@ -164,6 +165,7 @@ $('#scene').parallax({
 var $scene = $('#scene').parallax();
 $scene.parallax('enable');
 $scene.parallax('disable');
+$scene.parallax('updateLayers');
 $scene.parallax('calibrate', false, true);
 $scene.parallax('invert', false, true);
 $scene.parallax('limit', false, 10);

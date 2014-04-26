@@ -221,6 +221,19 @@
       this.element.style.position = 'relative';
     }
 
+    // Setup
+    this.updateLayers();
+    this.updateDimensions();
+    this.enable();
+    this.queueCalibration(this.calibrationDelay);
+  };
+
+  Parallax.prototype.updateLayers = function() {
+
+    // Cache Layer Elements
+    this.layers = this.element.getElementsByClassName('layer');
+    this.depths = [];
+
     // Configure Layer Styles
     for (var i = 0, l = this.layers.length; i < l; i++) {
       var layer = this.layers[i];
@@ -233,11 +246,6 @@
       // Cache Layer Depth
       this.depths.push(this.data(layer, 'depth') || 0);
     }
-
-    // Setup
-    this.updateDimensions();
-    this.enable();
-    this.queueCalibration(this.calibrationDelay);
   };
 
   Parallax.prototype.updateDimensions = function() {
