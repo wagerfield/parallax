@@ -213,14 +213,14 @@ gulp watch
 
 ## Author
 
-Matthew Wagerfield: [@mwagerfield][twitter]
+Matthew Wagerfield: [@wagerfield][twitter]
 
 ## License
 
 Licensed under [MIT][mit]. Enjoy.
 
 [demo]: http://wagerfield.github.com/parallax/
-[twitter]: http://twitter.com/mwagerfield
+[twitter]: http://twitter.com/wagerfield
 [mit]: http://www.opensource.org/licenses/mit-license.php
 [jquery]: http://jquery.com/
 [zepto]: http://zeptojs.com/
