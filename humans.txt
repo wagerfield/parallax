@@ -1,8 +1,8 @@
 /* TEAM */
 
 Developer & Designer: Matthew Wagerfield
-Site: https://www.wagerfield.com, https://github.com/wagerfield
-Twitter: @mwagerfield
+Site: http://matthew.wagerfield.com, https://github.io/wagerfield
+Twitter: @wagerfield
 Location: Anywhere I lay my hat
 
 Designer: Claudio Guglieri
