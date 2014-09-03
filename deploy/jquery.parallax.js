@@ -86,7 +86,8 @@
       frictionX: parseFloat(this.$context.data('friction-x')) || null,
       frictionY: parseFloat(this.$context.data('friction-y')) || null,
       originX: parseFloat(this.$context.data('origin-x')) || null,
-      originY: parseFloat(this.$context.data('origin-y')) || null
+      originY: parseFloat(this.$context.data('origin-y')) || null,
+      pricision: parseFloat(this.$context.data('origin-y')) || 3 //Number pricision, default is 3, eg: 0.001
     };
 
     // Delete Null Data Values
@@ -376,6 +377,9 @@
   };
 
   Plugin.prototype.setPosition = function(element, x, y) {
+    //add pricision can improve performance :D
+    x = x.toFixed(this.pricision);
+    y = y.toFixed(this.pricision);
     x += 'px';
     y += 'px';
     if (this.transform3DSupport) {

@@ -52,7 +52,8 @@
       frictionX: this.data(this.element, 'friction-x'),
       frictionY: this.data(this.element, 'friction-y'),
       originX: this.data(this.element, 'origin-x'),
-      originY: this.data(this.element, 'origin-y')
+      originY: this.data(this.element, 'origin-y'),
+      pricision: this.data(this.element,'pricision') || 3 //Number pricision, default is 3, eg: 0.001
     };
 
     // Delete Null Data Values
@@ -366,6 +367,9 @@
   };
 
   Parallax.prototype.setPosition = function(element, x, y) {
+    //add pricision can improve performance :D
+    x = x.toFixed(this.pricision);
+    y = y.toFixed(this.pricision);
     x += 'px';
     y += 'px';
     if (this.transform3DSupport) {
