@@ -1,28 +1,16 @@
 var gulp = require('gulp'),
+    fs = require('fs'),
     plugins = require("gulp-load-plugins")();
-
-function build(stream, file) {
-  return stream
-    .pipe(plugins.jshint())
-    .pipe(plugins.jshint.reporter('jshint-stylish'))
-    .pipe(plugins.concat(file))
-    .pipe(gulp.dest('deploy'))
-    .pipe(plugins.rename({suffix: '.min'}))
-    .pipe(plugins.uglify())
-    .pipe(gulp.dest('deploy'));
-}
 
 gulp.task('build.parallax', function() {
   return build(gulp.src([
-      'LICENSE',
       'source/parallax.js',
       'source/requestAnimationFrame.js'
     ]), 'parallax.js');
 });
 
 gulp.task('build.jquery.parallax', function() {
-  return build(gulp.src([
-      'LICENSE',
+  return buildJquery(gulp.src([
       'source/jquery.parallax.js',
       'source/requestAnimationFrame.js'
     ]), 'jquery.parallax.js');
@@ -41,3 +29,33 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', ['build']);
+
+function build(stream, file) {
+  return stream
+    .pipe(plugins.concat(file))
+    .pipe(plugins.wrapUmd({ exports: 'Parallax', namespace: 'Parallax' }))
+    .pipe(plugins.header(fs.readFileSync('./LICENSE', 'utf8')))
+    .pipe(plugins.jshint())
+    .pipe(plugins.jshint.reporter('jshint-stylish'))
+    .pipe(gulp.dest('deploy'))
+    .pipe(plugins.rename({suffix: '.min'}))
+    .pipe(plugins.uglify())
+    .pipe(gulp.dest('deploy'));
+}
+
+function buildJquery(stream, file) {
+  return stream
+    .pipe(plugins.concat(file))
+    .pipe(plugins.wrapUmd({
+      exports: 'Parallax',
+      namespace: '$.fn.Parallax',
+      deps: [{ name: 'jquery', globalName: 'jQuery', paramName: '$' }]
+    }))
+    .pipe(plugins.header(fs.readFileSync('./LICENSE', 'utf8')))
+    .pipe(plugins.jshint())
+    .pipe(plugins.jshint.reporter('jshint-stylish'))
+    .pipe(gulp.dest('deploy'))
+    .pipe(plugins.rename({suffix: '.min'}))
+    .pipe(plugins.uglify())
+    .pipe(gulp.dest('deploy'));
+}
