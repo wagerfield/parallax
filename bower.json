@@ -8,7 +8,7 @@
     "Matthew Wagerfield <matthew@wagerfield.com>"
   ],
   "main": [
-    "deploy/parallax.js"
+    "source/parallax.js"
   ],
   "ignore": [
     "**/.*",
