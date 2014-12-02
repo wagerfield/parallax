@@ -1,0 +1,180 @@
+//============================================================
+//
+// Parallax.js: Constants
+//
+// @description Global constants for Parallax.js
+// @version 1.00
+//
+// @author matthew@wagerfield.com (Matthew Wagerfield)
+//
+// ---------- INDEX ----------
+//
+// Paths
+// Dimensions
+// Colours
+// Font Families
+// Font Weights
+//
+//============================================================
+
+
+
+//----------------------------------------
+// Paths
+//----------------------------------------
+
+$GRAPHICS_PATH: "../../graphics/"
+$IMAGES_PATH: "../../images/"
+$FONTS_PATH: "../../fonts/"
+
+
+
+//----------------------------------------
+// Dimensions
+//----------------------------------------
+
+// Global
+$LINE_HEIGHT: 1.4em
+$PANEL_RADIUS: 6px
+$BUTTON_SIZE: 48px
+$MAX_WIDTH: 400px
+$MIN_HEIGHT: 460px
+$PERSPECTIVE: 1000px
+
+// Cross
+$CROSS_LENGTH: 24px
+$CROSS_THICKNESS: 4px
+$CROSS_RADIUS: $CROSS_THICKNESS/2
+
+// iPhone
+$IPHONE4_WIDTH: 320px
+$IPHONE4_HEIGHT: 480px
+$IPHONE5_HEIGHT: 568px
+
+// iPad
+$IPAD_WIDTH: 768px
+$IPAD_HEIGHT: 1024px
+
+// Mobile
+$MOBILE_FONT_SIZE: 12px
+
+// Phablet
+$PHABLET_FONT_SIZE: 12px
+
+// Tablet
+$TABLET_FONT_SIZE: 15px
+
+// Desktop
+$DESKTOP_FONT_SIZE: 15px
+
+// Cinema
+$CINEMA_FONT_SIZE: 16px
+
+
+
+//----------------------------------------
+// Scene
+//----------------------------------------
+
+$LAYER_START: 1
+$LAYER_COUNT: 10
+
+// Wave
+$WAVE_WIDTH: 800px
+$WAVE_HEIGHT: 320px
+$WAVE_OFFSET: -0.25
+$WAVE_PERSPECTIVE: 0.25
+
+// Lighthouse
+$LIGHTHOUSE_WIDTH: 320px
+$LIGHTHOUSE_HEIGHT: 560px
+
+// Boards
+$BOARD_WIDTH: 280px
+$BOARD_HEIGHT: 280px
+
+
+
+//----------------------------------------
+// Breakpoints
+//----------------------------------------
+
+$PHABLET_BREAKPOINT: 400px
+$TABLET_BREAKPOINT: 600px
+$DESKTOP_BREAKPOINT: 900px
+$CINEMA_BREAKPOINT: 1200px
+
+
+
+//----------------------------------------
+// Media Queries
+//----------------------------------------
+
+$PRINT_QUERY: "print"
+$MOBILE_QUERY: "all and (max-width:#{$PHABLET_BREAKPOINT})"
+$PHABLET_QUERY: "all and (min-width:#{$PHABLET_BREAKPOINT})"
+$TABLET_QUERY: "all and (min-width:#{$TABLET_BREAKPOINT})"
+$DESKTOP_QUERY: "all and (min-width:#{$DESKTOP_BREAKPOINT})"
+$CINEMA_QUERY: "all and (min-width:#{$CINEMA_BREAKPOINT})"
+
+$PORTRAIT_QUERY: "only screen and (orientation:portrait)"
+$LANDSCAPE_QUERY: "only screen and (orientation:landscape)"
+$RETINA_QUERY: "(-webkit-min-device-pixel-ratio:2), (min-resolution: 192dppx)"
+
+
+
+//----------------------------------------
+// Colours
+//----------------------------------------
+
+// Greyscale
+$BLACK: #000000
+$STEEL: #666666
+$METAL: #999999
+$STONE: #F2F2F2
+$WHITE: #FFFFFF
+
+// Colours
+$NIGHTSHADE: #1D1F27
+$EMBER: #D92400
+
+// Transparencies
+$FROSTED_GLASS: rgba($WHITE,0.15)
+$SMOKED_GLASS: rgba($BLACK,0.65)
+
+// Decoration
+$BORDER: 1px solid rgba($BLACK,0.2)
+$BOX_SHADOW: 0 2px 8px rgba($BLACK,0.6)
+
+
+
+//----------------------------------------
+// Font Families
+//----------------------------------------
+
+$ROBOTO_SLAB_FONT_FAMILY: "Roboto Slab", sans-serif
+$DOSIS_FONT_FAMILY: "Dosis", sans-serif
+$ICONS_FONT_FAMILY: "icons"
+
+
+
+//----------------------------------------
+// Font Weights
+//----------------------------------------
+
+$THIN: 100
+$LIGHT: 300
+$REGULAR: 400
+$MEDIUM: 500
+$SEMIBOLD: 600
+$BOLD: 700
+
+
+
+//----------------------------------------
+// Animation
+//----------------------------------------
+
+$BUTTON_STATIC: 0.6s $easeOutQuart
+$BUTTON_HOVER: 0.2s $easeOutQuart
+$BUTTON_TAP: 0.0s $easeOutQuad

@@ -1,0 +1,106 @@
+//============================================================
+//
+// Parallax.js: Awards Styles
+//
+// @description Awards styling
+// @version 1.00
+//
+// @author matthew@wagerfield.com (Matthew Wagerfield)
+//
+// ---------- INDEX ----------
+//
+// Elements
+// Classes
+//
+//============================================================
+
+#awwwards
+  position: absolute
+  z-index: 9999
+  top: 40px
+  left: 0
+
+  a
+    background-repeat: no-repeat
+    background-position: 0 0
+    text-indent: -999em
+    overflow: hidden
+    display: block
+    height: 105px
+    width: 70px
+
+  // Black
+
+  &.left.black a
+    background-image: url(#{$GRAPHICS_PATH}awwwards_sotd_black_left.png)
+
+  &.right.black a
+    background-image: url(#{$GRAPHICS_PATH}awwwards_sotd_black_right.png)
+
+  // White
+
+  &.left.white a
+    background-image: url(#{$GRAPHICS_PATH}awwwards_sotd_white_left.png)
+
+  &.right.white a
+    background-image: url(#{$GRAPHICS_PATH}awwwards_sotd_white_right.png)
+
+  // Green
+
+  &.left.green a
+    background-image: url(#{$GRAPHICS_PATH}awwwards_sotd_green_left.png)
+
+  &.right.green a
+    background-image: url(#{$GRAPHICS_PATH}awwwards_sotd_green_right.png)
+
+
+
+//----------------------------------------
+// Mobile
+//----------------------------------------
+
+@media (max-width: 767px)
+
+  #awwwards
+    display: none
+
+
+
+//----------------------------------------
+// Retina
+//----------------------------------------
+
+@media #{$RETINA_QUERY}
+
+  #awwwards a
+    -webkit-background-size: 70px 105px
+    -moz-background-size: 70px 105px
+    -ie-background-size: 70px 105px
+    -o-background-size: 70px 105px
+    background-size: 70px 105px
+
+    // Black
+
+    &.left.black a
+      background-image: url(#{$GRAPHICS_PATH}awwwards_sotd_black_left2x.png)
+
+    &.right.black a
+      background-image: url(#{$GRAPHICS_PATH}awwwards_sotd_black_right2x.png)
+
+    // White
+
+    &.left.white a
+      background-image: url(#{$GRAPHICS_PATH}awwwards_sotd_white_left2x.png)
+
+    &.right.white a
+      background-image: url(#{$GRAPHICS_PATH}awwwards_sotd_white_right2x.png)
+
+    // Green
+
+    &.left.green a
+      background-image: url(#{$GRAPHICS_PATH}awwwards_sotd_green_left2x.png)
+
+    &.right.green a
+      background-image: url(#{$GRAPHICS_PATH}awwwards_sotd_green_right2x.png)
+
+

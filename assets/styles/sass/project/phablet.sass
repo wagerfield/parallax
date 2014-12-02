@@ -1,0 +1,90 @@
+//============================================================
+//
+// Parallax.js: Phablet Styles
+//
+// @description Phablet styling
+// @version 1.00
+//
+// @author matthew@wagerfield.com (Matthew Wagerfield)
+//
+// ---------- INDEX ----------
+//
+// Elements
+// Classes
+//
+//============================================================
+
+@media #{$PHABLET_QUERY}
+
+  $MIN_HEIGHT: 360px
+
+  //----------------------------------------
+  // Elements
+  //----------------------------------------
+
+  html
+    font-size: $PHABLET_FONT_SIZE
+
+
+
+  //----------------------------------------
+  // Wrapper
+  //----------------------------------------
+
+  .wrapper
+    min-height: $MIN_HEIGHT
+
+
+
+  //----------------------------------------
+  // About
+  //----------------------------------------
+
+  .about
+    .panel
+      header:before
+        background-size: background-size(110px, 150px, 0.6)
+
+
+
+  //----------------------------------------
+  // Toggle
+  //----------------------------------------
+
+  .toggle
+    bottom: 12%
+
+
+
+  //----------------------------------------
+  // Prompt
+  //----------------------------------------
+
+  .prompt
+    .panel
+      img
+        width: 80px
+
+
+
+  //----------------------------------------
+  // Scene
+  //----------------------------------------
+
+  .scene
+    min-height: $MIN_HEIGHT
+
+
+
+  //----------------------------------------
+  // Layers
+  //----------------------------------------
+
+  @for $i from $LAYER_START through $LAYER_COUNT
+    $RATIO: ($i - $LAYER_START) / ($LAYER_COUNT - $LAYER_START)
+
+    .rope.depth-#{$i*10}
+      top: (1 - $RATIO) * 35% - 25%
+      .hanger
+        $SCALE: 0.3+$RATIO*0.3
+        +transform("scale(#{$SCALE})")

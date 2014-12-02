@@ -286,12 +286,14 @@
       this.enabled = true;
       if (this.orientationSupport) {
         this.portrait = null;
+        this.$context.attr('data-mode', 'orientation');
         window.addEventListener('deviceorientation', this.onDeviceOrientation);
         setTimeout(this.onOrientationTimer, this.supportDelay);
       } else {
         this.cx = 0;
         this.cy = 0;
         this.portrait = false;
+        this.$context.attr('data-mode', 'cursor');
         window.addEventListener('mousemove', this.onMouseMove);
       }
       window.addEventListener('resize', this.onWindowResize);

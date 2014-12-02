@@ -1,0 +1,712 @@
+//============================================================
+//
+// SASS CSS3 Mixins
+//
+// @description CSS3 mixins for projects using SASS
+// @see http://sass-lang.com/
+// @version 2.00
+//
+// @author Matthew Wagerfield
+// @see http://matthew.wagerfield.com
+// @see http://twitter.com/mwagerfield
+//
+// ---------- INDEX ----------
+//
+// Display:
+// @mixin display-box
+// @mixin box-orient
+// @mixin box-pack
+// @mixin box-align
+// @mixin box-flex
+// @mixin box-sizing
+// @mixin user-select
+// @mixin appearance
+//
+// Decoration:
+// @mixin border-radius
+// @mixin box-shadow
+// @mixin text-shadow
+// @mixin hyphens
+// @mixin linear-gradient
+// @mixin radial-gradient
+//
+// Transformation:
+// @mixin transform
+// @mixin transform-origin
+// @mixin transform-style
+// @mixin perspective
+// @mixin perspective-origin
+// @mixin backface-visibility
+// @mixin matrix
+// @mixin translate
+// @mixin scale
+// @mixin rotate
+// @mixin skew
+//
+// Animation:
+// @mixin transition
+// @mixin animation
+// @mixin easing
+//
+//============================================================
+
+
+
+// Default Browser Support
+$defaultWebkitSupport: true
+$defaultFirefoxSupport: true
+$defaultExplorerSupport: false
+$defaultOperaSupport: false
+
+
+
+//============================================================
+//
+// prefix-property
+//
+// @param property            :  String
+// @param value               :  String
+// @param supportWebkit       :  Boolean
+// @param supportFirefox      :  Boolean
+// @param supportExplorer     :  Boolean
+// @param supportOpera        :  Boolean
+//
+//============================================================
+
+=prefix-property($property, $value, $supportWebkit: $defaultWebkitSupport, $supportFirefox: $defaultFirefoxSupport, $supportExplorer: $defaultExplorerSupport, $supportOpera: $defaultOperaSupport)
+  @if $supportWebkit == true
+    -webkit-#{$property}: $value
+  @if $supportFirefox == true
+    -moz-#{$property}: $value
+  @if $supportExplorer == true
+    -ms-#{$property}: $value
+  @if $supportOpera == true
+    -o-#{$property}: $value
+  #{$property}: $value
+
+
+
+//============================================================
+//
+// prefix-value
+//
+// @param property            :  String
+// @param value               :  String
+// @param supportWebkit       :  Boolean
+// @param supportFirefox      :  Boolean
+// @param supportExplorer     :  Boolean
+// @param supportOpera        :  Boolean
+//
+//============================================================
+
+=prefix-value($property, $value, $supportWebkit: $defaultWebkitSupport, $supportFirefox: $defaultFirefoxSupport, $supportExplorer: $defaultExplorerSupport, $supportOpera: $defaultOperaSupport)
+  @if $supportWebkit
+    #{$property}: -webkit-#{$value}
+  @if $supportFirefox
+    #{$property}: -moz-#{$value}
+  @if $supportExplorer
+    #{$property}: -ms-#{$value}
+  @if $supportOpera
+    #{$property}: -o-#{$value}
+  #{$property}: $value
+
+
+
+//============================================================
+//
+// display-box
+//
+// @see http://www.w3.org/TR/css3-flexbox/
+// @see http://www.html5rocks.com/en/tutorials/flexbox/quick/
+//
+//============================================================
+
+=display-box
+  +prefix-value(display, box)
+
+
+
+//============================================================
+//
+// box-orient
+//
+// @param value               :  horizontal |
+//                               vertical   |
+//                               inherit
+//
+// @see http://www.w3.org/TR/css3-flexbox/
+// @see http://www.html5rocks.com/en/tutorials/flexbox/quick/
+//
+//============================================================
+
+=box-orient($arguments)
+  +prefix-property(box-orient, unquote($arguments))
+
+
+
+//============================================================
+//
+// box-pack
+//
+// @param value               :  start   |
+//                               end     |
+//                               center  |
+//                               justify
+//
+// @see http://www.w3.org/TR/css3-flexbox/
+// @see http://www.html5rocks.com/en/tutorials/flexbox/quick/
+//
+//============================================================
+
+=box-pack($arguments)
+  +prefix-property(box-pack, unquote($arguments))
+
+
+
+//============================================================
+//
+// box-align
+//
+// @param value               :  start    |
+//                               end      |
+//                               center   |
+//                               baseline |
+//                               stretch
+//
+// @see http://www.w3.org/TR/css3-flexbox/
+// @see http://www.html5rocks.com/en/tutorials/flexbox/quick/
+//
+//============================================================
+
+=box-align($arguments)
+  +prefix-property(box-align, unquote($arguments))
+
+
+
+//============================================================
+//
+// box-flex
+//
+// @param value               :  0 | Integer
+//
+// @see http://www.w3.org/TR/css3-flexbox/
+// @see http://www.html5rocks.com/en/tutorials/flexbox/quick/
+//
+//============================================================
+
+=box-flex($arguments)
+  +prefix-property(box-flex, unquote($arguments))
+
+
+
+//============================================================
+//
+// box-sizing
+//
+// @param value               :  content-box |
+//                               padding-box |
+//                               border-box  |
+//                               inherit
+//
+// @see http://www.w3.org/TR/css3-ui/#box-sizing
+//
+//============================================================
+
+=box-sizing($arguments)
+  +prefix-property(box-sizing, unquote($arguments))
+
+
+
+//============================================================
+//
+// user-select
+//
+// @param value               :  none     |
+//                               text     |
+//                               toggle   |
+//                               element  |
+//                               elements |
+//                               all      |
+//                               inherit
+//
+// @see http://www.w3.org/TR/2000/WD-css3-userint-20000216#user-select
+//
+//============================================================
+
+=user-select($arguments)
+  +prefix-property(user-select, unquote($arguments))
+  +prefix-property(touch-callout, unquote($arguments), true, false, false, false)
+
+
+
+//============================================================
+//
+// appearance
+//
+// @param value               :  button         |
+//                               push-button    |
+//                               hyperlink      |
+//                               radio-button   |
+//                               checkbox       |
+//                               pop-up-menu    |
+//                               list-menu      |
+//                               radio-group    |
+//                               checkbox-group |
+//                               field          |
+//                               password       |
+//                               normal         |
+//                               inherit        |
+//                               none
+//
+// @see http://www.w3.org/TR/css3-ui/#appearance
+// @see http://www.cssportal.com/css-properties/appearance.htm
+// @see https://developer.mozilla.org/en/CSS/-moz-appearance
+//
+//============================================================
+
+=appearance($arguments)
+  +prefix-property(appearance, unquote($arguments), true, true, false, false)
+
+
+
+//============================================================
+//
+// border-radius
+//
+// @param top-left-radius     :  px, em, %
+// @param top-right-radius    :  px, em, %
+// @param bottom-right-radius :  px, em, %
+// @param bottom-left-radius  :  px, em, %
+//
+// @see http://www.w3.org/TR/css3-background/#border-radius
+//
+//============================================================
+
+=border-radius($arguments)
+  +prefix-property(border-radius, unquote($arguments))
+  +prefix-property(background-clip, padding-box, true, true, false, false)
+
+
+
+//============================================================
+//
+// box-shadow
+//
+// @param color               :  #000, rgba, hsla
+// @param horizontal-offset   :  px, em
+// @param vertical-offset     :  px, em
+// @param blur-radius         :  px, em
+// @param spread-distance     :  px, em
+// @param inset               :  inset
+//
+// @see http://www.w3.org/TR/css3-background/#box-shadow
+//
+//============================================================
+
+=box-shadow($arguments)
+  +prefix-property(box-shadow, unquote($arguments))
+
+
+
+//============================================================
+//
+// text-shadow
+//
+// @param color               :  #000, rgba, hsla
+// @param horizontal-offset   :  px, em
+// @param vertical-offset     :  px, em
+// @param blur-radius         :  px, em
+//
+// @see http://www.w3.org/TR/css3-text/#text-shadow
+//
+//============================================================
+
+=text-shadow($arguments)
+  +prefix-property(text-shadow, unquote($arguments), false, false, false, false)
+
+
+
+//============================================================
+//
+// hyphens
+//
+// @param value               :  none | manual | auto
+//
+// @see http://www.w3.org/TR/css3-text/#hyphens
+//
+//============================================================
+
+=hyphens($arguments)
+  +prefix-property(hyphens, unquote($arguments))
+
+
+
+//============================================================
+//
+// linear-gradient
+//
+// @param angle               :  top, left, 90deg
+// @param colorA              :  #000 0%, red 0%
+// @param colorB              :  #000 50%, red 50%
+// @param colorC              :  #000 100%, red 100%
+//
+// @example +linear-gradient("top, crimson 0%, black 100%")
+//
+// @see http://dev.w3.org/csswg/css3-images/#linear-gradients
+//
+//============================================================
+
+=linear-gradient($arguments)
+  +prefix-value(background-image, linear-gradient(unquote($arguments)))
+
+
+
+//============================================================
+//
+// radial-gradient
+//
+// @param position            :  center, left top, 50% 50%
+// @param shape               :  circle, ellipse, 100% 75%
+// @param size                :  closest-side    |
+//                               farthest-side   |
+//                               closest-corner  |
+//                               farthest-corner |
+// @param colorA              :  #000 0%, red 0%
+// @param colorB              :  #000 50%, red 50%
+// @param colorC              :  #000 100%, red 100%
+//
+// @example +radial-gradient("50% 50%, circle, crimson 0%, black 100%")
+//
+// @see http://dev.w3.org/csswg/css3-images/#radial-gradients
+//
+//============================================================
+
+=radial-gradient($arguments)
+  +prefix-value(background-image, radial-gradient(unquote($arguments)))
+
+
+
+//============================================================
+//
+// transform
+//
+// @param functions           :  matrix()
+//                            :  translate()
+//                            :  scale()
+//                            :  rotate()
+//                            :  skew()
+//
+// @see http://www.w3.org/TR/css3-2d-transforms/
+//
+//============================================================
+
+=transform($arguments)
+  +prefix-property(transform, unquote($arguments))
+
+
+
+//============================================================
+//
+// transform-origin
+//
+// @param value               :  50% 50% |
+//                               left    |
+//                               center  |
+//                               right   |
+//                               px      |
+//                               em      |
+//                               %
+//
+// @see http://www.w3.org/TR/css3-3d-transforms/#transform-origin-property
+//
+//============================================================
+
+=transform-origin($arguments)
+  +prefix-property(transform-origin, unquote($arguments))
+
+
+
+//============================================================
+//
+// transform-style
+//
+// @param value               :  preserve-3d | flat
+//
+// @see http://www.w3.org/TR/css3-3d-transforms/#transform-style-property
+//
+//============================================================
+
+=transform-style($arguments)
+  +prefix-property(transform-style, unquote($arguments))
+
+
+
+//============================================================
+//
+// perspective
+//
+// @param value               :  none | 0, 1, 100, 1000, etc
+//
+// @see http://www.w3.org/TR/css3-3d-transforms/#perspective-property
+//
+//============================================================
+
+=perspective($arguments)
+  +prefix-property(perspective, unquote($arguments))
+
+
+
+//============================================================
+//
+// perspective-origin
+//
+// @param value               :  left   |
+//                               center |
+//                               right  |
+//                               px     |
+//                               em     |
+//                               %
+//
+// @see http://www.w3.org/TR/css3-3d-transforms/#perspective-origin-property
+//
+//============================================================
+
+=perspective-origin($arguments)
+  +prefix-property(perspective-origin, unquote($arguments))
+
+
+
+//============================================================
+//
+// backface-visibility
+//
+// @param value               :  visible | hidden
+//
+// @see http://www.w3.org/TR/css3-3d-transforms/#backface-visibility-property
+//
+//============================================================
+
+=backface-visibility($arguments)
+  +prefix-property(backface-visibility, unquote($arguments))
+
+
+
+//============================================================
+//
+// matrix
+//
+// @param a                   :  Number
+// @param b                   :  Number
+// @param c                   :  Number
+// @param d                   :  Number
+// @param e                   :  Number
+// @param f                   :  Number
+//
+// http://www.w3.org/TR/css3-3d-transforms/#transform-functions
+//
+//============================================================
+
+=matrix($arguments)
+  +transform(matrix(unquote($arguments)))
+
+
+
+//============================================================
+//
+// translate
+//
+// @param translate-x         :  px
+// @param translate-y         :  px
+//
+// http://www.w3.org/TR/css3-3d-transforms/#transform-functions
+//
+//============================================================
+
+=translate($arguments)
+  +transform(translate(unquote($arguments)))
+
+
+
+//============================================================
+//
+// scale
+//
+// @param scale-x             :  0.5, 2, etc
+// @param scale-y             :  0.5, 2, etc
+//
+// http://www.w3.org/TR/css3-3d-transforms/#transform-functions
+//
+//============================================================
+
+=scale($arguments)
+  +transform(scale(unquote($arguments)))
+
+
+
+//============================================================
+//
+// rotate
+//
+// @param angle               :  0deg
+//
+// http://www.w3.org/TR/css3-3d-transforms/#transform-functions
+//
+//============================================================
+
+=rotate($arguments)
+  +transform(rotate(unquote($arguments)))
+
+
+
+//============================================================
+//
+// skew
+//
+// @param angle-x             :  0deg
+// @param angle-y             :  0deg
+//
+// http://www.w3.org/TR/css3-3d-transforms/#transform-functions
+//
+//============================================================
+
+=skew($arguments)
+  +transform(skew(unquote($arguments)))
+
+
+
+//============================================================
+//
+// transition
+//
+// @param property            :  all, left, opacity, etc
+// @param duration            :  1s, 1000ms
+// @param timing-function     :  linear, ease-in-out, etc
+// @param delay               :  1s, 1000ms
+//
+// @see http://www.w3.org/TR/css3-transitions/
+//
+//============================================================
+
+=transition($arguments)
+  +prefix-property(transition, unquote($arguments))
+
+
+
+//============================================================
+//
+// animation
+//
+// @param name                :  String
+// @param duration            :  0.5s, 1.8s, 2000ms
+// @param timing-function     :  ease         |
+//                               linear       |
+//                               ease-in      |
+//                               ease-out     |
+//                               ease-in-out  |
+//                               step-start   |
+//                               step-end     |
+//                               cubic-bezier
+// @param delay               :  0.5s, 1.8s, 2000ms
+// @param iteration-count     :  infinite     |
+//                               number
+// @param direction           :  normal       |
+//                               reverse      |
+//                               alternate    |
+//                               alternate-reverse
+// @param fill mode           :  none         |
+//                               forwards     |
+//                               backwards    |
+//                               both
+//
+// @see http://www.w3.org/TR/css3-animations/
+//
+//============================================================
+
+=animation($arguments)
+  +prefix-property(animation, unquote($arguments))
+
+
+
+//============================================================
+//
+// easing
+//
+// Thanks to Robert Penner for his sterling work on easing,
+// and to Matthew Lein for converting these functions into
+// approximated cubic-bezier functions. Respect.
+//
+// @see http://robertpenner.com/
+// @see http://matthewlein.com/ceaser/
+//
+//============================================================
+
+// Cubic
+$easeInCubic    : cubic-bezier(0.550, 0.055, 0.675, 0.190)
+$easeOutCubic   : cubic-bezier(0.215, 0.610, 0.355, 1.000)
+$easeInOutCubic : cubic-bezier(0.645, 0.045, 0.355, 1.000)
+
+// Circ
+$easeInCirc     : cubic-bezier(0.600, 0.040, 0.980, 0.335)
+$easeOutCirc    : cubic-bezier(0.075, 0.820, 0.165, 1.000)
+$easeInOutCirc  : cubic-bezier(0.785, 0.135, 0.150, 0.860)
+
+// Expo
+$easeInExpo     : cubic-bezier(0.950, 0.050, 0.795, 0.035)
+$easeOutExpo    : cubic-bezier(0.190, 1.000, 0.220, 1.000)
+$easeInOutExpo  : cubic-bezier(1.000, 0.000, 0.000, 1.000)
+
+// Quad
+$easeInQuad     : cubic-bezier(0.550, 0.085, 0.680, 0.530)
+$easeOutQuad    : cubic-bezier(0.250, 0.460, 0.450, 0.940)
+$easeInOutQuad  : cubic-bezier(0.455, 0.030, 0.515, 0.955)
+
+// Quart
+$easeInQuart    : cubic-bezier(0.895, 0.030, 0.685, 0.220)
+$easeOutQuart   : cubic-bezier(0.165, 0.840, 0.440, 1.000)
+$easeInOutQuart : cubic-bezier(0.770, 0.000, 0.175, 1.000)
+
+// Quint
+$easeInQuint    : cubic-bezier(0.755, 0.050, 0.855, 0.060)
+$easeOutQuint   : cubic-bezier(0.230, 1.000, 0.320, 1.000)
+$easeInOutQuint : cubic-bezier(0.860, 0.000, 0.070, 1.000)
+
+// Sine
+$easeInSine     : cubic-bezier(0.470, 0.000, 0.745, 0.715)
+$easeOutSine    : cubic-bezier(0.390, 0.575, 0.565, 1.000)
+$easeInOutSine  : cubic-bezier(0.445, 0.050, 0.550, 0.950)
+
+// Back
+$easeInBack     : cubic-bezier(0.600, -0.280, 0.735, 0.045)
+$easeOutBack    : cubic-bezier(0.175,  0.885, 0.320, 1.275)
+$easeInOutBack  : cubic-bezier(0.680, -0.550, 0.265, 1.550)
+
+
+
+//============================================================
+//
+// Copyright (C) 2012 Matthew Wagerfield
+//
+// Permission is hereby granted, free of charge, to any
+// person obtaining a copy of this software and associated
+// documentation files (the "Software"), to deal in the
+// Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute,
+// sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do
+// so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice
+// shall be included in all copies or substantial portions
+// of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY
+// OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+// FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
+// EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+// FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+// AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+// OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//============================================================
