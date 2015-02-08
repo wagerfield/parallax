@@ -4,6 +4,8 @@ Parallax Engine that reacts to the orientation of a smart device. Where no gyros
 
 Check out this **[demo][demo]** to see it in action!
 
+[![Build Status](https://travis-ci.org/xenyal/parallax.svg?branch=master)](https://travis-ci.org/xenyal/parallax)
+
 ## Setup
 
 Create a list of elements giving each item that you want to move within your parallax scene a class of `layer` and a `data-depth` attribute specifying its depth within the scene. A depth of **0** will cause the layer to remain stationary, and a depth of **1** will cause the layer to move by the total effect of the calculated motion. Values inbetween **0** and **1** will cause the layer to move by an amount relative to the supplied ratio.
