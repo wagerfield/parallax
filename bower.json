@@ -11,11 +11,13 @@
   "ignore": [
     "**/*.png",
     "**/*.psd",
+    "**/*.ico",
     "gulpfile.js",
     "assets",
     "examples",
     "humans.txt",
-    "**/*.html"
+    "**/*.html",
+    ".gitignore"
   ],
   "keywords": [
     "parallax",
