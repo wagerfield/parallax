@@ -8,6 +8,15 @@
   "main": [
     "deploy/parallax.js"
   ],
+  "ignore": [
+    "**/*.png",
+    "**/*.psd",
+    "gulpfile.js",
+    "assets",
+    "examples",
+    "humans.txt",
+    "**/*.html"
+  ],
   "keywords": [
     "parallax",
     "gyroscope",
