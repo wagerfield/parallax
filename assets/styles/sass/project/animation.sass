@@ -1,0 +1,139 @@
+//============================================================
+//
+// Parallax.js: Animation Styles
+//
+// @description Animation styling
+// @version 1.00
+//
+// @author matthew@wagerfield.com (Matthew Wagerfield)
+//
+// ---------- INDEX ----------
+//
+// Universal
+// Keyframes
+// Mouse
+// Touch
+//
+//============================================================
+
+a,button
+  +transition("color #{$BUTTON_STATIC}, background-color #{$BUTTON_STATIC}, opacity #{$BUTTON_STATIC}")
+
+.cross,.x,.y
+  +transition("all 0.3s #{$easeOutQuart}")
+
+.about
+  .panel,
+  .cables
+    +transition("all 0.8s #{$easeInOutQuart}")
+
+
+
+//----------------------------------------
+// Keyframes
+//----------------------------------------
+
++keyframes("phase")
+  0%
+    opacity: 1
+  25%
+    opacity: 0.4
+  50%
+    opacity: 0.8
+  75%
+    opacity: 0.4
+  100%
+    opacity: 1
+
++keyframes("tilt")
+  $ROTATION_X: 30deg
+  $ROTATION_Y: 30deg
+  $ROTATION_Z: 20deg
+  0%
+    +transform("rotateX(-#{$ROTATION_X})")
+  25%
+    +transform("rotateX( #{$ROTATION_X})")
+  50%
+    +transform("rotateY(-#{$ROTATION_Y})")
+  75%
+    +transform("rotateY( #{$ROTATION_Y})")
+  100%
+    +transform("rotateZ( #{$ROTATION_Z})")
+
++keyframes("wave")
+  $OFFSET: 10%
+  0%
+    +transform("rotateZ(0deg) translate3d(0,#{$OFFSET},0) rotateZ(0deg)")
+  100%
+    +transform("rotateZ(360deg) translate3d(0,#{$OFFSET},0) rotateZ(-360deg)")
+
++keyframes("lighthouse")
+  $ROTATION: 10deg
+  $OFFSET: 15%
+  0%
+    +transform("translate3d(#{$OFFSET},0,0) rotateZ(#{$ROTATION})")
+  100%
+    +transform("translate3d(-#{$OFFSET},0,0) rotateZ(-#{$ROTATION})")
+
++keyframes("swing")
+  $ROTATION: 10deg
+  0%
+    +transform("rotateZ(#{$ROTATION})")
+  100%
+    +transform("rotateZ(-#{$ROTATION})")
+
+
+
+//============================================================
+//
+// Mouse
+//
+//============================================================
+
+html.mouse
+
+  a:hover,button:hover
+    +transition("color #{$BUTTON_HOVER}, background-color #{$BUTTON_HOVER}, opacity #{$BUTTON_HOVER}")
+
+  a:hover
+    color: lighten($EMBER,25%)
+
+  button:hover
+    background-color: $EMBER
+    color: $WHITE
+
+  .toggle:hover
+    .x,.y
+      background-color: $WHITE
+
+  .links a:hover
+    background-color: $EMBER
+    color: $WHITE
+
+
+
+//============================================================
+//
+// Touch
+//
+//============================================================
+
+html.touch
+
+  a.tap,button.tap
+    +transition("color #{$BUTTON_TAP}, background-color #{$BUTTON_TAP}, opacity #{$BUTTON_TAP}")
+
+  a.tap
+    color: lighten($EMBER,25%)
+
+  button.tap
+    background-color: $EMBER
+    color: $WHITE
+
+  .toggle.tap
+    .x,.y
+      background-color: $WHITE
+
+  .links a.tap
+    background-color: $EMBER
+    color: $WHITE

@@ -1,0 +1,92 @@
+//============================================================
+//
+// Parallax.js: Cinema Styles
+//
+// @description Cinema styling
+// @version 1.00
+//
+// @author matthew@wagerfield.com (Matthew Wagerfield)
+//
+// ---------- INDEX ----------
+//
+// Elements
+// Classes
+//
+//============================================================
+
+@media #{$CINEMA_QUERY}
+
+  $MAX_WIDTH: 620px
+
+  //----------------------------------------
+  // Elements
+  //----------------------------------------
+
+  html
+    font-size: $CINEMA_FONT_SIZE
+
+
+
+  //----------------------------------------
+  // Center
+  //----------------------------------------
+
+  .center
+    max-width: $MAX_WIDTH
+
+
+
+  //----------------------------------------
+  // About
+  //----------------------------------------
+
+  .about
+    .panel
+      &:after
+        background-size: background-size(280px, 280px, 1.0)
+        height: 200px
+        width: 170px
+      header
+        &:before
+          background-size: background-size(110px, 150px, 0.85)
+
+
+
+  //----------------------------------------
+  // Prompt
+  //----------------------------------------
+
+  .prompt
+    .panel
+      width: 240px
+
+
+
+  //----------------------------------------
+  // Scene
+  //----------------------------------------
+
+  .lighthouse
+    +scale($LIGHTHOUSE_WIDTH, $LIGHTHOUSE_HEIGHT, 0.7)
+
+  .light
+    +scale(400px, 400px, 1.0, -0.5, -0.5)
+
+
+
+  //----------------------------------------
+  // Layers
+  //----------------------------------------
+
+  @for $i from $LAYER_START through $LAYER_COUNT
+    $RATIO: ($i - $LAYER_START) / ($LAYER_COUNT - $LAYER_START)
+    $SIZE: $i/$LAYER_COUNT
+
+    .wave.depth-#{$i*10}
+      +asset($WAVE_WIDTH, $WAVE_HEIGHT, $WAVE_OFFSET, $WAVE_PERSPECTIVE, $SIZE, 0.9, 0, 0, false)
+
+    .rope.depth-#{$i*10}
+      top: (1 - $RATIO) * 30% - 25%
+      .hanger
+        $SCALE: 0.6+$RATIO*0.7
+        +transform("scale(#{$SCALE})")

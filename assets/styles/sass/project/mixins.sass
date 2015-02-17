@@ -1,0 +1,213 @@
+//============================================================
+//
+// Parallax.js: Mixins
+//
+// @description Defines project related variables and mixins
+//
+// @version 1.00
+//
+// @author matthew@wagerfield.com (Matthew Wagerfield)
+//
+// ---------- INDEX ----------
+//
+// @function strip
+// @function font-size
+//
+// @mixin font-face
+// @mixin clearfix
+// @mixin guides
+// @mixin margins
+// @mixin icon
+// @mixin antialias
+// @mixin font-feature-settings
+// @mixin dash
+// @mixin selection
+//
+//============================================================
+
+@function strip($value)
+  @return $value / ($value * 0 + 1)
+
+@function font-size($base, $value)
+  @return $value / $base + em
+
+@function background-size($width, $height, $scalar)
+  @return ($width * $scalar) ($height * $scalar)
+
+
+
+//============================================================
+//
+// font-face
+//
+// @param folder        : string
+// @param family        : string
+// @param weight        : normal | bold | 100 | 200 | 300...
+// @param style         : normal | italic
+//
+//============================================================
+
+=font-face($folder, $file, $family, $weight: normal, $style: normal)
+  $EOT_PATH: "#{$FONTS_PATH}#{$folder}/#{$file}.eot"
+  $EOT_FORMAT: "embedded-opentype"
+  $WOFF_PATH: "#{$FONTS_PATH}#{$folder}/#{$file}.woff"
+  $WOFF_FORMAT: "woff"
+  $TTF_PATH: "#{$FONTS_PATH}#{$folder}/#{$file}.ttf"
+  $TTF_FORMAT: "truetype"
+  $SVG_PATH: "#{$FONTS_PATH}#{$folder}/#{$file}.svg"
+  $SVG_FORMAT: "svg"
+  font-family: $family
+  src: url($EOT_PATH)
+  src: url("#{$EOT_PATH}?#iefix") format($EOT_FORMAT), url($WOFF_PATH) format($WOFF_FORMAT), url($TTF_PATH) format($TTF_FORMAT), url("#{$SVG_PATH}##{$file}") format($SVG_FORMAT)
+  font-weight: $weight
+  font-style: $style
+
+
+
+//============================================================
+//
+// clearfix
+//
+//============================================================
+
+=clearfix()
+  zoom: 1
+  &:after,
+  &:before
+    display: table
+    content: ""
+  &:after
+    clear: both
+
+
+
+//============================================================
+//
+// icon
+//
+// @param folder        : string
+// @param family        : string
+// @param weight        : normal | bold | 100 | 200 | 300...
+// @param style         : normal | italic
+//
+//============================================================
+
+=icon($character, $size: 1.0em)
+  content: $character
+  font-family: $ICONS_FONT_FAMILY
+  text-transform: none
+  font-weight: normal
+  font-style: normal
+  line-height: 1.0em
+  font-size: $size
+
+
+
+//============================================================
+//
+// asset
+//
+// @param width         : px
+// @param height        : px
+// @param offset        : ratio
+// @param perspective   : ratio
+// @param size          : ratio
+// @param scalar        : ratio
+//
+//============================================================
+
+=scale($width, $height, $scalar, $xOffset:-0.5, $yOffset:0)
+  $HEIGHT: $height * $scalar
+  $WIDTH: $width * $scalar
+  margin: round($HEIGHT * $yOffset) round($WIDTH * $xOffset)
+  background-size: $WIDTH $HEIGHT
+  height: $HEIGHT
+  width: $WIDTH
+
+=asset($width, $height, $offset, $perspective, $size, $scalar:1, $xOffset:-0.5, $yOffset:0, $setWidth:true, $setHeight:true, $edge:bottom)
+  $SCALED_HEIGHT: $height * $scalar
+  $SCALED_WIDTH: $width * $scalar
+  $HEIGHT: $SCALED_HEIGHT * $size
+  $WIDTH: $SCALED_WIDTH * $size
+  $DELTA: $SCALED_HEIGHT - $HEIGHT
+  $OFFSET: $DELTA + $offset * $SCALED_HEIGHT
+  $PERSPECTIVE: $DELTA * $perspective
+  #{$edge}: round($OFFSET + $PERSPECTIVE)
+  margin: round($HEIGHT * $yOffset) round($WIDTH * $xOffset)
+  background-size: $WIDTH $HEIGHT
+  @if ($setWidth == true)
+    width: round($WIDTH)
+  @if ($setHeight == true)
+    height: round($HEIGHT)
+  &:after
+    height: $DELTA
+
+
+
+//============================================================
+//
+// offset
+//
+// @param offset        : %
+// @param position:     : relative | absolute | fixed
+//
+//============================================================
+
+=offset($offset, $position:relative)
+  width: 100 - $offset * 2
+  position: $position
+  left: $offset
+
+
+
+//============================================================
+//
+// keyframes
+//
+// @param name          : string
+//
+//============================================================
+
+=keyframes($name)
+  @-webkit-keyframes #{$name}
+    @content
+  @-moz-keyframes #{$name}
+    @content
+  @-ms-keyframes #{$name}
+    @content
+  @keyframes #{$name}
+    @content
+
+
+
+//============================================================
+//
+// antialias
+//
+// @param value         : none | auto | antialiased | subpixel-antialiased
+//
+//============================================================
+
+=font-smoothing($value: auto)
+  -webkit-font-smoothing: $value
+
+
+
+//============================================================
+//
+// selection
+//
+// @param fill          : hex
+// @param text          : hex
+//
+//============================================================
+
+=selection($fill, $text)
+  ::selection
+    text-shadow: none
+    background: $fill
+    color: $text
+  ::-moz-selection
+    text-shadow: none
+    background: $fill
+    color: $text

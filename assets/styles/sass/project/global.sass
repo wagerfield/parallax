@@ -1,0 +1,597 @@
+//============================================================
+//
+// Parallax.js: Global Styles
+//
+// @description Global styling
+// @version 1.00
+//
+// @author matthew@wagerfield.com (Matthew Wagerfield)
+//
+// ---------- INDEX ----------
+//
+// Selection
+// Elements
+// Classes
+//
+//============================================================
+
++selection($BLACK, $WHITE)
+
+
+
+//----------------------------------------
+// Elements
+//----------------------------------------
+
+html
+  font-family: $ROBOTO_SLAB_FONT_FAMILY
+  font-size: $MOBILE_FONT_SIZE
+
+body
+  +font-smoothing(antialiased)
+  text-rendering: optimizeLegibility
+  line-height: $LINE_HEIGHT
+  background-color: $BLACK
+  text-align: center
+  color: $WHITE
+
+h1,h2,h3
+  line-height: $LINE_HEIGHT
+  font-weight: $LIGHT
+  margin: 0
+
+h1
+  font-size: font-size($MOBILE_FONT_SIZE, 34px)
+
+h2
+  font-size: font-size($MOBILE_FONT_SIZE, 28px)
+
+p
+  margin: 0 0 $LINE_HEIGHT
+
+em
+  font-style: normal
+  color: $EMBER
+
+img
+  display: block
+  width: 100%
+
+ul
+  list-style: none
+  display: block
+  padding: 0
+  margin: 0
+
+a
+  text-decoration: none
+  color: $EMBER
+
+button
+  +font-smoothing(antialiased)
+  +border-radius($BUTTON_SIZE/2)
+  font-size: font-size($MOBILE_FONT_SIZE, 16px)
+  line-height: $BUTTON_SIZE * 0.95
+  font-family: $DOSIS_FONT_FAMILY
+  background-color: $STONE
+  font-weight: $SEMIBOLD
+  height: $BUTTON_SIZE
+  width: $BUTTON_SIZE
+  position: relative
+  display: block
+  margin: 0 auto
+  outline: none
+  border: none
+  &.hide
+    opacity: 0
+
+footer
+  position: absolute
+  text-align: right
+  line-height: 0
+  font-size: 0
+  bottom: 0
+  right: 0
+  left: 0
+  .fb-like
+    display: inline-block
+    position: absolute
+    margin-left: 12px
+    bottom: 48px
+    right: 22px
+  .twitter-share-button
+    display: inline-block
+    position: absolute
+    margin-left: 12px
+    bottom: 20px
+    right: 10px
+
+
+
+//----------------------------------------
+// Accelerate
+//----------------------------------------
+
+.accelerate
+  +transform("translate3d(0,0,0)")
+  +transform-style("preserve-3d")
+  +backface-visibility("hidden")
+
+
+
+//----------------------------------------
+// Center
+//----------------------------------------
+
+.center
+  max-width: $MAX_WIDTH
+  margin: 0 auto
+  width: 88%
+
+
+
+//----------------------------------------
+// Wrapper
+//----------------------------------------
+
+.wrapper
+  min-height: $MIN_HEIGHT
+  position: absolute
+  overflow: hidden
+  display: table
+  height: 100%
+  width: 100%
+  left: 0
+  top: 0
+
+
+
+//----------------------------------------
+// Cell
+//----------------------------------------
+
+.cell
+  vertical-align: middle
+  display: table-cell
+
+
+
+//----------------------------------------
+// Panel
+//----------------------------------------
+
+.panel
+  +box-shadow($BOX_SHADOW)
+  +border-radius($PANEL_RADIUS)
+  +transform("translate3d(0,0,0)")
+  position: relative
+
+
+
+//----------------------------------------
+// About
+//----------------------------------------
+
+=cable($edge)
+  #{$edge}: 10%
+  background: transparent url(#{$IMAGES_PATH}cable.png) 0 0 no-repeat
+  position: absolute
+  display: block
+  height: 860px
+  width: 30px
+  content: ""
+  top: -837px
+  z-index: 1
+
+.about
+  +font-smoothing(auto)
+  +perspective($PERSPECTIVE)
+  color: $STEEL
+  &:after
+    +linear-gradient("top, #{rgba($BLACK,0.8)} 0%, #{rgba($BLACK,0.0)} 100%")
+    position: absolute
+    display: block
+    width: 100%
+    content: ""
+    height: 5%
+    left: 0
+    top: 0
+  &.hide
+    .cables
+      +transform("translate3d(0,-10%,0) rotateX(-90deg)")
+      opacity: 0
+    .panel
+      +transform("rotateX(-20deg)")
+  .panel,
+  .cables
+    +transform("translate3d(0,0,0)")
+    +transform-style("preserve-3d")
+    +backface-visibility("hidden")
+    position: relative
+  .cables
+    +transform-origin("50% -100%")
+    &:before
+      +cable(left)
+    &:after
+      +cable(right)
+  .panel
+    +transform-origin("50% 0%")
+    background: $STONE url(#{$IMAGES_PATH}panel.jpg) -7px 0
+    background-size: background-size(570px, 510px, 0.7)
+    &:before
+      border-left: 1px dashed rgba($NIGHTSHADE, 0.2)
+      position: absolute
+      display: block
+      height: 100%
+      content: ""
+      left: 5%
+      top: 0
+    &:after
+      +border-radius(0 0 $PANEL_RADIUS 0)
+      background: transparent url(#{$IMAGES_PATH}compass.png) 0 0 no-repeat
+      background-size: background-size(280px, 280px, 0.8)
+      position: absolute
+      display: block
+      height: 160px
+      width: 120px
+      opacity: 0.2
+      content: ""
+      bottom: 0
+      right: 0
+    header
+      padding: 1.0em 0 1.0em
+      &:before
+        +border-radius($PANEL_RADIUS 0 0 0)
+        background: transparent url(#{$IMAGES_PATH}map.png) 0 0 no-repeat
+        background-size: background-size(110px, 150px, 0.55)
+        position: absolute
+        display: block
+        height: 150px
+        width: 110px
+        opacity: 0.8
+        content: ""
+        left: 0
+        top: 0
+    h1
+      font-weight: $THIN
+      color: $EMBER
+      em
+        color: $NIGHTSHADE
+    p
+      margin: 0 8% 1.2em
+      position: relative
+      z-index: 1
+      strong
+        font-weight: $BOLD
+        color: $NIGHTSHADE
+    .social
+      margin: 1.4em 0 1.0em
+      position: relative
+      z-index: 1
+    .twitter-follow-button
+      display: inline-block
+      margin-bottom: 0.8em
+      + .twitter-follow-button
+        margin-left: 0.4em
+    .links
+      +clearfix()
+      +box-shadow("0 0 8px 4px #{rgba($BLACK,0.1)}")
+      border-top: $BORDER
+      position: relative
+      z-index: 1
+      li
+        +box-sizing("border-box")
+        display: block
+        float: left
+        width: 50%
+        a
+          +border-radius(0 0 0 5px)
+        + li
+          border-left: $BORDER
+          a
+            +border-radius(0 0 5px 0)
+      a
+        +font-smoothing(antialiased)
+        font-size: font-size($MOBILE_FONT_SIZE, 16px)
+        font-family: $DOSIS_FONT_FAMILY
+        text-transform: uppercase
+        font-weight: $SEMIBOLD
+        padding: 1.0em 0 1.1em
+        display: block
+        &.github:before,
+        &.download:before
+          +icon("", 0.8em)
+          margin-right: 0.5em
+          margin-left: -0.8em
+          position: relative
+          top: -1px
+        &.download:before
+          content: "d"
+        &.github:before
+          margin-right: 0.4em
+          content: "g"
+
+
+
+//----------------------------------------
+// Toggle
+//----------------------------------------
+
+.toggle
+  +box-shadow($BOX_SHADOW)
+  margin: -$BUTTON_SIZE/2
+  position: absolute
+  bottom: 11.6%
+  left: 50%
+  &.i .cross
+    +transform("rotateZ(0deg)")
+    .x
+      margin-left: -$CROSS_RADIUS
+      width: $CROSS_THICKNESS
+      margin-top: -12px
+    .y
+      margin-top: -4px
+      height: 16px
+
+
+
+//----------------------------------------
+// Cross
+//----------------------------------------
+
+.cross
+  +transform("rotateZ(45deg)")
+  position: absolute
+  left: 50%
+  top: 50%
+  .x,.y
+    +border-radius($CROSS_RADIUS)
+    background-color: $NIGHTSHADE
+    height: $CROSS_THICKNESS
+    width: $CROSS_THICKNESS
+    margin: -$CROSS_RADIUS
+    position: absolute
+    left: 0
+    top: 0
+  .x
+    margin-left: -$CROSS_LENGTH/2
+    margin-top: -$CROSS_RADIUS
+    width: $CROSS_LENGTH
+  .y
+    margin-top: -$CROSS_LENGTH/2
+    height: $CROSS_LENGTH
+
+
+
+//----------------------------------------
+// Prompt
+//----------------------------------------
+
+.prompt
+  &.hide
+    visibility: hidden
+    .panel
+      +transform("translate3d(0,250%,0) rotateY(360deg)")
+      opacity: 0
+  .cell
+    +perspective($PERSPECTIVE)
+  .dismiss
+    $OFFSET: 4px
+    +transform("scale(0.5)")
+    background-color: transparent
+    position: absolute
+    right: $OFFSET
+    top: $OFFSET
+  .x,.y
+    background: $WHITE
+  .center
+    max-width: 300px
+    width: 82%
+  .panel
+    +perspective(none)
+    +transform-style("flat")
+    +transition("all 1.8s #{$easeInOutQuart}")
+    border: 1px solid $FROSTED_GLASS
+    background-color: $SMOKED_GLASS
+    padding: 1.2em 0 1.8em
+    img
+      margin: 0.6em auto
+      width: 100px
+    h2
+      margin: 0 0 0.4em
+    p
+      font-size: font-size($MOBILE_FONT_SIZE, 15px)
+      margin: 0 10% 1.25em
+      line-height: 1.25em
+      color: $METAL
+  .tilt-scene
+    +perspective($PERSPECTIVE)
+    +transform("translate3d(0,0,100px)")
+    margin: 0 auto
+    width: 60%
+  .tilt
+    +animation("tilt 4s infinite alternate #{$easeInOutQuad}")
+
+
+
+//----------------------------------------
+// Scene
+//----------------------------------------
+
+.scene,
+.layer
+  display: block
+  height: 100%
+  width: 100%
+  padding: 0
+  margin: 0
+
+.scene
+  min-height: $MIN_HEIGHT
+  position: relative
+  overflow: hidden
+
+.layer
+  position: absolute
+  div
+    +transform("translate3d(0,0,0)")
+    +transform-style("preserve-3d")
+    +backface-visibility("hidden")
+
+.title
+  font-size: font-size($MOBILE_FONT_SIZE, 36px)
+  text-shadow: 0 8px 6px rgba($BLACK,0.6)
+  margin-top: -0.7em
+  position: absolute
+  width: 100%
+  top: 42%
+
+.background
+  background: url(#{$IMAGES_PATH}background.jpg) no-repeat 50% 100%
+  bottom: $WAVE_HEIGHT * 0.3
+  background-size: cover
+  position: absolute
+  width: 110%
+  left: -5%
+  top: -5%
+
+.lighthouse
+  +transform-origin("50% 90%")
+  +animation("lighthouse 4s 0.1s infinite alternate #{$easeInOutQuad}")
+  +scale($LIGHTHOUSE_WIDTH, $LIGHTHOUSE_HEIGHT, 0.4)
+  background-image: url(#{$IMAGES_PATH}lighthouse.png)
+  background-repeat: no-repeat
+  bottom: $WAVE_HEIGHT * 0.2
+  position: absolute
+  right: 20%
+
+.wave
+  background: transparent repeat-x
+  position: absolute
+  width: 300%
+  left: -100%
+  &:after
+    background-color: $BLACK
+    position: absolute
+    display: block
+    content: ""
+    height: 500px
+    width: 100%
+    top: 100%
+    left: 0
+  &.plain
+    background-image: url(#{$IMAGES_PATH}wave-plain.png)
+  &.paint
+    background-image: url(#{$IMAGES_PATH}wave-paint.png)
+
+.light
+  +scale(400px, 400px, 0.6, -0.5, -0.5)
+  background-repeat: no-repeat
+  bottom: $WAVE_HEIGHT * 0.35
+  position: absolute
+  left: 50%
+  &.orange
+    background-image: url(#{$IMAGES_PATH}light-orange.png)
+  &.purple
+    background-image: url(#{$IMAGES_PATH}light-purple.png)
+  &.a
+    bottom: $WAVE_HEIGHT * 0.25
+    left: 20%
+  &.b
+    bottom: $WAVE_HEIGHT * 0.25
+    left: 30%
+  &.c
+    bottom: $WAVE_HEIGHT * 0.35
+    left: 45%
+  &.d
+    bottom: $WAVE_HEIGHT * 0.3
+    left: 60%
+  &.e
+    bottom: $WAVE_HEIGHT * 0.35
+    left: 75%
+  &.f
+    bottom: $WAVE_HEIGHT * 0.2
+    left: 80%
+  $MIN_TIME: 10
+  $MAX_TIME: 20
+  @for $i from 1 through 6
+    $RATIO: ($i - 1) / 5
+    $TIME: $MAX_TIME - ($MAX_TIME - $MIN_TIME) * $RATIO
+    &.phase-#{$i}
+      +animation("phase #{$TIME}s 0.1s infinite linear")
+
+.rope
+  +offset(-10%)
+  position: relative
+
+.hanger
+  +transform-origin("0% 0%")
+  position: absolute
+  &.position-1
+    top: 28%
+  &.position-2
+    top: 46%
+  &.position-3
+    top: 59%
+  &.position-4
+    top: 66.5%
+  &.position-5
+    top: 69.5%
+  &.position-6
+    top: 66.5%
+  &.position-7
+    top: 59%
+  &.position-8
+    top: 46%
+  &.position-9
+    top: 28%
+  @for $i from 1 through 9
+    $RATIO: ($i - 1) / 8
+    &.position-#{$i}
+      left: $i * 10%
+
+.board
+  +transform-origin("50% 0%")
+  +scale($BOARD_WIDTH, $BOARD_HEIGHT, 1.0)
+  background-repeat: no-repeat
+  position: absolute
+  top: -4px
+  left: 0
+  &.birds
+    background-image: url(#{$IMAGES_PATH}board-birds.png)
+  @for $i from 1 through 4
+    &.cloud-#{$i}
+      background-image: url(#{$IMAGES_PATH}board-cloud-#{$i}.png)
+
+$MIN_TIME: 2
+$MAX_TIME: 4
+@for $i from 1 through 5
+  $RATIO: ($i - 1) / 4
+  $TIME: $MAX_TIME - ($MAX_TIME - $MIN_TIME) * $RATIO
+  .swing-#{$i}
+    +animation("swing #{$TIME}s infinite alternate #{$easeInOutQuad}")
+
+
+
+//----------------------------------------
+// Layers
+//----------------------------------------
+
+$MIN_TIME: 4
+$MAX_TIME: 8
+@for $i from $LAYER_START through $LAYER_COUNT
+  $RATIO: ($i - $LAYER_START) / ($LAYER_COUNT - $LAYER_START)
+  $TIME: $MAX_TIME - ($MAX_TIME - $MIN_TIME) * $RATIO
+  $SIZE: $i/$LAYER_COUNT
+
+  .wave.depth-#{$i*10}
+    +animation("wave #{$TIME}s 0.1s infinite linear")
+    +asset($WAVE_WIDTH, $WAVE_HEIGHT, $WAVE_OFFSET, $WAVE_PERSPECTIVE, $SIZE, 0.5, 0, 0, false)
+
+  .rope.depth-#{$i*10}
+    $SCALE: 1+$RATIO*0.25
+    +transform("scale(#{$SCALE})")
+    top: (1 - $RATIO) * 30% - 10%
+    .hanger
+      $SCALE: 0.25+$RATIO*0.25
+      +transform("scale(#{$SCALE})")

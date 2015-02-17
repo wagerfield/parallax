@@ -316,7 +316,8 @@
         this.cx = 0;
         this.cy = 0;
         this.portrait = false;
-        window.addEventListener('mousemove', this.onMouseMove);
+        this.listenedElement = this.clipRelativeInput ? this.element : window;
+        this.listenedElement.addEventListener('mousemove', this.onMouseMove);
       }
       window.addEventListener('resize', this.onWindowResize);
       this.raf = requestAnimationFrame(this.onAnimationFrame);
@@ -329,7 +330,7 @@
       if (this.orientationSupport) {
         window.removeEventListener('deviceorientation', this.onDeviceOrientation);
       } else {
-        window.removeEventListener('mousemove', this.onMouseMove);
+        this.listenedElement.removeEventListener('mousemove', this.onMouseMove);
       }
       window.removeEventListener('resize', this.onWindowResize);
       cancelAnimationFrame(this.raf);
@@ -392,13 +393,11 @@
 
   Parallax.prototype.accelerate = function(element) {
     this.css(element, 'transform', 'translate3d(0,0,0)');
-    this.css(element, 'transform-style', 'preserve-3d');
-    this.css(element, 'backface-visibility', 'hidden');
   };
 
   Parallax.prototype.setPosition = function(element, x, y) {
-    x += 'px';
-    y += 'px';
+    x = x.toFixed(1) + 'px';
+    y = y.toFixed(1) + 'px';
     if (this.transform3DSupport) {
       this.css(element, 'transform', 'translate3d('+x+','+y+',0)');
     } else if (this.transform2DSupport) {
@@ -499,14 +498,6 @@
 
     // Calculate Mouse Input
     if (!this.orientationSupport && this.relativeInput) {
-
-      // Clip mouse coordinates inside element bounds.
-      if (this.clipRelativeInput) {
-        clientX = Math.max(clientX, this.ex);
-        clientX = Math.min(clientX, this.ex + this.ew);
-        clientY = Math.max(clientY, this.ey);
-        clientY = Math.min(clientY, this.ey + this.eh);
-      }
 
       // Calculate input relative to the element.
       this.ix = (clientX - this.ex - this.ecx) / this.erx;

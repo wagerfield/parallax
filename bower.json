@@ -4,20 +4,20 @@
   "version": "2.1.3",
   "license": "MIT",
   "homepage": "http://wagerfield.github.io/parallax/",
-  "authors": [
-    "Matthew Wagerfield <matthew@wagerfield.com>"
-  ],
+  "author": "Matthew Wagerfield <matthew@wagerfield.com>",
   "main": [
-    "deploy/parallax.js",
-    "deploy/parallax.min.js",
-    "deploy/jquery.parallax.js",
-    "deploy/jquery.parallax.min.js"
+    "deploy/parallax.js"
   ],
   "ignore": [
-    "**/.*",
+    "**/*.png",
+    "**/*.psd",
+    "**/*.ico",
+    "gulpfile.js",
     "assets",
-    "source",
-    "examples"
+    "examples",
+    "humans.txt",
+    "**/*.html",
+    ".gitignore"
   ],
   "keywords": [
     "parallax",

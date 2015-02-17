@@ -1,0 +1,18 @@
+/* TEAM */
+
+Developer & Designer: Matthew Wagerfield
+Site: http://matthew.wagerfield.com, https://github.io/wagerfield
+Twitter: @wagerfield
+Location: Anywhere I lay my hat
+
+Designer: Claudio Guglieri
+Site: http://cargocollective.com/whydontwetry
+Twitter: @claudioguglieri
+Location: New York
+
+/* SITE */
+
+Last Update: 2013/08/26
+Standards: HTML5, CSS3
+Components: jQuery, Underscore, Fastclick
+Software: Sublime Text 2, CodeKit

@@ -1,0 +1,116 @@
+//============================================================
+//
+// Parallax.js: Desktop Styles
+//
+// @description Desktop styling
+// @version 1.00
+//
+// @author matthew@wagerfield.com (Matthew Wagerfield)
+//
+// ---------- INDEX ----------
+//
+// Elements
+// Classes
+//
+//============================================================
+
+@media #{$DESKTOP_QUERY}
+
+  $MAX_WIDTH: 560px
+
+  //----------------------------------------
+  // Elements
+  //----------------------------------------
+
+  html
+    font-size: $DESKTOP_FONT_SIZE
+
+
+
+  //----------------------------------------
+  // Center
+  //----------------------------------------
+
+  .center
+    max-width: $MAX_WIDTH
+
+
+
+  //----------------------------------------
+  // About
+  //----------------------------------------
+
+  .about
+    .panel
+      &:after
+        background-size: background-size(280px, 280px, 1.0)
+        height: 200px
+        width: 160px
+      header
+        &:before
+          background-size: background-size(110px, 150px, 0.75)
+      .links
+        a
+          padding: 1.2em 0 1.3em
+
+
+
+  //----------------------------------------
+  // Toggle
+  //----------------------------------------
+
+  .toggle
+    margin: -$BUTTON_SIZE/2
+    bottom: 12%
+
+
+
+  //----------------------------------------
+  // Scene
+  //----------------------------------------
+
+  .title
+    font-size: font-size($DESKTOP_FONT_SIZE, 52px)
+
+  .background
+    bottom: $WAVE_HEIGHT * 0.5
+
+  .lighthouse
+    +scale($LIGHTHOUSE_WIDTH, $LIGHTHOUSE_HEIGHT, 0.65)
+    bottom: $WAVE_HEIGHT * 0.4
+
+  .light
+    +scale(400px, 400px, 0.8, -0.5, -0.5)
+    &.a
+      bottom: $WAVE_HEIGHT * 0.35
+      left: 15%
+    &.b
+      bottom: $WAVE_HEIGHT * 0.5
+    &.c
+      bottom: $WAVE_HEIGHT * 0.65
+    &.d
+      bottom: $WAVE_HEIGHT * 0.55
+    &.e
+      bottom: $WAVE_HEIGHT * 0.65
+    &.f
+      bottom: $WAVE_HEIGHT * 0.4
+      left: 85%
+
+
+
+  //----------------------------------------
+  // Layers
+  //----------------------------------------
+
+  @for $i from $LAYER_START through $LAYER_COUNT
+    $RATIO: ($i - $LAYER_START) / ($LAYER_COUNT - $LAYER_START)
+    $SIZE: $i/$LAYER_COUNT
+
+    .wave.depth-#{$i*10}
+      +asset($WAVE_WIDTH, $WAVE_HEIGHT, $WAVE_OFFSET, $WAVE_PERSPECTIVE, $SIZE, 0.85, 0, 0, false)
+
+    .rope.depth-#{$i*10}
+      top: (1 - $RATIO) * 30% - 20%
+      .hanger
+        $SCALE: 0.5+$RATIO*0.55
+        +transform("scale(#{$SCALE})")

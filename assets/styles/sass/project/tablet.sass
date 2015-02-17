@@ -1,0 +1,162 @@
+//============================================================
+//
+// Parallax.js: Tablet Styles
+//
+// @description Tablet styling
+// @version 1.00
+//
+// @author matthew@wagerfield.com (Matthew Wagerfield)
+//
+// ---------- INDEX ----------
+//
+// Elements
+// Classes
+//
+//============================================================
+
+@media #{$TABLET_QUERY}
+
+  $BUTTON_SIZE: 56px
+  $MAX_WIDTH: 440px
+
+  //----------------------------------------
+  // Elements
+  //----------------------------------------
+
+  html
+    font-size: $TABLET_FONT_SIZE
+
+  button
+    +border-radius($BUTTON_SIZE/2)
+    height: $BUTTON_SIZE
+    width: $BUTTON_SIZE
+
+  footer
+    padding: 0 10px 20px
+    .fb-like,
+    .twitter-share-button
+      position: static
+      bottom: auto
+      right: auto
+
+
+
+  //----------------------------------------
+  // Center
+  //----------------------------------------
+
+  .center
+    max-width: $MAX_WIDTH
+
+
+
+  //----------------------------------------
+  // About
+  //----------------------------------------
+
+  .about
+    .panel
+      &:after
+        background-size: background-size(280px, 280px, 0.9)
+        height: 180px
+        width: 140px
+      header:before
+        background-size: background-size(110px, 150px, 0.75)
+
+
+
+  //----------------------------------------
+  // Prompt
+  //----------------------------------------
+
+  .prompt
+    overflow: visible
+    display: block
+    width: 0
+    &.hide
+      .panel
+        +transform("translate3d(0,50%,400px) rotateX(90deg)")
+    .cell
+      $OFFSET: 25px
+      position: absolute
+      display: block
+      bottom: $OFFSET
+      left: $OFFSET
+    .dismiss
+      $OFFSET: 0px
+      right: $OFFSET
+      top: $OFFSET
+    .panel
+      +transition("all 1.2s #{$easeInOutQuart}")
+      +transform-origin("50% 100%")
+      padding: 1.0em 0 0.8em
+      width: 220px
+      img
+        margin: 0.4em auto 0.6em
+        width: 80px
+      h2
+        font-size: font-size($TABLET_FONT_SIZE, 24px)
+      p
+        font-size: font-size($TABLET_FONT_SIZE, 14px)
+        margin: 0 10% 1.3em
+        line-height: 1.3em
+
+
+
+  //----------------------------------------
+  // Toggle
+  //----------------------------------------
+
+  .toggle
+    margin: -$BUTTON_SIZE/2
+    bottom: 15%
+
+
+
+  //----------------------------------------
+  // Scene
+  //----------------------------------------
+
+  .title
+    font-size: font-size($TABLET_FONT_SIZE, 52px)
+
+  .background
+    bottom: $WAVE_HEIGHT * 0.3
+
+  .lighthouse
+    +scale($LIGHTHOUSE_WIDTH, $LIGHTHOUSE_HEIGHT, 0.6)
+    bottom: $WAVE_HEIGHT * 0.4
+
+  .light
+    +scale(400px, 400px, 0.7, -0.5, -0.5)
+    &.a
+      bottom: $WAVE_HEIGHT * 0.45
+    &.b
+      bottom: $WAVE_HEIGHT * 0.45
+    &.c
+      bottom: $WAVE_HEIGHT * 0.6
+    &.d
+      bottom: $WAVE_HEIGHT * 0.5
+    &.e
+      bottom: $WAVE_HEIGHT * 0.6
+    &.f
+      bottom: $WAVE_HEIGHT * 0.4
+
+
+
+  //----------------------------------------
+  // Layers
+  //----------------------------------------
+
+  @for $i from $LAYER_START through $LAYER_COUNT
+    $RATIO: ($i - $LAYER_START) / ($LAYER_COUNT - $LAYER_START)
+    $SIZE: $i/$LAYER_COUNT
+
+    .wave.depth-#{$i*10}
+      +asset($WAVE_WIDTH, $WAVE_HEIGHT, $WAVE_OFFSET, $WAVE_PERSPECTIVE, $SIZE, 0.75, 0, 0, false)
+
+    .rope.depth-#{$i*10}
+      top: (1 - $RATIO) * 30% - 10%
+      .hanger
+        $SCALE: 0.5+$RATIO*0.5
+        +transform("scale(#{$SCALE})")

@@ -9,11 +9,11 @@
     "example": "examples"
   },
   "scripts": {
-    "build": "gulp"
+    "build": "gulp build"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/wagerfield/parallax.git"
+    "url": "git://github.com/SidneyS/parallax.git"
   },
   "keywords": [
     "parallax",
@@ -26,14 +26,12 @@
     "url": "https://github.com/wagerfield/parallax/issues"
   },
   "devDependencies": {
-    "gulp": "^3.6.1",
-    "gulp-load-plugins": "^0.5.0",
-    "gulp-clean": "^0.2.4",
-    "gulp-concat": "^2.2.0",
-    "gulp-notify": "^1.2.5",
+    "gulp-clean": "^0.3.1",
+    "gulp-concat": "^2.5.0",
+    "gulp-jshint": "^1.9.2",
+    "gulp-load-plugins": "^0.8.0",
     "gulp-rename": "^1.2.0",
-    "gulp-jshint": "^1.5.3",
-    "gulp-uglify": "^0.2.1",
-    "jshint-stylish": "^0.1.5"
+    "gulp-uglify": "^1.1.0",
+    "jshint-stylish": "^1.0.0"
   }
 }
