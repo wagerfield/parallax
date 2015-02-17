@@ -286,15 +286,14 @@
       this.enabled = true;
       if (this.orientationSupport) {
         this.portrait = null;
-        this.$context.attr('data-mode', 'orientation');
         window.addEventListener('deviceorientation', this.onDeviceOrientation);
         setTimeout(this.onOrientationTimer, this.supportDelay);
       } else {
         this.cx = 0;
         this.cy = 0;
         this.portrait = false;
-        this.$context.attr('data-mode', 'cursor');
-        window.addEventListener('mousemove', this.onMouseMove);
+        this.listenedElement = this.clipRelativeInput ? this.element : window;
+        this.listenedElement.addEventListener('mousemove', this.onMouseMove);
       }
       window.addEventListener('resize', this.onWindowResize);
       this.raf = requestAnimationFrame(this.onAnimationFrame);
@@ -307,7 +306,7 @@
       if (this.orientationSupport) {
         window.removeEventListener('deviceorientation', this.onDeviceOrientation);
       } else {
-        window.removeEventListener('mousemove', this.onMouseMove);
+        this.listenedElement.removeEventListener('mousemove', this.onMouseMove);
       }
       window.removeEventListener('resize', this.onWindowResize);
       cancelAnimationFrame(this.raf);
@@ -480,14 +479,6 @@
 
     // Calculate Mouse Input
     if (!this.orientationSupport && this.relativeInput) {
-
-      // Clip mouse coordinates inside element bounds.
-      if (this.clipRelativeInput) {
-        clientX = Math.max(clientX, this.ex);
-        clientX = Math.min(clientX, this.ex + this.ew);
-        clientY = Math.max(clientY, this.ey);
-        clientY = Math.min(clientY, this.ey + this.eh);
-      }
 
       // Calculate input relative to the element.
       this.ix = (clientX - this.ex - this.ecx) / this.erx;
