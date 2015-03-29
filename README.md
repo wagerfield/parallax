@@ -1,4 +1,4 @@
-# Parallax.js [![Build Status](https://travis-ci.org/xenyal/parallax.svg?branch=master)](https://travis-ci.org/xenyal/parallax)
+# Parallax.js [![Build Status](https://travis-ci.org/wagerfield/parallax.svg?branch=master)](https://travis-ci.org/wagerfield/parallax)
 
 Parallax Engine that reacts to the orientation of a smart device. Where no gyroscope or motion detection hardware is available, the position of the cursor is used instead.
 
