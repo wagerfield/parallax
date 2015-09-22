@@ -67,7 +67,8 @@
     this.calibrationTimer = null;
     this.calibrationFlag = true;
     this.enabled = false;
-    this.depths = [];
+    this.depthsX = [];
+    this.depthsY = [];
     this.raf = null;
 
     // Element Bounds
@@ -232,7 +233,8 @@
 
     // Cache Layer Elements
     this.layers = this.element.getElementsByClassName('layer');
-    this.depths = [];
+    this.depthsX = [];
+    this.depthsY = [];
 
     // Configure Layer Styles
     for (var i = 0, l = this.layers.length; i < l; i++) {
@@ -243,8 +245,11 @@
       layer.style.left = 0;
       layer.style.top = 0;
 
-      // Cache Layer Depth
-      this.depths.push(this.data(layer, 'depth') || 0);
+      // Cache Layer Depth 
+      //Graceful fallback on depth if depth-x or depth-y is absent
+      var depth = this.data(layer, 'depth') || 0;
+      this.depthsX.push(this.data(layer, 'depth-x') || depth);
+      this.depthsY.push(this.data(layer, 'depth-y') || depth);
     }
   };
 
@@ -420,9 +425,10 @@
     this.vy += (this.my - this.vy) * this.frictionY;
     for (var i = 0, l = this.layers.length; i < l; i++) {
       var layer = this.layers[i];
-      var depth = this.depths[i];
-      var xOffset = this.vx * depth * (this.invertX ? -1 : 1);
-      var yOffset = this.vy * depth * (this.invertY ? -1 : 1);
+      var depthX = this.depthsX[i];
+      var depthY = this.depthsY[i];
+      var xOffset = this.vx * (depthX * (this.invertX ? -1 : 1));
+      var yOffset = this.vy * (depthY * (this.invertY ? -1 : 1));
       this.setPosition(layer, xOffset, yOffset);
     }
     this.raf = requestAnimationFrame(this.onAnimationFrame);

@@ -266,7 +266,6 @@
     this.layers = this.element.getElementsByClassName('layer');
     this.depthsX = [];
     this.depthsY = [];
-    
 
     // Configure Layer Styles
     for (var i = 0, l = this.layers.length; i < l; i++) {
