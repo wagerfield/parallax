@@ -130,11 +130,11 @@
   };
 
   Parallax.prototype.deserialize = function(value) {
-    if (value === "true") {
+    if (value === 'true') {
       return true;
-    } else if (value === "false") {
+    } else if (value === 'false') {
       return false;
-    } else if (value === "null") {
+    } else if (value === 'null') {
       return null;
     } else if (!isNaN(parseFloat(value)) && isFinite(value)) {
       return parseFloat(value);
@@ -187,7 +187,7 @@
           body.appendChild(element);
           element.style[jsProperty] = 'translate3d(1px,1px,1px)';
           propertyValue = window.getComputedStyle(element).getPropertyValue(cssProperty);
-          featureSupport = propertyValue !== undefined && propertyValue.length > 0 && propertyValue !== "none";
+          featureSupport = propertyValue !== undefined && propertyValue.length > 0 && propertyValue !== 'none';
           documentElement.style.overflow = documentOverflow;
           body.removeChild(element);
         }
@@ -381,7 +381,7 @@
     }
   };
 
-  Parallax.prototype.onOrientationTimer = function(event) {
+  Parallax.prototype.onOrientationTimer = function() {
     if (this.orientationSupport && this.orientationStatus === 0) {
       this.disable();
       this.orientationSupport = false;
@@ -389,11 +389,11 @@
     }
   };
 
-  Parallax.prototype.onCalibrationTimer = function(event) {
+  Parallax.prototype.onCalibrationTimer = function() {
     this.calibrationFlag = true;
   };
 
-  Parallax.prototype.onWindowResize = function(event) {
+  Parallax.prototype.onWindowResize = function() {
     this.updateDimensions();
   };
 
