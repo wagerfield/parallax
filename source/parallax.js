@@ -208,11 +208,14 @@
   Parallax.prototype.motionSupport = !!window.DeviceMotionEvent;
   Parallax.prototype.orientationSupport = !!window.DeviceOrientationEvent;
   Parallax.prototype.orientationStatus = 0;
-  Parallax.prototype.transform2DSupport = Parallax.prototype.transformSupport('2D');
-  Parallax.prototype.transform3DSupport = Parallax.prototype.transformSupport('3D');
   Parallax.prototype.propertyCache = {};
 
   Parallax.prototype.initialise = function() {
+
+    if (Parallax.prototype.transform2DSupport === undefined) {
+      Parallax.prototype.transform2DSupport = Parallax.prototype.transformSupport('2D');
+      Parallax.prototype.transform3DSupport = Parallax.prototype.transformSupport('3D');
+    }
 
     // Configure Context Styles
     if (this.transform3DSupport) this.accelerate(this.element);
