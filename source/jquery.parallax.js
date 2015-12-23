@@ -220,7 +220,7 @@
 
     // Cache Depths
     this.$layers.each($.proxy(function(index, element) {
-      this.depths.push($(element).data('depth') || 0);
+      this.depths.push($(element).attr('data-depth') || 0);
     }, this));
   };
 
