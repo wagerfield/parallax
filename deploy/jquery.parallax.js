@@ -61,7 +61,8 @@
     frictionX: 0.1,
     frictionY: 0.1,
     originX: 0.5,
-    originY: 0.5
+    originY: 0.5,
+    pointerEvents: false
   };
 
   function Plugin(element, options) {
@@ -86,7 +87,8 @@
       frictionX: parseFloat(this.$context.data('friction-x')) || null,
       frictionY: parseFloat(this.$context.data('friction-y')) || null,
       originX: parseFloat(this.$context.data('origin-x')) || null,
-      originY: parseFloat(this.$context.data('origin-y')) || null
+      originY: parseFloat(this.$context.data('origin-y')) || null,
+      pointerEvents: this.$context.data('pointer-events') || false
     };
 
     // Delete Null Data Values
@@ -216,6 +218,13 @@
     if (this.$context.css('position') === 'static') {
       this.$context.css({
         position:'relative'
+      });
+    }
+
+    // Pointer events
+    if(!this.pointerEvents){
+      this.$context.css({
+        pointerEvents: 'none'
       });
     }
 
