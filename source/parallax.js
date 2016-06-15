@@ -281,11 +281,12 @@
   Parallax.prototype.enable = function() {
     if (!this.enabled) {
       this.enabled = true;
-      if (this.orientationSupport) {
+      if (!this.desktop && this.orientationSupport) {
         this.portrait = null;
         window.addEventListener('deviceorientation', this.onDeviceOrientation);
         setTimeout(this.onOrientationTimer, this.supportDelay);
-      } else if (this.motionSupport) {
+      } 
+      else if (!this.desktop && this.motionSupport) {
         this.portrait = null;
         window.addEventListener('devicemotion', this.onDeviceMotion);
         setTimeout(this.onMotionTimer, this.supportDelay);
