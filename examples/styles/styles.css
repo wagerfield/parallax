@@ -67,6 +67,10 @@ input[type=checkbox]:checked + label:before {
   padding: 5%;
 }
 
+.container--offset {
+  margin-left: 10%;
+}
+
 .scene {
   padding: 0;
   margin: 0;

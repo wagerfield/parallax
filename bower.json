@@ -1,7 +1,6 @@
 {
-  "name": "parallax",
+  "name": "parallax-js",
   "description": "Parallax Engine that reacts to the orientation of a smart device.",
-  "version": "2.1.3",
   "license": "MIT",
   "homepage": "http://wagerfield.github.io/parallax/",
   "authors": [
@@ -9,9 +8,7 @@
   ],
   "main": [
     "deploy/parallax.js",
-    "deploy/parallax.min.js",
-    "deploy/jquery.parallax.js",
-    "deploy/jquery.parallax.min.js"
+    "deploy/jquery.parallax.js"
   ],
   "ignore": [
     "**/.*",

@@ -61,7 +61,9 @@
     frictionX: 0.1,
     frictionY: 0.1,
     originX: 0.5,
-    originY: 0.5
+    originY: 0.5,
+    pointerEvents: true,
+    precision: 1
   };
 
   function Parallax(element, options) {
@@ -83,7 +85,9 @@
       frictionX: this.data(this.element, 'friction-x'),
       frictionY: this.data(this.element, 'friction-y'),
       originX: this.data(this.element, 'origin-x'),
-      originY: this.data(this.element, 'origin-y')
+      originY: this.data(this.element, 'origin-y'),
+      pointerEvents: this.data(this.element, 'pointer-events'),
+      precision: this.data(this.element, 'precision')
     };
 
     // Delete Null Data Values
@@ -98,7 +102,8 @@
     this.calibrationTimer = null;
     this.calibrationFlag = true;
     this.enabled = false;
-    this.depths = [];
+    this.depthsX = [];
+    this.depthsY = [];
     this.raf = null;
 
     // Element Bounds
@@ -161,11 +166,11 @@
   };
 
   Parallax.prototype.deserialize = function(value) {
-    if (value === "true") {
+    if (value === 'true') {
       return true;
-    } else if (value === "false") {
+    } else if (value === 'false') {
       return false;
-    } else if (value === "null") {
+    } else if (value === 'null') {
       return null;
     } else if (!isNaN(parseFloat(value)) && isFinite(value)) {
       return parseFloat(value);
@@ -209,7 +214,9 @@
           var body = document.body || document.createElement('body');
           var documentElement = document.documentElement;
           var documentOverflow = documentElement.style.overflow;
+          var isCreatedBody = false;
           if (!document.body) {
+            isCreatedBody = true;
             documentElement.style.overflow = 'hidden';
             documentElement.appendChild(body);
             body.style.overflow = 'hidden';
@@ -218,9 +225,13 @@
           body.appendChild(element);
           element.style[jsProperty] = 'translate3d(1px,1px,1px)';
           propertyValue = window.getComputedStyle(element).getPropertyValue(cssProperty);
-          featureSupport = propertyValue !== undefined && propertyValue.length > 0 && propertyValue !== "none";
+          featureSupport = propertyValue !== undefined && propertyValue.length > 0 && propertyValue !== 'none';
           documentElement.style.overflow = documentOverflow;
           body.removeChild(element);
+          if ( isCreatedBody ) {
+            body.removeAttribute('style');
+            body.parentNode.removeChild(body);
+          }
         }
         break;
     }
@@ -239,17 +250,26 @@
   Parallax.prototype.motionSupport = !!window.DeviceMotionEvent;
   Parallax.prototype.orientationSupport = !!window.DeviceOrientationEvent;
   Parallax.prototype.orientationStatus = 0;
-  Parallax.prototype.transform2DSupport = Parallax.prototype.transformSupport('2D');
-  Parallax.prototype.transform3DSupport = Parallax.prototype.transformSupport('3D');
+  Parallax.prototype.motionStatus = 0;
   Parallax.prototype.propertyCache = {};
 
   Parallax.prototype.initialise = function() {
+
+    if (Parallax.prototype.transform2DSupport === undefined) {
+      Parallax.prototype.transform2DSupport = Parallax.prototype.transformSupport('2D');
+      Parallax.prototype.transform3DSupport = Parallax.prototype.transformSupport('3D');
+    }
 
     // Configure Context Styles
     if (this.transform3DSupport) this.accelerate(this.element);
     var style = window.getComputedStyle(this.element);
     if (style.getPropertyValue('position') === 'static') {
       this.element.style.position = 'relative';
+    }
+
+    // Pointer events
+    if(!this.pointerEvents){
+      this.element.style.pointerEvents = 'none';
     }
 
     // Setup
@@ -263,7 +283,8 @@
 
     // Cache Layer Elements
     this.layers = this.element.getElementsByClassName('layer');
-    this.depths = [];
+    this.depthsX = [];
+    this.depthsY = [];
 
     // Configure Layer Styles
     for (var i = 0, l = this.layers.length; i < l; i++) {
@@ -275,7 +296,10 @@
       layer.style.top = 0;
 
       // Cache Layer Depth
-      this.depths.push(this.data(layer, 'depth') || 0);
+      //Graceful fallback on depth if depth-x or depth-y is absent
+      var depth = this.data(layer, 'depth') || 0;
+      this.depthsX.push(this.data(layer, 'depth-x') || depth);
+      this.depthsY.push(this.data(layer, 'depth-y') || depth);
     }
   };
 
@@ -308,11 +332,17 @@
   Parallax.prototype.enable = function() {
     if (!this.enabled) {
       this.enabled = true;
-      if (this.orientationSupport) {
+      if (!this.desktop && this.orientationSupport) {
         this.portrait = null;
         window.addEventListener('deviceorientation', this.onDeviceOrientation);
         setTimeout(this.onOrientationTimer, this.supportDelay);
-      } else {
+      }
+      else if (!this.desktop && this.motionSupport) {
+        this.portrait = null;
+        window.addEventListener('devicemotion', this.onDeviceMotion);
+        setTimeout(this.onMotionTimer, this.supportDelay);
+      }
+      else {
         this.cx = 0;
         this.cy = 0;
         this.portrait = false;
@@ -328,7 +358,11 @@
       this.enabled = false;
       if (this.orientationSupport) {
         window.removeEventListener('deviceorientation', this.onDeviceOrientation);
-      } else {
+      }
+      else if (this.motionSupport) {
+        window.removeEventListener('devicemotion', this.onDeviceMotion);
+      }
+      else {
         window.removeEventListener('mousemove', this.onMouseMove);
       }
       window.removeEventListener('resize', this.onWindowResize);
@@ -397,8 +431,8 @@
   };
 
   Parallax.prototype.setPosition = function(element, x, y) {
-    x += 'px';
-    y += 'px';
+    x = x.toFixed(this.precision) + 'px';
+    y = y.toFixed(this.precision) + 'px';
     if (this.transform3DSupport) {
       this.css(element, 'transform', 'translate3d('+x+','+y+',0)');
     } else if (this.transform2DSupport) {
@@ -409,7 +443,7 @@
     }
   };
 
-  Parallax.prototype.onOrientationTimer = function(event) {
+  Parallax.prototype.onOrientationTimer = function() {
     if (this.orientationSupport && this.orientationStatus === 0) {
       this.disable();
       this.orientationSupport = false;
@@ -417,11 +451,19 @@
     }
   };
 
-  Parallax.prototype.onCalibrationTimer = function(event) {
+  Parallax.prototype.onMotionTimer = function() {
+    if (this.motionSupport && this.motionStatus === 0) {
+      this.disable();
+      this.motionSupport = false;
+      this.enable();
+    }
+  };
+
+  Parallax.prototype.onCalibrationTimer = function() {
     this.calibrationFlag = true;
   };
 
-  Parallax.prototype.onWindowResize = function(event) {
+  Parallax.prototype.onWindowResize = function() {
     this.updateDimensions();
   };
 
@@ -451,23 +493,17 @@
     this.vy += (this.my - this.vy) * this.frictionY;
     for (var i = 0, l = this.layers.length; i < l; i++) {
       var layer = this.layers[i];
-      var depth = this.depths[i];
-      var xOffset = this.vx * depth * (this.invertX ? -1 : 1);
-      var yOffset = this.vy * depth * (this.invertY ? -1 : 1);
+      var depthX = this.depthsX[i];
+      var depthY = this.depthsY[i];
+      var xOffset = this.vx * (depthX * (this.invertX ? -1 : 1));
+      var yOffset = this.vy * (depthY * (this.invertY ? -1 : 1));
       this.setPosition(layer, xOffset, yOffset);
     }
     this.raf = requestAnimationFrame(this.onAnimationFrame);
   };
 
-  Parallax.prototype.onDeviceOrientation = function(event) {
-
-    // Validate environment and event properties.
-    if (!this.desktop && event.beta !== null && event.gamma !== null) {
-
-      // Set orientation status.
-      this.orientationStatus = 1;
-
-      // Extract Rotation
+  Parallax.prototype.rotate = function(beta,gamma){
+    // Extract Rotation
       var x = (event.beta  || 0) / MAGIC_NUMBER; //  -90 :: 90
       var y = (event.gamma || 0) / MAGIC_NUMBER; // -180 :: 180
 
@@ -488,11 +524,30 @@
       // Set Input
       this.ix = x;
       this.iy = y;
+  }
+  Parallax.prototype.onDeviceOrientation = function(event) {
+    // Validate environment and event properties.
+    var beta = event.beta;
+    var gamma = event.gamma;
+    if (!this.desktop && beta !== null && gamma !== null) {
+      // Set orientation status.
+      this.orientationStatus = 1;
+      this.rotate(beta,gamma);
+    }
+  };
+
+  Parallax.prototype.onDeviceMotion = function(event) {
+    // Validate environment and event properties.
+    var beta = event.rotationRate.beta;
+    var gamma = event.rotationRate.gamma;
+    if (!this.desktop && beta !== null && gamma !== null) {
+      // Set motion status.
+      this.motionStatus = 1;
+      this.rotate(beta,gamma);
     }
   };
 
   Parallax.prototype.onMouseMove = function(event) {
-
     // Cache mouse coordinates.
     var clientX = event.clientX;
     var clientY = event.clientY;

@@ -30,7 +30,9 @@
     frictionX: 0.1,
     frictionY: 0.1,
     originX: 0.5,
-    originY: 0.5
+    originY: 0.5,
+    pointerEvents: true,
+    precision: 1
   };
 
   function Plugin(element, options) {
@@ -55,7 +57,9 @@
       frictionX: parseFloat(this.$context.data('friction-x')) || null,
       frictionY: parseFloat(this.$context.data('friction-y')) || null,
       originX: parseFloat(this.$context.data('origin-x')) || null,
-      originY: parseFloat(this.$context.data('origin-y')) || null
+      originY: parseFloat(this.$context.data('origin-y')) || null,
+      pointerEvents: this.$context.data('pointer-events') || true,
+      precision: parseFloat(this.$context.data('precision')) || 1
     };
 
     // Delete Null Data Values
@@ -70,7 +74,8 @@
     this.calibrationTimer = null;
     this.calibrationFlag = true;
     this.enabled = false;
-    this.depths = [];
+    this.depthsX = [];
+    this.depthsY = [];
     this.raf = null;
 
     // Element Bounds
@@ -145,7 +150,9 @@
           var body = document.body || document.createElement('body');
           var documentElement = document.documentElement;
           var documentOverflow = documentElement.style.overflow;
+          var isCreatedBody = false;
           if (!document.body) {
+            isCreatedBody = true;
             documentElement.style.overflow = 'hidden';
             documentElement.appendChild(body);
             body.style.overflow = 'hidden';
@@ -157,6 +164,10 @@
           featureSupport = propertyValue !== undefined && propertyValue.length > 0 && propertyValue !== "none";
           documentElement.style.overflow = documentOverflow;
           body.removeChild(element);
+          if ( isCreatedBody ) {
+            body.removeAttribute('style');
+            body.parentNode.removeChild(body);
+          }
         }
         break;
     }
@@ -188,6 +199,13 @@
       });
     }
 
+    // Pointer events
+    if(!this.pointerEvents){
+      this.$context.css({
+        pointerEvents: 'none'
+      });
+    }
+
     // Hardware Accelerate Context
     this.accelerate(this.$context);
 
@@ -202,7 +220,8 @@
 
     // Cache Layer Elements
     this.$layers = this.$context.find('.layer');
-    this.depths = [];
+    this.depthsX = [];
+    this.depthsY = [];
 
     // Configure Layer Styles
     this.$layers.css({
@@ -220,7 +239,10 @@
 
     // Cache Depths
     this.$layers.each($.proxy(function(index, element) {
-      this.depths.push($(element).data('depth') || 0);
+      //Graceful fallback on depth if depth-x or depth-y is absent
+      var depth = $(element).data('depth') || 0;
+      this.depthsX.push($(element).data('depth-x') || depth);
+      this.depthsY.push($(element).data('depth-y') || depth);
     }, this));
   };
 
@@ -398,10 +420,11 @@
     this.vx += (this.mx - this.vx) * this.frictionX;
     this.vy += (this.my - this.vy) * this.frictionY;
     for (var i = 0, l = this.$layers.length; i < l; i++) {
-      var depth = this.depths[i];
+      var depthX = this.depthsX[i];
+      var depthY = this.depthsY[i];
       var layer = this.$layers[i];
-      var xOffset = this.vx * depth * (this.invertX ? -1 : 1);
-      var yOffset = this.vy * depth * (this.invertY ? -1 : 1);
+      var xOffset = this.vx * (depthX * (this.invertX ? -1 : 1));
+      var yOffset = this.vy * (depthY * (this.invertY ? -1 : 1));
       this.setPosition(layer, xOffset, yOffset);
     }
     this.raf = requestAnimationFrame(this.onAnimationFrame);
