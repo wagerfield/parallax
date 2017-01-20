@@ -178,7 +178,9 @@
           var body = document.body || document.createElement('body');
           var documentElement = document.documentElement;
           var documentOverflow = documentElement.style.overflow;
+          var isCreatedBody = false;
           if (!document.body) {
+            isCreatedBody = true;
             documentElement.style.overflow = 'hidden';
             documentElement.appendChild(body);
             body.style.overflow = 'hidden';
@@ -190,6 +192,10 @@
           featureSupport = propertyValue !== undefined && propertyValue.length > 0 && propertyValue !== 'none';
           documentElement.style.overflow = documentOverflow;
           body.removeChild(element);
+          if ( isCreatedBody ) {
+            body.removeAttribute('style');
+            body.parentNode.removeChild(body);
+          }
         }
         break;
     }
