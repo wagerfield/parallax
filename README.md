@@ -68,7 +68,7 @@ There are a number of behaviours that you can setup for any given **Parallax** i
 | `friction-y`        | `number` `0 - 1`    | `0.1`         | The amount of friction the layers experience. This essentially adds some easing to the layer motion.                                                 |
 | `origin-x`          | `number`            | `0.5`         | The `x` origin of the mouse input. Defaults to 0.5 (the center). `0` moves the origin to the left edge, `1` to the right edge. **Mouse input only.** |
 | `origin-y`          | `number`            | `0.5`         | The `y` origin of the mouse input. Defaults to 0.5 (the center). `0` moves the origin to the top edge, `1` to the bottom edge. **Mouse input only.** |
-| `pointerEvents`     | `true` or `false`   | `true`        | Settings this to false might increase the performance in some instances, while removing pointer events for the scene - eg, Links are not clickable   |
+| `pointerEvents`     | `true` or `false`   | `true`        | Setting this to false might increase the performance in some instances, while removing pointer events for the scene - eg, Links are not clickable    |
 
 In addition to the behaviours described above, there are **two** methods `enable()` and `disable()` that *activate* and *deactivate* the **Parallax** instance respectively.
 
