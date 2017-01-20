@@ -30,7 +30,8 @@
     frictionX: 0.1,
     frictionY: 0.1,
     originX: 0.5,
-    originY: 0.5
+    originY: 0.5,
+    pointerEvents: true
   };
 
   function Parallax(element, options) {
@@ -52,7 +53,8 @@
       frictionX: this.data(this.element, 'friction-x'),
       frictionY: this.data(this.element, 'friction-y'),
       originX: this.data(this.element, 'origin-x'),
-      originY: this.data(this.element, 'origin-y')
+      originY: this.data(this.element, 'origin-y'),
+      pointerEvents: this.data(this.element, 'pointer-events')
     };
 
     // Delete Null Data Values
@@ -231,6 +233,11 @@
       this.element.style.position = 'relative';
     }
 
+    // Pointer events
+    if(!this.pointerEvents){
+      this.element.style.pointerEvents = 'none';
+    }
+
     // Setup
     this.updateLayers();
     this.updateDimensions();
@@ -254,7 +261,7 @@
       layer.style.left = 0;
       layer.style.top = 0;
 
-      // Cache Layer Depth 
+      // Cache Layer Depth
       //Graceful fallback on depth if depth-x or depth-y is absent
       var depth = this.data(layer, 'depth') || 0;
       this.depthsX.push(this.data(layer, 'depth-x') || depth);
