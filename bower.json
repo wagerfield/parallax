@@ -8,9 +8,7 @@
   ],
   "main": [
     "deploy/parallax.js",
-    "deploy/parallax.min.js",
-    "deploy/jquery.parallax.js",
-    "deploy/jquery.parallax.min.js"
+    "deploy/jquery.parallax.js"
   ],
   "ignore": [
     "**/.*",
