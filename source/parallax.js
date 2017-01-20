@@ -31,7 +31,8 @@
     frictionY: 0.1,
     originX: 0.5,
     originY: 0.5,
-    pointerEvents: true
+    pointerEvents: true,
+    precision: 1
   };
 
   function Parallax(element, options) {
@@ -54,7 +55,8 @@
       frictionY: this.data(this.element, 'friction-y'),
       originX: this.data(this.element, 'origin-x'),
       originY: this.data(this.element, 'origin-y'),
-      pointerEvents: this.data(this.element, 'pointer-events')
+      pointerEvents: this.data(this.element, 'pointer-events'),
+      precision: this.data(this.element, 'precision')
     };
 
     // Delete Null Data Values
@@ -303,7 +305,7 @@
         this.portrait = null;
         window.addEventListener('deviceorientation', this.onDeviceOrientation);
         setTimeout(this.onOrientationTimer, this.supportDelay);
-      } 
+      }
       else if (!this.desktop && this.motionSupport) {
         this.portrait = null;
         window.addEventListener('devicemotion', this.onDeviceMotion);
@@ -325,7 +327,7 @@
       this.enabled = false;
       if (this.orientationSupport) {
         window.removeEventListener('deviceorientation', this.onDeviceOrientation);
-      } 
+      }
       else if (this.motionSupport) {
         window.removeEventListener('devicemotion', this.onDeviceMotion);
       }
@@ -398,8 +400,8 @@
   };
 
   Parallax.prototype.setPosition = function(element, x, y) {
-    x += 'px';
-    y += 'px';
+    x = x.toFixed(this.precision) + 'px';
+    y = y.toFixed(this.precision) + 'px';
     if (this.transform3DSupport) {
       this.css(element, 'transform', 'translate3d('+x+','+y+',0)');
     } else if (this.transform2DSupport) {
@@ -492,7 +494,7 @@
       this.ix = x;
       this.iy = y;
   }
-  Parallax.prototype.onDeviceOrientation = function(event) {    
+  Parallax.prototype.onDeviceOrientation = function(event) {
     // Validate environment and event properties.
     var beta = event.beta;
     var gamma = event.gamma;
@@ -503,7 +505,7 @@
     }
   };
 
-  Parallax.prototype.onDeviceMotion = function(event) {    
+  Parallax.prototype.onDeviceMotion = function(event) {
     // Validate environment and event properties.
     var beta = event.rotationRate.beta;
     var gamma = event.rotationRate.gamma;

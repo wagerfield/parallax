@@ -31,7 +31,8 @@
     frictionY: 0.1,
     originX: 0.5,
     originY: 0.5,
-    pointerEvents: true
+    pointerEvents: true,
+    precision: 1
   };
 
   function Plugin(element, options) {
@@ -57,7 +58,8 @@
       frictionY: parseFloat(this.$context.data('friction-y')) || null,
       originX: parseFloat(this.$context.data('origin-x')) || null,
       originY: parseFloat(this.$context.data('origin-y')) || null,
-      pointerEvents: this.$context.data('pointer-events') || false
+      pointerEvents: this.$context.data('pointer-events') || true,
+      precision: parseFloat(this.$context.data('precision')) || 1
     };
 
     // Delete Null Data Values
