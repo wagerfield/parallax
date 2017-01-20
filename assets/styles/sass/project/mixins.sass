@@ -134,7 +134,8 @@
   $PERSPECTIVE: $DELTA * $perspective
   #{$edge}: round($OFFSET + $PERSPECTIVE)
   margin: round($HEIGHT * $yOffset) round($WIDTH * $xOffset)
-  background-size: $WIDTH $HEIGHT
+  background-position: center bottom
+  background-size: auto 101%
   @if ($setWidth == true)
     width: round($WIDTH)
   @if ($setHeight == true)
