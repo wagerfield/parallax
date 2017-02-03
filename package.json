@@ -27,14 +27,9 @@
     "url": "https://github.com/wagerfield/parallax/issues"
   },
   "devDependencies": {
-    "gulp": "^3.6.1",
-    "gulp-load-plugins": "^0.5.0",
-    "gulp-clean": "^0.2.4",
-    "gulp-concat": "^2.2.0",
-    "gulp-notify": "^1.2.5",
-    "gulp-rename": "^1.2.0",
-    "gulp-jshint": "^1.5.3",
-    "gulp-uglify": "^0.2.1",
-    "jshint-stylish": "^0.1.5"
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-notify": "^3.0.0",
+    "gulp-uglifyjs": "^0.6.2"
   }
 }
