@@ -1,43 +1,50 @@
-var gulp = require('gulp'),
-    plugins = require("gulp-load-plugins")();
+const gulp = require('gulp')
+const path = require('path')
 
-function build(stream, file) {
-  return stream
-    .pipe(plugins.jshint())
-    .pipe(plugins.jshint.reporter('jshint-stylish'))
-    .pipe(plugins.concat(file))
-    .pipe(gulp.dest('deploy'))
-    .pipe(plugins.rename({suffix: '.min'}))
-    .pipe(plugins.uglify())
-    .pipe(gulp.dest('deploy'));
+const babelify = require('babelify')
+const browserify = require('browserify')
+const buffer = require('vinyl-buffer')
+const notifier = require('node-notifier')
+const rimraf = require('rimraf')
+const source = require('vinyl-source-stream')
+const sourcemaps = require('gulp-sourcemaps')
+const uglify = require('gulp-uglify')
+const util = require('gulp-util')
+
+gulp.task('clean', (cb) => {
+  rimraf('./dist', cb)
+})
+
+gulp.task('build', ['clean'], () => {
+  gulp.start('build:js')
+})
+
+function showError(arg) {
+  notifier.notify({
+    title: 'JS Error',
+    message: '' + arg,
+    sound: 'Basso'
+  })
+  this.emit('end')
 }
 
-gulp.task('build.parallax', function() {
-  return build(gulp.src([
-      'LICENSE',
-      'source/parallax.js',
-      'source/requestAnimationFrame.js'
-    ]), 'parallax.js');
-});
+gulp.task('build:js', () => {
 
-gulp.task('build.jquery.parallax', function() {
-  return build(gulp.src([
-      'LICENSE',
-      'source/jquery.parallax.js',
-      'source/requestAnimationFrame.js'
-    ]), 'jquery.parallax.js');
-});
+  return browserify({entries: path.join('src', 'parallax.js'), debug: true})
+        .transform("babelify")
+        .bundle()
+          .on('error', showError)
+        .pipe(source('parallax.js'))
+        .pipe(buffer())
+        .pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(uglify())
+          .on('error', showError)
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('dist'))
+})
 
-gulp.task('clean', function() {
-  return gulp.src(['deploy'], {read: false}).pipe(plugins.clean());
-});
+gulp.task('watch', ['build'], () => {
+   gulp.watch(path.join('src', 'parallax.js'), ['build:js'])
+})
 
-gulp.task('build', ['clean'], function() {
-  gulp.start('build.parallax', 'build.jquery.parallax');
-});
-
-gulp.task('watch', function() {
-  gulp.watch('source/**/*.js', ['build']);
-});
-
-gulp.task('default', ['build']);
+gulp.task('default', ['build'])
