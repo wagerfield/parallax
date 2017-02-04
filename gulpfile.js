@@ -3,6 +3,7 @@ const path = require('path')
 
 const babelify = require('babelify')
 const browserify = require('browserify')
+const browsersync = require('browser-sync').create()
 const buffer = require('vinyl-buffer')
 const notifier = require('node-notifier')
 const rimraf = require('rimraf')
@@ -36,6 +37,7 @@ gulp.task('build:js', () => {
         .pipe(source('parallax.js'))
         .pipe(buffer())
         .pipe(gulp.dest('dist'))
+        .pipe(browsersync.stream({match: path.join('**','*.js')}))
 })
 
 gulp.task('build:js:minified', () => {
@@ -50,9 +52,18 @@ gulp.task('build:js:minified', () => {
           .on('error', showError)
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('dist'))
+        .pipe(browsersync.stream({match: path.join('**','*.js')}))
 })
 
 gulp.task('watch', ['build'], () => {
+  browsersync.init({
+    notify: false,
+    port: 9000,
+    server: {
+      baseDir: ['examples', 'dist']
+    }
+  })
+
    gulp.watch(path.join('src', 'parallax.js'), ['build:js', 'build:js:minified'])
 })
 
