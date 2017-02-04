@@ -90,7 +90,7 @@ gulp.task('watch', ['build'], () => {
 
    gulp.watch(path.join('src', 'parallax.js'), ['build:js', 'build:js:minified'])
    gulp.watch(path.join('examples', 'assets', 'styles.scss'), ['build:scss'])
-   gulp.watch(path.join('examples', '*.html'), browsersync.reload)
+   gulp.watch(path.join('examples', 'pages', '*.html'), browsersync.reload)
 })
 
 gulp.task('default', ['build:js', 'build:js:minified'])
