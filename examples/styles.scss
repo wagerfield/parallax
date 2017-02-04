@@ -1,6 +1,11 @@
+$color-green: #00ffaa;
+$color-background: #111;
+$color-text: #555;
+
+
 body {
-  background: #111;
-  color: #666;
+  background: $color-background;
+  color: $color-text;
   font-family: monospace;
   font-size: 18px;
   margin: 0;
@@ -23,8 +28,8 @@ label {
 }
 
 button {
-  background: #444;
-  border: 10px solid #00FFAA;
+  background: $color-text;
+  border: 10px solid $color-green;
   cursor: pointer;
   display: block;
   font-family: monospace;
@@ -39,14 +44,14 @@ button {
   text-align: right;
   top: 260px;
   width: 80%;
-}
 
-button:hover {
-  background: #00FFAA;
+  &:hover {
+    background: $color-green;
+  }
 }
 
 input[type=checkbox] + label:before {
-  background: #444;
+  background: $color-text;
   content: '';
   display: inline-block;
   height: 16px;
@@ -57,7 +62,7 @@ input[type=checkbox] + label:before {
 }
 
 input[type=checkbox]:checked + label:before {
-  background: #00FFAA;
+  background: $color-green;
 }
 
 .container {
@@ -89,50 +94,19 @@ input[type=checkbox]:checked + label:before {
 }
 
 .border {
-  border: 2px dashed #00FFAA;
+  border: 2px dashed $color-green;
 }
 
 .aspect {
   opacity: 0.2;
 }
 
-.layer:nth-child(1) {
-  opacity: 0.15;
-}
-.layer:nth-child(1) button {
-  -webkit-transform: rotate(150deg);
-}
+@for $i from 1 through 6 {
+  .layer:nth-child(#{$i}) {
+    opacity: #{0.15 * $i};
 
-.layer:nth-child(2) {
-  opacity: 0.30;
-}
-.layer:nth-child(2) button {
-  -webkit-transform: rotate(120deg);
-}
-
-.layer:nth-child(3) {
-  opacity: 0.45;
-}
-.layer:nth-child(3) button {
-  -webkit-transform: rotate(90deg);
-}
-
-.layer:nth-child(4) {
-  opacity: 0.60;
-}
-.layer:nth-child(4) button {
-  -webkit-transform: rotate(60deg);
-}
-
-.layer:nth-child(5) {
-  opacity: 0.75;
-}
-.layer:nth-child(5) button {
-  -webkit-transform: rotate(30deg);
-}
-
-.layer:nth-child(6) {
-  opacity: 0.90;
-}
-.layer:nth-child(6) button {
+    button {
+      transform: rotate(#{180 - 30 * $i}deg)
+    }
+  }
 }
