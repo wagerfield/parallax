@@ -91,4 +91,4 @@ gulp.task('watch', ['build'], () => {
     gulp.watch(path.join('examples', 'styles.scss'), ['build:scss'])
 })
 
-gulp.task('default', ['build'])
+gulp.task('default', ['build:js', 'build:js:minified'])
