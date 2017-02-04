@@ -16,7 +16,7 @@ gulp.task('clean', (cb) => {
 })
 
 gulp.task('build', ['clean'], () => {
-  gulp.start('build:js')
+  gulp.start('build:js', 'build:js:minified')
 })
 
 function showError(arg) {
@@ -29,12 +29,21 @@ function showError(arg) {
 }
 
 gulp.task('build:js', () => {
-
   return browserify({entries: path.join('src', 'parallax.js'), debug: true})
         .transform("babelify")
         .bundle()
           .on('error', showError)
         .pipe(source('parallax.js'))
+        .pipe(buffer())
+        .pipe(gulp.dest('dist'))
+})
+
+gulp.task('build:js:minified', () => {
+  return browserify({entries: path.join('src', 'parallax.js'), debug: true})
+        .transform("babelify")
+        .bundle()
+          .on('error', showError)
+        .pipe(source('parallax.min.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(uglify())
@@ -44,7 +53,7 @@ gulp.task('build:js', () => {
 })
 
 gulp.task('watch', ['build'], () => {
-   gulp.watch(path.join('src', 'parallax.js'), ['build:js'])
+   gulp.watch(path.join('src', 'parallax.js'), ['build:js', 'build:js:minified'])
 })
 
 gulp.task('default', ['build'])
