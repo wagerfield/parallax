@@ -2,3 +2,4 @@
 node_modules
 assets
 dist
+examples/styles.css

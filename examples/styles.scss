@@ -1,8 +1,8 @@
 body {
-  font-family: monospace;
-  font-size: 18px;
   background: #111;
   color: #666;
+  font-family: monospace;
+  font-size: 18px;
   margin: 0;
 }
 
@@ -16,29 +16,29 @@ input[type=checkbox] {
 }
 
 label {
+  cursor: pointer;
   display: inline-block;
   margin-right: 1em;
   padding: 0.4em 0;
-  cursor: pointer;
 }
 
 button {
-  border: 10px solid #00FFAA;
-  font-family: monospace;
-  position: absolute;
-  line-height: 60px;
-  text-align: right;
-  padding: 0 1.2em;
   background: #444;
-  font-size: 24px;
+  border: 10px solid #00FFAA;
   cursor: pointer;
   display: block;
-  outline: none;
+  font-family: monospace;
+  font-size: 24px;
   height: 80px;
-  width: 80%;
-  top: 260px;
-  margin: 0;
   left: 10%;
+  line-height: 60px;
+  margin: 0;
+  outline: none;
+  padding: 0 1.2em;
+  position: absolute;
+  text-align: right;
+  top: 260px;
+  width: 80%;
 }
 
 button:hover {
@@ -46,14 +46,14 @@ button:hover {
 }
 
 input[type=checkbox] + label:before {
-  display: inline-block;
-  position: relative;
   background: #444;
-  margin-right: 8px;
-  content: "";
+  content: '';
+  display: inline-block;
   height: 16px;
-  width: 16px;
+  margin-right: 8px;
+  position: relative;
   top: 1px;
+  width: 16px;
 }
 
 input[type=checkbox]:checked + label:before {
@@ -61,10 +61,10 @@ input[type=checkbox]:checked + label:before {
 }
 
 .container {
-  position: relative;
-  max-width: 600px;
   margin: 0 auto;
+  max-width: 600px;
   padding: 5%;
+  position: relative;
 }
 
 .container--offset {
@@ -72,15 +72,15 @@ input[type=checkbox]:checked + label:before {
 }
 
 .scene {
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
 .fill {
-  position: absolute;
   bottom: 5%;
-  right: 5%;
   left: 5%;
+  position: absolute;
+  right: 5%;
   top: 5%;
 }
 
