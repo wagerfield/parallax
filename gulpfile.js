@@ -33,7 +33,7 @@ function showError(arg) {
 }
 
 gulp.task('build:scss', () => {
-  return gulp.src(path.join('examples', 'styles.scss'))
+  return gulp.src(path.join('examples', 'assets', 'styles.scss'))
     .pipe(sass({
       outputStyle: 'nested',
       precision: 10,
@@ -48,7 +48,7 @@ gulp.task('build:scss', () => {
         browsers: ['last 2 versions', 'Firefox ESR', 'Explorer >= 9', 'Android >= 4.0', '> 2%']
       })
     ]))
-    .pipe(gulp.dest('examples'))
+    .pipe(gulp.dest(path.join('examples', 'assets')))
     .pipe(browsersync.stream({match: '**/*.css'}))
 })
 
@@ -83,12 +83,13 @@ gulp.task('watch', ['build'], () => {
     notify: false,
     port: 9000,
     server: {
-      baseDir: ['examples', 'dist']
+      baseDir: [path.join('examples', 'pages'), path.join('examples', 'assets'), 'dist'],
+      directory: true
     }
   })
 
    gulp.watch(path.join('src', 'parallax.js'), ['build:js', 'build:js:minified'])
-   gulp.watch(path.join('examples', 'styles.scss'), ['build:scss'])
+   gulp.watch(path.join('examples', 'assets', 'styles.scss'), ['build:scss'])
    gulp.watch(path.join('examples', '*.html'), browsersync.reload)
 })
 
