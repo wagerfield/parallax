@@ -68,12 +68,12 @@ input[type=checkbox]:checked + label:before {
 .container {
   margin: 0 auto;
   max-width: 600px;
-  padding: 5%;
+  padding: 10px;
   position: relative;
 }
 
 .container--offset {
-  margin-left: 10%;
+  margin-left: 0;
 }
 
 .scene {
