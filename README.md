@@ -134,48 +134,6 @@ parallax.friction(0.2, 0.8);
 parallax.origin(0.0, 1.0);
 ```
 
-## jQuery
-
-If you're using **[jQuery][jquery]** or **[Zepto][zepto]** and would prefer to
-use **Parallax.js** as a plugin, you're in luck!
-
-```javascript
-$('#scene').parallax();
-```
-
-### jQuery: Passing Options
-
-```javascript
-$('#scene').parallax({
-  calibrateX: false,
-  calibrateY: true,
-  invertX: false,
-  invertY: true,
-  limitX: false,
-  limitY: 10,
-  scalarX: 2,
-  scalarY: 8,
-  frictionX: 0.2,
-  frictionY: 0.8,
-  originX: 0.0,
-  originY: 1.0
-});
-```
-### jQuery: API
-
-```javascript
-var $scene = $('#scene').parallax();
-$scene.parallax('enable');
-$scene.parallax('disable');
-$scene.parallax('updateLayers');
-$scene.parallax('calibrate', false, true);
-$scene.parallax('invert', false, true);
-$scene.parallax('limit', false, 10);
-$scene.parallax('scalar', 2, 8);
-$scene.parallax('friction', 0.2, 0.8);
-$scene.parallax('origin', 0.0, 1.0);
-```
-
 ## iOS
 
 If you are writing a **native iOS application** and would like to use **parallax.js** within a `UIWebView`, you will need to do a little bit of work to get it running.
