@@ -8,6 +8,7 @@ const browsersync = require('browser-sync').create()
 const buffer = require('vinyl-buffer')
 const notifier = require('node-notifier')
 const postcss = require('gulp-postcss')
+const rename = require('gulp-rename');
 const rimraf = require('rimraf')
 const sass = require('gulp-sass')
 const source = require('vinyl-source-stream')
@@ -20,7 +21,7 @@ gulp.task('clean', (cb) => {
 })
 
 gulp.task('build', ['clean'], () => {
-  gulp.start('build:js', 'build:js:minified', 'build:scss')
+  gulp.start('build:js', 'build:scss')
 })
 
 function showError(arg) {
@@ -60,16 +61,7 @@ gulp.task('build:js', () => {
         .pipe(source('parallax.js'))
         .pipe(buffer())
         .pipe(gulp.dest('dist'))
-        .pipe(browsersync.stream({match: path.join('**','*.js')}))
-})
-
-gulp.task('build:js:minified', () => {
-  return browserify({entries: path.join('src', 'parallax.js'), debug: true})
-        .transform("babelify")
-        .bundle()
-          .on('error', showError)
-        .pipe(source('parallax.min.js'))
-        .pipe(buffer())
+        .pipe(rename('parallax.min.js'))
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(uglify())
           .on('error', showError)
@@ -77,7 +69,6 @@ gulp.task('build:js:minified', () => {
         .pipe(gulp.dest('dist'))
         .pipe(browsersync.stream({match: path.join('**','*.js')}))
 })
-
 gulp.task('watch', ['build'], () => {
   browsersync.init({
     notify: false,
@@ -88,9 +79,9 @@ gulp.task('watch', ['build'], () => {
     }
   })
 
-   gulp.watch(path.join('src', 'parallax.js'), ['build:js', 'build:js:minified'])
+   gulp.watch(path.join('src', 'parallax.js'), ['build:js'])
    gulp.watch(path.join('examples', 'assets', 'styles.scss'), ['build:scss'])
    gulp.watch(path.join('examples', 'pages', '*.html'), browsersync.reload)
 })
 
-gulp.task('default', ['build:js', 'build:js:minified'])
+gulp.task('default', ['build:js'])

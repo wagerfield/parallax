@@ -37,6 +37,7 @@
     "babelify": "^7.3.0",
     "browserify": "^14.0.0",
     "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^2.4.0",
     "gulp-uglify": "^2.0.1",
     "gulp-util": "^3.0.8",
