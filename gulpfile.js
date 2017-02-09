@@ -30,6 +30,7 @@ function showError(arg) {
     message: '' + arg,
     sound: 'Basso'
   })
+  console.log(arg)
   this.emit('end')
 }
 
