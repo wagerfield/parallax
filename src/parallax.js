@@ -1,10 +1,13 @@
 /**
  * Parallax.js
- * @author Matthew Wagerfield - @wagerfield
+ * @author Matthew Wagerfield - @wagerfield, René Roth - mail@reneroth.org
  * @description Creates a parallax effect between an array of layers,
  *              driving the motion from the gyroscope output of a smartdevice.
  *              If no gyroscope is available, the cursor position is used.
  */
+
+const raf = require('raf')
+
 ;(function(window, document, undefined) {
 
   // Strict Mode
@@ -318,7 +321,7 @@
         window.addEventListener('mousemove', this.onMouseMove);
       }
       window.addEventListener('resize', this.onWindowResize);
-      this.raf = requestAnimationFrame(this.onAnimationFrame);
+      this.raf = raf(this.onAnimationFrame);
     }
   };
 
@@ -335,7 +338,7 @@
         window.removeEventListener('mousemove', this.onMouseMove);
       }
       window.removeEventListener('resize', this.onWindowResize);
-      cancelAnimationFrame(this.raf);
+      raf.cancel(this.raf);
     }
   };
 
@@ -468,7 +471,7 @@
       var yOffset = this.vy * (depthY * (this.invertY ? -1 : 1));
       this.setPosition(layer, xOffset, yOffset);
     }
-    this.raf = requestAnimationFrame(this.onAnimationFrame);
+    this.raf = raf(this.onAnimationFrame);
   };
 
   Parallax.prototype.rotate = function(beta,gamma){

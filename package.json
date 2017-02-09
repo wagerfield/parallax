@@ -41,6 +41,7 @@
     "gulp-uglify": "^2.0.1",
     "gulp-util": "^3.0.8",
     "node-notifier": "^5.0.2",
+    "raf": "^3.3.0",
     "rimraf": "^2.5.4",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
