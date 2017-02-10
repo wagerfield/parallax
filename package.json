@@ -3,14 +3,14 @@
   "description": "Parallax Engine that reacts to the orientation of a smart device.",
   "version": "3.0.0",
   "license": "MIT",
-  "main": "deploy/parallax.js",
+  "main": "dist/parallax.js",
   "homepage": "http://wagerfield.github.io/parallax/",
   "author": "Matthew Wagerfield <matthew@wagerfield.com>, René Roth <mail@reneroth.org>",
   "directories": {
     "example": "examples"
   },
   "scripts": {
-    "install": "gulp"
+    "install": "rm -rf dist && mkdir dist && browserify src/parallax.js -o dist/parallax.js -t babelify && uglifyjs dist/parallax.js -o dist/parallax.min.js --source-map dist/parallax.min.js.map -p relative -c"
   },
   "repository": {
     "type": "git",
@@ -28,11 +28,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
-    "babel-preset-env": "^1.1.8",
-    "babelify": "^7.3.0",
     "browser-sync": "^2.18.7",
-    "browserify": "^14.0.0",
-    "clamp": "^1.0.1",
     "gulp-postcss": "^6.3.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
@@ -46,6 +42,10 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
+    "babelify": "^7.3.0",
+    "babel-preset-env": "^1.1.8",
+    "browserify": "^14.0.0",
+    "clamp": "^1.0.1",
     "raf": "^3.3.0"
   }
 }

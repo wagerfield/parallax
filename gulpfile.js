@@ -85,4 +85,4 @@ gulp.task('watch', ['build'], () => {
    gulp.watch(path.join('examples', 'pages', '*.html'), browsersync.reload)
 })
 
-gulp.task('default', ['build:js'])
+gulp.task('default', ['watch'])
