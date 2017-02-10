@@ -1,16 +1,16 @@
 {
   "name": "parallax-js",
   "description": "Parallax Engine that reacts to the orientation of a smart device.",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "license": "MIT",
   "main": "deploy/parallax.js",
   "homepage": "http://wagerfield.github.io/parallax/",
-  "author": "Matthew Wagerfield <matthew@wagerfield.com>",
+  "author": "Matthew Wagerfield <matthew@wagerfield.com>, René Roth <mail@reneroth.org>",
   "directories": {
     "example": "examples"
   },
   "scripts": {
-    "build": "gulp"
+    "install": "gulp"
   },
   "repository": {
     "type": "git",
@@ -28,24 +28,24 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
-    "browser-sync": "^2.18.7",
-    "gulp-postcss": "^6.3.0",
-    "gulp-sass": "^3.1.0"
-  },
-  "dependencies": {
     "babel-preset-env": "^1.1.8",
     "babelify": "^7.3.0",
+    "browser-sync": "^2.18.7",
     "browserify": "^14.0.0",
     "clamp": "^1.0.1",
-    "gulp": "^3.9.1",
+    "gulp-postcss": "^6.3.0",
     "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.4.0",
     "gulp-uglify": "^2.0.1",
     "gulp-util": "^3.0.8",
+    "gulp": "^3.9.1",
     "node-notifier": "^5.0.2",
-    "raf": "^3.3.0",
     "rimraf": "^2.5.4",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "raf": "^3.3.0"
   }
 }
