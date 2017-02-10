@@ -229,12 +229,10 @@ class Parallax {
   }
 
   updateLayers() {
-    // Cache Layer Elements
     this.layers = this.element.getElementsByClassName('layer')
     this.depthsX = []
     this.depthsY = []
 
-    // Configure Layer Styles
     for (let i = 0, l = this.layers.length; i < l; i++) {
       let layer = this.layers[i]
 
@@ -247,8 +245,6 @@ class Parallax {
       layer.style.left = 0
       layer.style.top = 0
 
-      // Cache Layer Depth
-      //Graceful fallback on depth if depth-x or depth-y is absent
       var depth = this.data(layer, 'depth') || 0
       this.depthsX.push(this.data(layer, 'depth-x') || depth)
       this.depthsY.push(this.data(layer, 'depth-y') || depth)
