@@ -62,7 +62,7 @@ class Parallax {
       if (data[key] === null) delete data[key]
     }
 
-    Object.assign(this, DEFAULTS, options, data)
+    Object.assign(this, DEFAULTS, data, options)
 
     this.calibrationTimer = null
     this.calibrationFlag = true
