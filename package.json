@@ -10,7 +10,7 @@
     "example": "examples"
   },
   "scripts": {
-    "install": "rm -rf dist && mkdir dist && browserify src/parallax.js --standalone Parallax -o dist/parallax.js -t babelify && uglifyjs dist/parallax.js -o dist/parallax.min.js --source-map dist/parallax.min.js.map -p relative -c"
+    "install": "rm -rf dist && mkdir dist && browserify src/parallax.js --standalone Parallax -o dist/parallax.js -t babelify && uglifyjs dist/parallax.js -o dist/parallax.min.js --source-map dist/parallax.min.js.map -p relative"
   },
   "repository": {
     "type": "git",
@@ -29,23 +29,24 @@
   "devDependencies": {
     "autoprefixer": "^6.7.2",
     "browser-sync": "^2.18.7",
+    "gulp": "^3.9.1",
     "gulp-postcss": "^6.3.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.4.0",
     "gulp-uglify": "^2.0.1",
     "gulp-util": "^3.0.8",
-    "gulp": "^3.9.1",
     "node-notifier": "^5.0.2",
     "rimraf": "^2.5.4",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "babelify": "^7.3.0",
     "babel-preset-env": "^1.1.8",
+    "babelify": "^7.3.0",
     "browserify": "^14.0.0",
     "clamp": "^1.0.1",
-    "raf": "^3.3.0"
+    "raf": "^3.3.0",
+    "uglify-js": "^2.7.5"
   }
 }
