@@ -111,8 +111,8 @@ class Parallax {
     this.portrait = null
     this.desktop = !navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|BB10|mobi|tablet|opera mini|nexus 7)/i)
     this.vendors = [null,['-webkit-','webkit'],['-moz-','Moz'],['-o-','O'],['-ms-','ms']]
-    this.motionSupport = !!window.DeviceMotionEvent
-    this.orientationSupport = !!window.DeviceOrientationEvent
+    this.motionSupport = !!window.DeviceMotionEvent && !this.desktop
+    this.orientationSupport = !!window.DeviceOrientationEvent && !this.desktop
     this.orientationStatus = 0
     this.motionStatus = 0
     this.propertyCache = {}
@@ -287,11 +287,11 @@ class Parallax {
     }
     this.enabled = true
 
-    if (!this.desktop && this.orientationSupport) {
+    if (this.orientationSupport) {
       this.portrait = null
       window.addEventListener('deviceorientation', this.onDeviceOrientation)
       setTimeout(this.onOrientationTimer, this.supportDelay)
-    } else if (!this.desktop && this.motionSupport) {
+    } else if (this.motionSupport) {
       this.portrait = null
       window.addEventListener('devicemotion', this.onDeviceMotion)
       setTimeout(this.onMotionTimer, this.supportDelay)
