@@ -10,7 +10,7 @@
     "example": "examples"
   },
   "scripts": {
-    "install": "rm -rf dist && mkdir dist && browserify src/parallax.js -o dist/parallax.js -t babelify && uglifyjs dist/parallax.js -o dist/parallax.min.js --source-map dist/parallax.min.js.map -p relative -c"
+    "install": "rm -rf dist && mkdir dist && browserify src/parallax.js --standalone Parallax -o dist/parallax.js -t babelify && uglifyjs dist/parallax.js -o dist/parallax.min.js --source-map dist/parallax.min.js.map -p relative -c"
   },
   "repository": {
     "type": "git",

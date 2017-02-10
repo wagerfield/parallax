@@ -6,13 +6,11 @@
 *              If no gyroscope is available, the cursor position is used.
 */
 
-const rqAnFr = require('raf'),
-      clamp = require('clamp'),
-      helpers = require('./helpers.js')
+import rqAnFr from 'raf'
+import clamp from 'clamp'
+import helpers from './helpers.js'
 
-// Constants
-const NAME = 'Parallax',
-      MAGIC_NUMBER = 30,
+const MAGIC_NUMBER = 30,
       DEFAULTS = {
         relativeInput: false,
         clipRelativeInput: false,
@@ -404,4 +402,4 @@ class Parallax {
 
 }
 
-window[NAME] = Parallax
+module.exports = Parallax
