@@ -80,8 +80,8 @@ gulp.task('watch', ['build'], () => {
     }
   })
 
-   gulp.watch(path.join('src', 'parallax.js'), ['build:js'])
-   gulp.watch(path.join('examples', 'assets', 'styles.scss'), ['build:scss'])
+   gulp.watch(path.join('src', '*.js'), ['build:js'])
+   gulp.watch(path.join('examples', 'assets', '*.scss'), ['build:scss'])
    gulp.watch(path.join('examples', 'pages', '*.html'), browsersync.reload)
 })
 

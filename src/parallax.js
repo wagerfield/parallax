@@ -7,7 +7,8 @@
 */
 
 const rqAnFr = require('raf'),
-      clamp = require('clamp')
+      clamp = require('clamp'),
+      helpers = require('./helpers.js')
 
 // Constants
 const NAME = 'Parallax',
@@ -41,20 +42,20 @@ class Parallax {
     this.layers = element.getElementsByClassName('layer')
 
     let data = {
-      calibrateX: this.data(this.element, 'calibrate-x'),
-      calibrateY: this.data(this.element, 'calibrate-y'),
-      invertX: this.data(this.element, 'invert-x'),
-      invertY: this.data(this.element, 'invert-y'),
-      limitX: this.data(this.element, 'limit-x'),
-      limitY: this.data(this.element, 'limit-y'),
-      scalarX: this.data(this.element, 'scalar-x'),
-      scalarY: this.data(this.element, 'scalar-y'),
-      frictionX: this.data(this.element, 'friction-x'),
-      frictionY: this.data(this.element, 'friction-y'),
-      originX: this.data(this.element, 'origin-x'),
-      originY: this.data(this.element, 'origin-y'),
-      pointerEvents: this.data(this.element, 'pointer-events'),
-      precision: this.data(this.element, 'precision')
+      calibrateX: helpers.data(this.element, 'calibrate-x'),
+      calibrateY: helpers.data(this.element, 'calibrate-y'),
+      invertX: helpers.data(this.element, 'invert-x'),
+      invertY: helpers.data(this.element, 'invert-y'),
+      limitX: helpers.data(this.element, 'limit-x'),
+      limitY: helpers.data(this.element, 'limit-y'),
+      scalarX: helpers.data(this.element, 'scalar-x'),
+      scalarY: helpers.data(this.element, 'scalar-y'),
+      frictionX: helpers.data(this.element, 'friction-x'),
+      frictionY: helpers.data(this.element, 'friction-y'),
+      originX: helpers.data(this.element, 'origin-x'),
+      originY: helpers.data(this.element, 'origin-y'),
+      pointerEvents: helpers.data(this.element, 'pointer-events'),
+      precision: helpers.data(this.element, 'precision')
     }
 
     for (let key in data) {
@@ -101,7 +102,6 @@ class Parallax {
     this.onAnimationFrame = this.onAnimationFrame.bind(this)
     this.onWindowResize = this.onWindowResize.bind(this)
 
-    // Reset properties
     this.windowWidth = null
     this.windowHeight = null
     this.windowCenterX = null
@@ -110,110 +110,28 @@ class Parallax {
     this.windowRadiusY = null
     this.portrait = null
     this.desktop = !navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|BB10|mobi|tablet|opera mini|nexus 7)/i)
-    this.vendors = [null,['-webkit-','webkit'],['-moz-','Moz'],['-o-','O'],['-ms-','ms']]
     this.motionSupport = !!window.DeviceMotionEvent && !this.desktop
     this.orientationSupport = !!window.DeviceOrientationEvent && !this.desktop
     this.orientationStatus = 0
     this.motionStatus = 0
-    this.propertyCache = {}
 
     this.initialise()
   }
 
-  data(element, name) {
-    return this.deserialize(element.getAttribute('data-'+name))
-  }
-
-  deserialize(value) {
-    if (value === 'true') {
-      return true
-    } else if (value === 'false') {
-      return false
-    } else if (value === 'null') {
-      return null
-    } else if (!isNaN(parseFloat(value)) && isFinite(value)) {
-      return parseFloat(value)
-    } else {
-      return value
-    }
-  }
-
-  camelCase(value) {
-    return value.replace(/-+(.)?/g, (match, character) => {
-      return character ? character.toUpperCase() : ''
-    })
-  }
-
-  transformSupport(value) {
-    let element = document.createElement('div'),
-        propertySupport = false,
-        propertyValue = null,
-        featureSupport = false,
-        cssProperty = null,
-        jsProperty = null
-    for (let i = 0, l = this.vendors.length; i < l; i++) {
-      if (this.vendors[i] !== null) {
-        cssProperty = this.vendors[i][0] + 'transform'
-        jsProperty = this.vendors[i][1] + 'Transform'
-      } else {
-        cssProperty = 'transform'
-        jsProperty = 'transform'
-      }
-      if (element.style[jsProperty] !== undefined) {
-        propertySupport = true
-        break
-      }
-    }
-    switch(value) {
-      case '2D':
-        featureSupport = propertySupport
-        break
-      case '3D':
-        if (propertySupport) {
-          let body = document.body || document.createElement('body'),
-              documentElement = document.documentElement,
-              documentOverflow = documentElement.style.overflow,
-              isCreatedBody = false
-
-          if (!document.body) {
-            isCreatedBody = true
-            documentElement.style.overflow = 'hidden'
-            documentElement.appendChild(body)
-            body.style.overflow = 'hidden'
-            body.style.background = ''
-          }
-
-          body.appendChild(element)
-          element.style[jsProperty] = 'translate3d(1px,1px,1px)'
-          propertyValue = window.getComputedStyle(element).getPropertyValue(cssProperty)
-          featureSupport = propertyValue !== undefined && propertyValue.length > 0 && propertyValue !== 'none'
-          documentElement.style.overflow = documentOverflow
-          body.removeChild(element)
-
-          if ( isCreatedBody ) {
-            body.removeAttribute('style')
-            body.parentNode.removeChild(body)
-          }
-        }
-        break
-    }
-    return featureSupport
-  }
-
   initialise() {
     if (this.transform2DSupport === undefined) {
-      this.transform2DSupport = this.transformSupport('2D')
-      this.transform3DSupport = this.transformSupport('3D')
+      this.transform2DSupport = helpers.transformSupport('2D')
+      this.transform3DSupport = helpers.transformSupport('3D')
     }
 
     // Configure Context Styles
     if (this.transform3DSupport) {
-      this.accelerate(this.element)
+      helpers.accelerate(this.element)
     }
 
     let style = window.getComputedStyle(this.element)
     if (style.getPropertyValue('position') === 'static') {
-      this.element.style.position = 'relative';
+      this.element.style.position = 'relative'
     }
 
     // Pointer events
@@ -233,21 +151,21 @@ class Parallax {
     this.depthsX = []
     this.depthsY = []
 
-    for (let i = 0, l = this.layers.length; i < l; i++) {
-      let layer = this.layers[i]
+    for (let index = 0; index < this.layers.length; index++) {
+      let layer = this.layers[index]
 
       if (this.transform3DSupport) {
-        this.accelerate(layer)
+        helpers.accelerate(layer)
       }
 
-      layer.style.position = i ? 'absolute' : 'relative'
+      layer.style.position = index ? 'absolute' : 'relative'
       layer.style.display = 'block'
       layer.style.left = 0
       layer.style.top = 0
 
-      var depth = this.data(layer, 'depth') || 0
-      this.depthsX.push(this.data(layer, 'depth-x') || depth)
-      this.depthsY.push(this.data(layer, 'depth-y') || depth)
+      var depth = helpers.data(layer, 'depth') || 0
+      this.depthsX.push(helpers.data(layer, 'depth-x') || depth)
+      this.depthsY.push(helpers.data(layer, 'depth-y') || depth)
     }
   }
 
@@ -350,37 +268,13 @@ class Parallax {
     this.originY = y === undefined ? this.originY : y
   }
 
-  css(element, property, value) {
-    let jsProperty = this.propertyCache[property]
-    if (!jsProperty) {
-      for (let i = 0, l = this.vendors.length; i < l; i++) {
-        if (this.vendors[i] !== null) {
-          jsProperty = this.camelCase(this.vendors[i][1] + '-' + property)
-        } else {
-          jsProperty = property
-        }
-        if (element.style[jsProperty] !== undefined) {
-          this.propertyCache[property] = jsProperty
-          break
-        }
-      }
-    }
-    element.style[jsProperty] = value
-  }
-
-  accelerate(element) {
-    this.css(element, 'transform', 'translate3d(0,0,0)')
-    this.css(element, 'transform-style', 'preserve-3d')
-    this.css(element, 'backface-visibility', 'hidden')
-  }
-
   setPosition(element, x, y) {
     x = x.toFixed(this.precision) + 'px'
     y = y.toFixed(this.precision) + 'px'
     if (this.transform3DSupport) {
-      this.css(element, 'transform', 'translate3d(' + x + ',' + y + ',0)')
+      helpers.css(element, 'transform', 'translate3d(' + x + ',' + y + ',0)')
     } else if (this.transform2DSupport) {
-      this.css(element, 'transform', 'translate(' + x + ',' + y + ')')
+      helpers.css(element, 'transform', 'translate(' + x + ',' + y + ')')
     } else {
       element.style.left = x
       element.style.top = y
@@ -413,17 +307,17 @@ class Parallax {
 
   onAnimationFrame() {
     this.updateBounds()
-    let dx = this.inputX - this.calibrationX,
-        dy = this.inputY - this.calibrationY
-    if ((Math.abs(dx) > this.calibrationThreshold) || (Math.abs(dy) > this.calibrationThreshold)) {
+    let calibratedInputX = this.inputX - this.calibrationX,
+        calibratedInputY = this.inputY - this.calibrationY
+    if ((Math.abs(calibratedInputX) > this.calibrationThreshold) || (Math.abs(calibratedInputY) > this.calibrationThreshold)) {
       this.queueCalibration(0)
     }
     if (this.portrait) {
-      this.motionX = this.calibrateX ? dy : this.inputY
-      this.motionY = this.calibrateY ? dx : this.inputX
+      this.motionX = this.calibrateX ? calibratedInputY : this.inputY
+      this.motionY = this.calibrateY ? calibratedInputX : this.inputX
     } else {
-      this.motionX = this.calibrateX ? dx : this.inputX
-      this.motionY = this.calibrateY ? dy : this.inputY
+      this.motionX = this.calibrateX ? calibratedInputX : this.inputX
+      this.motionY = this.calibrateY ? calibratedInputY : this.inputY
     }
     this.motionX *= this.elementWidth * (this.scalarX / 100)
     this.motionY *= this.elementHeight * (this.scalarY / 100)
@@ -435,10 +329,10 @@ class Parallax {
     }
     this.velocityX += (this.motionX - this.velocityX) * this.frictionX
     this.velocityY += (this.motionY - this.velocityY) * this.frictionY
-    for (let i = 0, l = this.layers.length; i < l; i++) {
-      let layer = this.layers[i],
-          depthX = this.depthsX[i],
-          depthY = this.depthsY[i],
+    for (let index = 0; index < this.layers.length; index++) {
+      let layer = this.layers[index],
+          depthX = this.depthsX[index],
+          depthY = this.depthsY[index],
           xOffset = this.velocityX * (depthX * (this.invertX ? -1 : 1)),
           yOffset = this.velocityY * (depthY * (this.invertY ? -1 : 1))
       this.setPosition(layer, xOffset, yOffset)
