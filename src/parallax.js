@@ -310,8 +310,8 @@ class Parallax {
     if (!this.enabled) {
       return
     }
-
     this.enabled = false
+
     if (this.orientationSupport) {
       window.removeEventListener('deviceorientation', this.onDeviceOrientation)
     } else if (this.motionSupport) {
