@@ -37,11 +37,9 @@ const NAME = 'Parallax',
 class Parallax {
   constructor(element, options) {
 
-    // DOM Context
     this.element = element
     this.layers = element.getElementsByClassName('layer')
 
-    // Data Extraction
     let data = {
       calibrateX: this.data(this.element, 'calibrate-x'),
       calibrateY: this.data(this.element, 'calibrate-y'),
@@ -59,15 +57,12 @@ class Parallax {
       precision: this.data(this.element, 'precision')
     }
 
-    // Delete Null Data Values
     for (let key in data) {
       if (data[key] === null) delete data[key]
     }
 
-    // Compose Settings Object
     Object.assign(this, DEFAULTS, options, data)
 
-    // States
     this.calibrationTimer = null
     this.calibrationFlag = true
     this.enabled = false
@@ -75,38 +70,30 @@ class Parallax {
     this.depthsY = []
     this.raf = null
 
-    // Element Bounds
     this.bounds = null
-    this.ex = 0
-    this.ey = 0
-    this.ew = 0
-    this.eh = 0
+    this.elementPositionX = 0
+    this.elementPositionY = 0
+    this.elementWidth = 0
+    this.elementHeight = 0
 
-    // Element Center
-    this.ecx = 0
-    this.ecy = 0
+    this.elementCenterX = 0
+    this.elementCenterY = 0
 
-    // Element Range
-    this.erx = 0
-    this.ery = 0
+    this.elementRangeX = 0
+    this.elementRangeY = 0
 
-    // Calibration
-    this.cx = 0
-    this.cy = 0
+    this.calibrationX = 0
+    this.calibrationY = 0
 
-    // Input
-    this.ix = 0
-    this.iy = 0
+    this.inputX = 0
+    this.inputY = 0
 
-    // Motion
-    this.mx = 0
-    this.my = 0
+    this.motionX = 0
+    this.motionY = 0
 
-    // Velocity
-    this.vx = 0
-    this.vy = 0
+    this.velocityX = 0
+    this.velocityY = 0
 
-    // Callbacks
     this.onMouseMove = this.onMouseMove.bind(this)
     this.onDeviceOrientation = this.onDeviceOrientation.bind(this)
     this.onOrientationTimer = this.onOrientationTimer.bind(this)
@@ -115,12 +102,12 @@ class Parallax {
     this.onWindowResize = this.onWindowResize.bind(this)
 
     // Reset properties
-    this.ww = null
-    this.wh = null
-    this.wcx = null
-    this.wcy = null
-    this.wrx = null
-    this.wry = null
+    this.windowWidth = null
+    this.windowHeight = null
+    this.windowCenterX = null
+    this.windowCenterY = null
+    this.windowRadiusX = null
+    this.windowRadiusY = null
     this.portrait = null
     this.desktop = !navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|BB10|mobi|tablet|opera mini|nexus 7)/i)
     this.vendors = [null,['-webkit-','webkit'],['-moz-','Moz'],['-o-','O'],['-ms-','ms']]
@@ -130,7 +117,6 @@ class Parallax {
     this.motionStatus = 0
     this.propertyCache = {}
 
-    // Initialise
     this.initialise()
   }
 
@@ -270,24 +256,24 @@ class Parallax {
   }
 
   updateDimensions() {
-    this.ww = window.innerWidth
-    this.wh = window.innerHeight
-    this.wcx = this.ww * this.originX
-    this.wcy = this.wh * this.originY
-    this.wrx = Math.max(this.wcx, this.ww - this.wcx)
-    this.wry = Math.max(this.wcy, this.wh - this.wcy)
+    this.windowWidth = window.innerWidth
+    this.windowHeight = window.innerHeight
+    this.windowCenterX = this.windowWidth * this.originX
+    this.windowCenterY = this.windowHeight * this.originY
+    this.windowRadiusX = Math.max(this.windowCenterX, this.windowWidth - this.windowCenterX)
+    this.windowRadiusY = Math.max(this.windowCenterY, this.windowHeight - this.windowCenterY)
   }
 
   updateBounds() {
     this.bounds = this.element.getBoundingClientRect()
-    this.ex = this.bounds.left
-    this.ey = this.bounds.top
-    this.ew = this.bounds.width
-    this.eh = this.bounds.height
-    this.ecx = this.ew * this.originX
-    this.ecy = this.eh * this.originY
-    this.erx = Math.max(this.ecx, this.ew - this.ecx)
-    this.ery = Math.max(this.ecy, this.eh - this.ecy)
+    this.elementPositionX = this.bounds.left
+    this.elementPositionY = this.bounds.top
+    this.elementWidth = this.bounds.width
+    this.elementHeight = this.bounds.height
+    this.elementCenterX = this.elementWidth * this.originX
+    this.elementCenterY = this.elementHeight * this.originY
+    this.elementRangeX = Math.max(this.elementCenterX, this.elementWidth - this.elementCenterX)
+    this.elementRangeY = Math.max(this.elementCenterY, this.elementHeight - this.elementCenterY)
   }
 
   queueCalibration(delay) {
@@ -310,8 +296,8 @@ class Parallax {
       window.addEventListener('devicemotion', this.onDeviceMotion)
       setTimeout(this.onMotionTimer, this.supportDelay)
     } else {
-      this.cx = 0
-      this.cy = 0
+      this.calibrationX = 0
+      this.calibrationY = 0
       this.portrait = false
       window.addEventListener('mousemove', this.onMouseMove)
     }
@@ -431,34 +417,34 @@ class Parallax {
 
   onAnimationFrame() {
     this.updateBounds()
-    let dx = this.ix - this.cx,
-        dy = this.iy - this.cy
+    let dx = this.inputX - this.calibrationX,
+        dy = this.inputY - this.calibrationY
     if ((Math.abs(dx) > this.calibrationThreshold) || (Math.abs(dy) > this.calibrationThreshold)) {
       this.queueCalibration(0)
     }
     if (this.portrait) {
-      this.mx = this.calibrateX ? dy : this.iy
-      this.my = this.calibrateY ? dx : this.ix
+      this.motionX = this.calibrateX ? dy : this.inputY
+      this.motionY = this.calibrateY ? dx : this.inputX
     } else {
-      this.mx = this.calibrateX ? dx : this.ix
-      this.my = this.calibrateY ? dy : this.iy
+      this.motionX = this.calibrateX ? dx : this.inputX
+      this.motionY = this.calibrateY ? dy : this.inputY
     }
-    this.mx *= this.ew * (this.scalarX / 100)
-    this.my *= this.eh * (this.scalarY / 100)
+    this.motionX *= this.elementWidth * (this.scalarX / 100)
+    this.motionY *= this.elementHeight * (this.scalarY / 100)
     if (!isNaN(parseFloat(this.limitX))) {
-      this.mx = clamp(this.mx, -this.limitX, this.limitX)
+      this.motionX = clamp(this.motionX, -this.limitX, this.limitX)
     }
     if (!isNaN(parseFloat(this.limitY))) {
-      this.my = clamp(this.my, -this.limitY, this.limitY)
+      this.motionY = clamp(this.motionY, -this.limitY, this.limitY)
     }
-    this.vx += (this.mx - this.vx) * this.frictionX
-    this.vy += (this.my - this.vy) * this.frictionY
+    this.velocityX += (this.motionX - this.velocityX) * this.frictionX
+    this.velocityY += (this.motionY - this.velocityY) * this.frictionY
     for (let i = 0, l = this.layers.length; i < l; i++) {
       let layer = this.layers[i],
           depthX = this.depthsX[i],
           depthY = this.depthsY[i],
-          xOffset = this.vx * (depthX * (this.invertX ? -1 : 1)),
-          yOffset = this.vy * (depthY * (this.invertY ? -1 : 1))
+          xOffset = this.velocityX * (depthX * (this.invertX ? -1 : 1)),
+          yOffset = this.velocityY * (depthY * (this.invertY ? -1 : 1))
       this.setPosition(layer, xOffset, yOffset)
     }
     this.raf = rqAnFr(this.onAnimationFrame)
@@ -470,7 +456,7 @@ class Parallax {
         y = (event.gamma || 0) / MAGIC_NUMBER // -180 :: 180
 
     // Detect Orientation Change
-    let portrait = this.wh > this.ww
+    let portrait = this.windowHeight > this.windowWidth
     if (this.portrait !== portrait) {
       this.portrait = portrait
       this.calibrationFlag = true
@@ -479,13 +465,13 @@ class Parallax {
     // Set Calibration
     if (this.calibrationFlag) {
       this.calibrationFlag = false
-      this.cx = x
-      this.cy = y
+      this.calibrationX = x
+      this.calibrationY = y
     }
 
     // Set Input
-    this.ix = x
-    this.iy = y
+    this.inputX = x
+    this.inputY = y
   }
 
   onDeviceOrientation(event) {
@@ -519,20 +505,20 @@ class Parallax {
     if (!this.orientationSupport && this.relativeInput) {
       // Clip mouse coordinates inside element bounds.
       if (this.clipRelativeInput) {
-        clientX = Math.max(clientX, this.ex)
-        clientX = Math.min(clientX, this.ex + this.ew)
-        clientY = Math.max(clientY, this.ey)
-        clientY = Math.min(clientY, this.ey + this.eh)
+        clientX = Math.max(clientX, this.elementPositionX)
+        clientX = Math.min(clientX, this.elementPositionX + this.elementWidth)
+        clientY = Math.max(clientY, this.elementPositionY)
+        clientY = Math.min(clientY, this.elementPositionY + this.elementHeight)
       }
 
       // Calculate input relative to the element.
-      this.ix = (clientX - this.ex - this.ecx) / this.erx
-      this.iy = (clientY - this.ey - this.ecy) / this.ery
+      this.inputX = (clientX - this.elementPositionX - this.elementCenterX) / this.elementRangeX
+      this.inputY = (clientY - this.elementPositionY - this.elementCenterY) / this.elementRangeY
 
     } else {
       // Calculate input relative to the window.
-      this.ix = (clientX - this.wcx) / this.wrx
-      this.iy = (clientY - this.wcy) / this.wry
+      this.inputX = (clientX - this.windowCenterX) / this.windowRadiusX
+      this.inputY = (clientY - this.windowCenterY) / this.windowRadiusY
     }
   }
 
