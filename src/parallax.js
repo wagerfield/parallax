@@ -458,46 +458,38 @@ class Parallax {
       this.calibrationFlag = true
     }
 
-    // Set Calibration
     if (this.calibrationFlag) {
       this.calibrationFlag = false
       this.calibrationX = x
       this.calibrationY = y
     }
 
-    // Set Input
     this.inputX = x
     this.inputY = y
   }
 
   onDeviceOrientation(event) {
-    // Validate environment and event properties.
     var beta = event.beta
     var gamma = event.gamma
     if (!this.desktop && beta !== null && gamma !== null) {
-      // Set orientation status.
       this.orientationStatus = 1
       this.rotate(beta, gamma)
     }
   }
 
   onDeviceMotion(event) {
-    // Validate environment and event properties.
     var beta = event.rotationRate.beta
     var gamma = event.rotationRate.gamma
     if (!this.desktop && beta !== null && gamma !== null) {
-      // Set motion status.
       this.motionStatus = 1
       this.rotate(beta, gamma)
     }
   }
 
   onMouseMove(event) {
-    // Cache mouse coordinates.
     let clientX = event.clientX,
         clientY = event.clientY
 
-    // Calculate Mouse Input
     if (!this.orientationSupport && this.relativeInput) {
       // Clip mouse coordinates inside element bounds.
       if (this.clipRelativeInput) {
@@ -506,11 +498,9 @@ class Parallax {
         clientY = Math.max(clientY, this.elementPositionY)
         clientY = Math.min(clientY, this.elementPositionY + this.elementHeight)
       }
-
       // Calculate input relative to the element.
       this.inputX = (clientX - this.elementPositionX - this.elementCenterX) / this.elementRangeX
       this.inputY = (clientY - this.elementPositionY - this.elementCenterY) / this.elementRangeY
-
     } else {
       // Calculate input relative to the window.
       this.inputX = (clientX - this.windowCenterX) / this.windowRadiusX
@@ -520,5 +510,4 @@ class Parallax {
 
 }
 
-// Expose Parallax
-window[NAME] = Parallax;
+window[NAME] = Parallax
