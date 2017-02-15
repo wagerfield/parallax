@@ -45,7 +45,6 @@
     "babel-preset-env": "^1.1.8",
     "babelify": "^7.3.0",
     "browserify": "^14.0.0",
-    "clamp": "^1.0.1",
     "raf": "^3.3.0",
     "uglify-js": "^2.7.5"
   }

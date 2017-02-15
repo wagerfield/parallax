@@ -2,6 +2,13 @@ let helpers = {
   propertyCache: {},
   vendors: [null,['-webkit-','webkit'],['-moz-','Moz'],['-o-','O'],['-ms-','ms']],
 
+
+  clamp(value, min, max) {
+    return min < max
+      ? (value < min ? min : value > max ? max : value)
+      : (value < max ? max : value > min ? min : value)
+  },
+
   data(element, name) {
     return helpers.deserialize(element.getAttribute('data-'+name))
   },

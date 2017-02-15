@@ -7,7 +7,6 @@
 */
 
 import rqAnFr from 'raf'
-import clamp from 'clamp'
 import helpers from './helpers.js'
 
 const MAGIC_NUMBER = 30,
@@ -320,10 +319,10 @@ class Parallax {
     this.motionX *= this.elementWidth * (this.scalarX / 100)
     this.motionY *= this.elementHeight * (this.scalarY / 100)
     if (!isNaN(parseFloat(this.limitX))) {
-      this.motionX = clamp(this.motionX, -this.limitX, this.limitX)
+      this.motionX = helpers.clamp(this.motionX, -this.limitX, this.limitX)
     }
     if (!isNaN(parseFloat(this.limitY))) {
-      this.motionY = clamp(this.motionY, -this.limitY, this.limitY)
+      this.motionY = helpers.clamp(this.motionY, -this.limitY, this.limitY)
     }
     this.velocityX += (this.motionX - this.velocityX) * this.frictionX
     this.velocityY += (this.motionY - this.velocityY) * this.frictionY
