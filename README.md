@@ -165,23 +165,19 @@ npm install
 gulp
 ```
 
-During development you can have gulp watch the `source` directory for changes and automatically build the `deploy` files by running:
+gulp will watch the `source` directory for changes and automatically build the `dist` files, serving some demo files with live reload.
 
-```
-gulp watch
-```
+## Authors
 
-## Author
-
-Matthew Wagerfield: [@wagerfield][twitter]
+Matthew Wagerfield: [@wagerfield][twittermw]
+René Roth: [Website][websiterr]
 
 ## License
 
 Licensed under [MIT][mit]. Enjoy.
 
 [demo]: http://wagerfield.github.com/parallax/
-[twitter]: http://twitter.com/wagerfield
+[twittermw]: http://twitter.com/wagerfield
+[websiterr]: http://reneroth.org/
 [mit]: http://www.opensource.org/licenses/mit-license.php
-[jquery]: http://jquery.com/
-[zepto]: http://zeptojs.com/
 [gulp]: http://gulpjs.com/
