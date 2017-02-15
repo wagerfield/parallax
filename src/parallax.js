@@ -38,7 +38,7 @@ class Parallax {
     this.element = element
     this.layers = element.getElementsByClassName('layer')
 
-    let data = {
+    const data = {
       calibrateX: helpers.data(this.element, 'calibrate-x'),
       calibrateY: helpers.data(this.element, 'calibrate-y'),
       invertX: helpers.data(this.element, 'invert-x'),

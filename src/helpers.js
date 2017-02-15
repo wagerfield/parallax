@@ -1,4 +1,4 @@
-let helpers = {
+const helpers = {
   propertyCache: {},
   vendors: [null,['-webkit-','webkit'],['-moz-','Moz'],['-o-','O'],['-ms-','ms']],
 
