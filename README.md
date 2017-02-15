@@ -40,6 +40,9 @@ To kickoff a **Parallax** scene, select your parent DOM Element and pass it to t
 
 ```javascript
 var scene = document.getElementById('scene')
+// or, if you use jQuery
+var scene = $('#scene').get(0)
+
 var parallax = new Parallax(scene)
 ```
 
