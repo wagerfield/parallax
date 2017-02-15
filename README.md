@@ -169,7 +169,7 @@ gulp will watch the `source` directory for changes and automatically build the `
 
 ## Authors
 
-Matthew Wagerfield: [@wagerfield][twittermw]
+Matthew Wagerfield: [@wagerfield][twittermw]  
 René Roth: [Website][websiterr]
 
 ## License
