@@ -56,7 +56,9 @@ class Parallax {
     }
 
     for (let key in data) {
-      if (data[key] === null) delete data[key]
+      if (data[key] === null) {
+        delete data[key]
+      }
     }
 
     Object.assign(this, DEFAULTS, data, options)
@@ -160,7 +162,7 @@ class Parallax {
       layer.style.left = 0
       layer.style.top = 0
 
-      var depth = helpers.data(layer, 'depth') || 0
+      let depth = helpers.data(layer, 'depth') || 0
       this.depthsX.push(helpers.data(layer, 'depth-x') || depth)
       this.depthsY.push(helpers.data(layer, 'depth-y') || depth)
     }
@@ -337,10 +339,10 @@ class Parallax {
     this.raf = rqAnFr(this.onAnimationFrame)
   }
 
-  rotate(beta,gamma){
+  rotate(beta, gamma){
     // Extract Rotation
-    let x = (event.beta  || 0) / MAGIC_NUMBER, //  -90 :: 90
-        y = (event.gamma || 0) / MAGIC_NUMBER // -180 :: 180
+    let x = (beta || event.beta || 0) / MAGIC_NUMBER, //  -90 :: 90
+        y = (gamma || event.gamma || 0) / MAGIC_NUMBER // -180 :: 180
 
     // Detect Orientation Change
     let portrait = this.windowHeight > this.windowWidth
@@ -360,8 +362,8 @@ class Parallax {
   }
 
   onDeviceOrientation(event) {
-    var beta = event.beta
-    var gamma = event.gamma
+    let beta = event.beta
+    let gamma = event.gamma
     if (!this.desktop && beta !== null && gamma !== null) {
       this.orientationStatus = 1
       this.rotate(beta, gamma)
@@ -369,8 +371,8 @@ class Parallax {
   }
 
   onDeviceMotion(event) {
-    var beta = event.rotationRate.beta
-    var gamma = event.rotationRate.gamma
+    let beta = event.rotationRate.beta
+    let gamma = event.rotationRate.gamma
     if (!this.desktop && beta !== null && gamma !== null) {
       this.motionStatus = 1
       this.rotate(beta, gamma)
