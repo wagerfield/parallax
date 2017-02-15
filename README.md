@@ -6,6 +6,23 @@ Check out this **[demo][demo]** to see it in action!
 
 ## Setup
 
+Add parallax.js to your project with `npm install --save parallax-js` or `yarn add parallax-js`.   
+Now, you can require or import the library, depending on your favorite workflow.
+
+```javascript
+const Parallax = require('parallax-js')
+// or
+import Parallax from 'parallax-js'
+```
+
+Of course you can also simply copy over the compiled file from the `dist` folder and include it like any other 3rd party script.
+
+```html
+<script src="dist/parallax.js"></script>
+<!-- or if you prefer minified -->
+<script src="dist/parallax.min.js"></script>
+```
+
 Create a list of elements giving each item that you want to move within your parallax scene a class of `layer` and a `data-depth` attribute specifying its depth within the scene. A depth of **0** will cause the layer to remain stationary, and a depth of **1** will cause the layer to move by the total effect of the calculated motion. Values inbetween **0** and **1** will cause the layer to move by an amount relative to the supplied ratio.
 
 ```html
