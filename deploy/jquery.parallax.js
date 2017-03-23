@@ -511,14 +511,19 @@
       }
 
       // Calculate input relative to the element.
-      this.ix = (clientX - this.ex - this.ecx) / this.erx;
-      this.iy = (clientY - this.ey - this.ecy) / this.ery;
-
+      // Prevent from dividing by 0 bug in IE
+      if (this.erx !== 0 && this.ery !== 0) {
+        this.ix = (clientX - this.ex - this.ecx) / this.erx;
+        this.iy = (clientY - this.ey - this.ecy) / this.ery;
+      }
     } else {
 
       // Calculate input relative to the window.
-      this.ix = (clientX - this.wcx) / this.wrx;
-      this.iy = (clientY - this.wcy) / this.wry;
+      // Prevent from dividing by 0 bug in IE
+      if (this.wrx !== 0 && this.wry !==  0) {
+        this.ix = (clientX - this.wcx) / this.wrx;
+        this.iy = (clientY - this.wcy) / this.wry;
+      }
     }
   };
 
