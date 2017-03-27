@@ -5,7 +5,7 @@
  *              driving the motion from the gyroscope output of a smartdevice.
  *              If no gyroscope is available, the cursor position is used.
  */
-;(function(window, document, undefined) {
+(function(window, document, undefined) {
 
   // Strict Mode
   'use strict';
