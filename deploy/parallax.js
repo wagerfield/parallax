@@ -97,45 +97,23 @@
 
     // Compose Settings Object
     this.extend(this, DEFAULTS, options, data);
-
-    // States
-    this.calibrationTimer = null;
-    this.calibrationFlag = true;
-    this.enabled = false;
-    this.depthsX = [];
-    this.depthsY = [];
-    this.raf = null;
-
-    // Element Bounds
-    this.bounds = null;
-    this.ex = 0;
-    this.ey = 0;
-    this.ew = 0;
-    this.eh = 0;
-
-    // Element Center
-    this.ecx = 0;
-    this.ecy = 0;
-
-    // Element Range
-    this.erx = 0;
-    this.ery = 0;
-
-    // Calibration
-    this.cx = 0;
-    this.cy = 0;
-
-    // Input
-    this.ix = 0;
-    this.iy = 0;
-
-    // Motion
-    this.mx = 0;
-    this.my = 0;
-
-    // Velocity
-    this.vx = 0;
-    this.vy = 0;
+    var PARAMETERS={
+    State:{
+      calibrationTimer : null,
+      calibrationFlag : true,
+      enabled : false,
+      depthsX : [],
+      depthsY : [],
+      raf : null
+    },
+    Bound:{ bounds : null, x : 0, y : 0, w : 0, h : 0 },
+    Center:{ x : 0, y : 0 },
+    Range:{ x : 0, y : 0 },
+    Calibration:{ x : 0, y : 0 },
+    Input:{ x : 0, y : 0 },
+    Motion:{ x : 0, y : 0 },
+    Velocity: { x : 0, y : 0 }
+  };    
 
     // Callbacks
     this.onMouseMove = this.onMouseMove.bind(this);
@@ -276,15 +254,15 @@
     this.updateLayers();
     this.updateDimensions();
     this.enable();
-    this.queueCalibration(this.calibrationDelay);
+    this.queueCalibration(PARAMETERS.State.calibrationDelay);
   };
 
   Parallax.prototype.updateLayers = function() {
 
     // Cache Layer Elements
     this.layers = this.element.getElementsByClassName('layer');
-    this.depthsX = [];
-    this.depthsY = [];
+    PARAMETERS.State.depthsX = [];
+    PARAMETERS.State.depthsY = [];
 
     // Configure Layer Styles
     for (var i = 0, l = this.layers.length; i < l; i++) {
@@ -298,8 +276,8 @@
       // Cache Layer Depth
       //Graceful fallback on depth if depth-x or depth-y is absent
       var depth = this.data(layer, 'depth') || 0;
-      this.depthsX.push(this.data(layer, 'depth-x') || depth);
-      this.depthsY.push(this.data(layer, 'depth-y') || depth);
+      PARAMETERS.State.depthsX.push(this.data(layer, 'depth-x') || depth);
+      PARAMETERS.State.depthsY.push(this.data(layer, 'depth-y') || depth);
     }
   };
 
@@ -313,25 +291,25 @@
   };
 
   Parallax.prototype.updateBounds = function() {
-    this.bounds = this.element.getBoundingClientRect();
-    this.ex = this.bounds.left;
-    this.ey = this.bounds.top;
-    this.ew = this.bounds.width;
-    this.eh = this.bounds.height;
-    this.ecx = this.ew * this.originX;
-    this.ecy = this.eh * this.originY;
-    this.erx = Math.max(this.ecx, this.ew - this.ecx);
-    this.ery = Math.max(this.ecy, this.eh - this.ecy);
+    PARAMETERS.Bound.bounds = this.element.getBoundingClientRect();
+    PARAMETERS.Bound.x = PARAMETERS.Bound.bounds.left;
+    PARAMETERS.Bound.y = PARAMETERS.Bound.bounds.top;
+    PARAMETERS.Bound.w = PARAMETERS.Bound.bounds.width;
+    PARAMETERS.Bound.h = PARAMETERS.Bound.bounds.height;
+    PARAMETERS.Center.x = PARAMETERS.Bound.w * this.originX;
+    PARAMETERS.Center.y = PARAMETERS.Bound.h * this.originY;
+    PARAMETERS.Range.x = Math.max(PARAMETERS.Center.x, PARAMETERS.Bound.w - PARAMETERS.Center.x);
+    PARAMETERS.Range.y = Math.max(PARAMETERS.Center.y, PARAMETERS.Bound.h - PARAMETERS.Center.y);
   };
 
   Parallax.prototype.queueCalibration = function(delay) {
-    clearTimeout(this.calibrationTimer);
-    this.calibrationTimer = setTimeout(this.onCalibrationTimer, delay);
+    clearTimeout(PARAMETERS.State.calibrationTimer);
+    PARAMETERS.State.calibrationTimer = setTimeout(this.onCalibrationTimer, delay);
   };
 
   Parallax.prototype.enable = function() {
-    if (!this.enabled) {
-      this.enabled = true;
+    if (!PARAMETERS.State.enabled) {
+      PARAMETERS.State.enabled = true;
       if (!this.desktop && this.orientationSupport) {
         this.portrait = null;
         window.addEventListener('deviceorientation', this.onDeviceOrientation);
@@ -343,19 +321,19 @@
         setTimeout(this.onMotionTimer, this.supportDelay);
       }
       else {
-        this.cx = 0;
-        this.cy = 0;
+        PARAMETERS.Calibration.x = 0;
+        PARAMETERS.Calibration.y = 0;
         this.portrait = false;
         window.addEventListener('mousemove', this.onMouseMove);
       }
       window.addEventListener('resize', this.onWindowResize);
-      this.raf = requestAnimationFrame(this.onAnimationFrame);
+      PARAMETERS.State.raf = requestAnimationFrame(this.onAnimationFrame);
     }
   };
 
   Parallax.prototype.disable = function() {
-    if (this.enabled) {
-      this.enabled = false;
+    if (PARAMETERS.State.enabled) {
+      PARAMETERS.State.enabled = false;
       if (this.orientationSupport) {
         window.removeEventListener('deviceorientation', this.onDeviceOrientation);
       }
@@ -366,7 +344,7 @@
         window.removeEventListener('mousemove', this.onMouseMove);
       }
       window.removeEventListener('resize', this.onWindowResize);
-      cancelAnimationFrame(this.raf);
+      cancelAnimationFrame(PARAMETERS.State.raf);
     }
   };
 
@@ -460,7 +438,7 @@
   };
 
   Parallax.prototype.onCalibrationTimer = function() {
-    this.calibrationFlag = true;
+    PARAMETERS.State.calibrationFlag = true;
   };
 
   Parallax.prototype.onWindowResize = function() {
@@ -469,37 +447,37 @@
 
   Parallax.prototype.onAnimationFrame = function() {
     this.updateBounds();
-    var dx = this.ix - this.cx;
-    var dy = this.iy - this.cy;
-    if ((Math.abs(dx) > this.calibrationThreshold) || (Math.abs(dy) > this.calibrationThreshold)) {
+    var dx = PARAMETERS.Input.x - PARAMETERS.Calibration.x;
+    var dy = PARAMETERS.Input.y - PARAMETERS.Calibration.y;
+    if ((Math.abs(dx) > PARAMETERS.State.calibrationThreshold) || (Math.abs(dy) > PARAMETERS.State.calibrationThreshold)) {
       this.queueCalibration(0);
     }
     if (this.portrait) {
-      this.mx = this.calibrateX ? dy : this.iy;
-      this.my = this.calibrateY ? dx : this.ix;
+      PARAMETERS.Motion.x = this.calibrateX ? dy : PARAMETERS.Input.y;
+      PARAMETERS.Motion.y = this.calibrateY ? dx : PARAMETERS.Input.x;
     } else {
-      this.mx = this.calibrateX ? dx : this.ix;
-      this.my = this.calibrateY ? dy : this.iy;
+      PARAMETERS.Motion.x = this.calibrateX ? dx : PARAMETERS.Input.x;
+      PARAMETERS.Motion.y = this.calibrateY ? dy : PARAMETERS.Input.y;
     }
-    this.mx *= this.ew * (this.scalarX / 100);
-    this.my *= this.eh * (this.scalarY / 100);
+    PARAMETERS.Motion.x *= PARAMETERS.Bound.w * (this.scalarX / 100);
+    PARAMETERS.Motion.y *= PARAMETERS.Bound.h * (this.scalarY / 100);
     if (!isNaN(parseFloat(this.limitX))) {
-      this.mx = this.clamp(this.mx, -this.limitX, this.limitX);
+      PARAMETERS.Motion.x = this.clamp(PARAMETERS.Motion.x, -this.limitX, this.limitX);
     }
     if (!isNaN(parseFloat(this.limitY))) {
-      this.my = this.clamp(this.my, -this.limitY, this.limitY);
+      PARAMETERS.Motion.y = this.clamp(PARAMETERS.Motion.y, -this.limitY, this.limitY);
     }
-    this.vx += (this.mx - this.vx) * this.frictionX;
-    this.vy += (this.my - this.vy) * this.frictionY;
+    PARAMETERS.Velocity.x += (PARAMETERS.Motion.x - PARAMETERS.Velocity.x) * this.frictionX;
+    PARAMETERS.Velocity.y += (PARAMETERS.Motion.y - PARAMETERS.Velocity.y) * this.frictionY;
     for (var i = 0, l = this.layers.length; i < l; i++) {
       var layer = this.layers[i];
-      var depthX = this.depthsX[i];
-      var depthY = this.depthsY[i];
-      var xOffset = this.vx * (depthX * (this.invertX ? -1 : 1));
-      var yOffset = this.vy * (depthY * (this.invertY ? -1 : 1));
+      var depthX = PARAMETERS.State.depthsX[i];
+      var depthY = PARAMETERS.State.depthsY[i];
+      var xOffset = PARAMETERS.Velocity.x * (depthX * (this.invertX ? -1 : 1));
+      var yOffset = PARAMETERS.Velocity.y * (depthY * (this.invertY ? -1 : 1));
       this.setPosition(layer, xOffset, yOffset);
     }
-    this.raf = requestAnimationFrame(this.onAnimationFrame);
+    PARAMETERS.State.raf = requestAnimationFrame(this.onAnimationFrame);
   };
 
   Parallax.prototype.rotate = function(beta,gamma){
@@ -511,19 +489,19 @@
       var portrait = this.wh > this.ww;
       if (this.portrait !== portrait) {
         this.portrait = portrait;
-        this.calibrationFlag = true;
+        PARAMETERS.State.calibrationFlag = true;
       }
 
       // Set Calibration
-      if (this.calibrationFlag) {
-        this.calibrationFlag = false;
-        this.cx = x;
-        this.cy = y;
+      if (PARAMETERS.State.calibrationFlag) {
+        PARAMETERS.State.calibrationFlag = false;
+        PARAMETERS.Calibration.x = x;
+        PARAMETERS.Calibration.y = y;
       }
 
       // Set Input
-      this.ix = x;
-      this.iy = y;
+      PARAMETERS.Input.x = x;
+      PARAMETERS.Input.y = y;
   }
   Parallax.prototype.onDeviceOrientation = function(event) {
     // Validate environment and event properties.
@@ -557,21 +535,21 @@
 
       // Clip mouse coordinates inside element bounds.
       if (this.clipRelativeInput) {
-        clientX = Math.max(clientX, this.ex);
-        clientX = Math.min(clientX, this.ex + this.ew);
-        clientY = Math.max(clientY, this.ey);
-        clientY = Math.min(clientY, this.ey + this.eh);
+        clientX = Math.max(clientX, PARAMETERS.Bound.x);
+        clientX = Math.min(clientX, PARAMETERS.Bound.x + PARAMETERS.Bound.w);
+        clientY = Math.max(clientY, PARAMETERS.Bound.y);
+        clientY = Math.min(clientY, PARAMETERS.Bound.y + PARAMETERS.Bound.h);
       }
 
       // Calculate input relative to the element.
-      this.ix = (clientX - this.ex - this.ecx) / this.erx;
-      this.iy = (clientY - this.ey - this.ecy) / this.ery;
+      PARAMETERS.Input.x = (clientX - PARAMETERS.Bound.x - PARAMETERS.Center.x) / PARAMETERS.Range.x;
+      PARAMETERS.Input.y = (clientY - PARAMETERS.Bound.y - PARAMETERS.Center.y) / PARAMETERS.Range.y;
 
     } else {
 
       // Calculate input relative to the window.
-      this.ix = (clientX - this.wcx) / this.wrx;
-      this.iy = (clientY - this.wcy) / this.wry;
+      PARAMETERS.Input.x = (clientX - this.wcx) / this.wrx;
+      PARAMETERS.Input.y = (clientY - this.wcy) / this.wry;
     }
   };
 
