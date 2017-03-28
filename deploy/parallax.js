@@ -65,6 +65,23 @@
     pointerEvents: true,
     precision: 1
   };
+  var PARAMETERS={
+    State:{                                                 // States
+      calibrationTimer : null,
+      calibrationFlag : true,
+      enabled : false,
+      depthsX : [],
+      depthsY : [],
+      raf : null
+    },
+    Bound:{ bounds : null, x : 0, y : 0, w : 0, h : 0 },   // Element Bounds
+    Center:{ x : 0, y : 0 },                               // Element Center
+    Range:{ x : 0, y : 0 },                                // Element Range
+    Calibration:{ x : 0, y : 0 },                          // Calibration
+    Input:{ x : 0, y : 0 },                                // Input
+    Motion:{ x : 0, y : 0 },                               // Motion
+    Velocity: { x : 0, y : 0 }                             // Velocity
+  }; 
 
   function Parallax(element, options) {
 
@@ -96,24 +113,7 @@
     }
 
     // Compose Settings Object
-    this.extend(this, DEFAULTS, options, data);
-    var PARAMETERS={
-    State:{                                                 // States
-      calibrationTimer : null,
-      calibrationFlag : true,
-      enabled : false,
-      depthsX : [],
-      depthsY : [],
-      raf : null
-    },
-    Bound:{ bounds : null, x : 0, y : 0, w : 0, h : 0 },   // Element Bounds
-    Center:{ x : 0, y : 0 },                               // Element Center
-    Range:{ x : 0, y : 0 },                                // Element Range
-    Calibration:{ x : 0, y : 0 },                          // Calibration
-    Input:{ x : 0, y : 0 },                                // Input
-    Motion:{ x : 0, y : 0 },                               // Motion
-    Velocity: { x : 0, y : 0 }                             // Velocity
-  };    
+    this.extend(this, DEFAULTS, options, data); 
 
     // Callbacks
     this.onMouseMove = this.onMouseMove.bind(this);
