@@ -44,17 +44,11 @@
       raf : null
     },
     Bound:{ bounds : null, x : 0, y : 0, w : 0, h : 0 },
-
     Center:{ x : 0, y : 0 },
-
     Range:{ x : 0, y : 0 },
-
     Calibration:{ x : 0, y : 0 },
-
     Input:{ x : 0, y : 0 },
-
     Motion:{ x : 0, y : 0 },
-
     Velocity: { x : 0, y : 0 }
   };
 
@@ -89,9 +83,6 @@
 
     // Compose Settings Object
     this.extend(this, DEFAULTS, options, data);
-
-
-
 
     // Callbacks
     this.onMouseMove = this.onMouseMove.bind(this);
