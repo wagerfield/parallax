@@ -98,7 +98,7 @@
     // Compose Settings Object
     this.extend(this, DEFAULTS, options, data);
     var PARAMETERS={
-    State:{
+    State:{                                                 // States
       calibrationTimer : null,
       calibrationFlag : true,
       enabled : false,
@@ -106,13 +106,13 @@
       depthsY : [],
       raf : null
     },
-    Bound:{ bounds : null, x : 0, y : 0, w : 0, h : 0 },
-    Center:{ x : 0, y : 0 },
-    Range:{ x : 0, y : 0 },
-    Calibration:{ x : 0, y : 0 },
-    Input:{ x : 0, y : 0 },
-    Motion:{ x : 0, y : 0 },
-    Velocity: { x : 0, y : 0 }
+    Bound:{ bounds : null, x : 0, y : 0, w : 0, h : 0 },   // Element Bounds
+    Center:{ x : 0, y : 0 },                               // Element Center
+    Range:{ x : 0, y : 0 },                                // Element Range
+    Calibration:{ x : 0, y : 0 },                          // Calibration
+    Input:{ x : 0, y : 0 },                                // Input
+    Motion:{ x : 0, y : 0 },                               // Motion
+    Velocity: { x : 0, y : 0 }                             // Velocity
   };    
 
     // Callbacks
