@@ -425,7 +425,7 @@
   };
 
   Parallax.prototype.accelerate = function(element) {
-    this.css(element, 'transform', 'translate3d(0,0,0)');
+    this.css(element, 'transform', 'translate3d(0,0,0) rotate(0.0001deg)');
     this.css(element, 'transform-style', 'preserve-3d');
     this.css(element, 'backface-visibility', 'hidden');
   };
@@ -524,7 +524,7 @@
       // Set Input
       this.ix = x;
       this.iy = y;
-  }
+  };
   Parallax.prototype.onDeviceOrientation = function(event) {
     // Validate environment and event properties.
     var beta = event.beta;

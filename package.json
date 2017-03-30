@@ -12,6 +12,7 @@
   "scripts": {
     "build": "gulp"
   },
+  "main": "source/parallax.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/wagerfield/parallax.git"

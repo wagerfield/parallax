@@ -493,7 +493,7 @@
       // Set Input
       this.ix = x;
       this.iy = y;
-  }
+  };
   Parallax.prototype.onDeviceOrientation = function(event) {
     // Validate environment and event properties.
     var beta = event.beta;
