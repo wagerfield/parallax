@@ -46,6 +46,11 @@ var scene = $('#scene').get(0)
 var parallax = new Parallax(scene)
 ```
 
+## Interactivity
+
+If you need to interact with the layers, don't forget to set the `pointerEvents` option, and adjust your layer CSS.  
+This can be done by setting and absolute position for all layer child elements, as it's done in `examples/pages/interactive.html`. Alternatively, set `pointer-events: none` on the layers and `pointer-events: all` on the layer child elements.
+
 ## Understanding Layer Motion Calculations
 
 The amount of motion that each layer moves by depends on 3 contributing factors:
@@ -89,7 +94,7 @@ There are a number of behaviours that you can setup for any given **Parallax** i
 | `origin-x`          | `number`            | `0.5`         | The `x` origin of the mouse input. Defaults to 0.5 (the center). `0` moves the origin to the left edge, `1` to the right edge. **Mouse input only.** |
 | `origin-y`          | `number`            | `0.5`         | The `y` origin of the mouse input. Defaults to 0.5 (the center). `0` moves the origin to the top edge, `1` to the bottom edge. **Mouse input only.** |
 | `precision`         | `integer`           | `1`           | Decimals the element positions should be rounded to. Changing this value should not be necessary anytime soon.                                       |
-| `pointerEvents`     | `true` or `false`   | `true`        | Setting this to false might increase the performance in some instances, while removing pointer events for the scene - eg, Links are not clickable    |
+| `pointerEvents`     | `true` or `false`   | `false`       | Leaving this at false might increase the performance in some instances, while removing pointer events for the scene - eg, Links are not clickable    |
 
 In addition to the behaviours described above, there are **two** methods `enable()` and `disable()` that *activate* and *deactivate* the **Parallax** instance respectively.
 

@@ -143,7 +143,7 @@ const MAGIC_NUMBER = 30,
         frictionY: 0.1,
         originX: 0.5,
         originY: 0.5,
-        pointerEvents: true,
+        pointerEvents: false,
         precision: 1
       }
 
