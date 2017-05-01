@@ -26,14 +26,14 @@ Of course you can also simply copy over the compiled file from the `dist` folder
 Create a list of elements giving each item that you want to move within your parallax scene a class of `layer` and a `data-depth` attribute specifying its depth within the scene. A depth of **0** will cause the layer to remain stationary, and a depth of **1** will cause the layer to move by the total effect of the calculated motion. Values inbetween **0** and **1** will cause the layer to move by an amount relative to the supplied ratio.
 
 ```html
-<ul id="scene">
-  <li class="layer" data-depth="0.00"><img src="layer1.png"></li>
-  <li class="layer" data-depth="0.20"><img src="layer2.png"></li>
-  <li class="layer" data-depth="0.40"><img src="layer3.png"></li>
-  <li class="layer" data-depth="0.60"><img src="layer4.png"></li>
-  <li class="layer" data-depth="0.80"><img src="layer5.png"></li>
-  <li class="layer" data-depth="1.00"><img src="layer6.png"></li>
-</ul>
+<div id="scene">
+  <div class="layer" data-depth="0.00"><img src="layer1.png"></div>
+  <div class="layer" data-depth="0.20"><img src="layer2.png"></div>
+  <div class="layer" data-depth="0.40"><img src="layer3.png"></div>
+  <div class="layer" data-depth="0.60"><img src="layer4.png"></div>
+  <div class="layer" data-depth="0.80"><img src="layer5.png"></div>
+  <div class="layer" data-depth="1.00"><img src="layer6.png"></div>
+</div>
 ```
 
 To kickoff a **Parallax** scene, select your parent DOM Element and pass it to the **Parallax** constructor.
@@ -96,7 +96,7 @@ In addition to the behaviours described above, there are **two** methods `enable
 ### Behaviours: Data Attributes Example
 
 ```html
-<ul id="scene"
+<div id="scene"
   data-calibrate-x="false"
   data-calibrate-y="true"
   data-invert-x="false"
@@ -109,13 +109,13 @@ In addition to the behaviours described above, there are **two** methods `enable
   data-friction-y="0.8"
   data-origin-x="0.0"
   data-origin-y="1.0">
-  <li class="layer" data-depth="0.00"><img src="graphics/layer1.png"></li>
-  <li class="layer" data-depth="0.20"><img src="graphics/layer2.png"></li>
-  <li class="layer" data-depth="0.40"><img src="graphics/layer3.png"></li>
-  <li class="layer" data-depth="0.60"><img src="graphics/layer4.png"></li>
-  <li class="layer" data-depth="0.80"><img src="graphics/layer5.png"></li>
-  <li class="layer" data-depth="1.00"><img src="graphics/layer6.png"></li>
-</ul>
+  <div class="layer" data-depth="0.00"><img src="graphics/layer1.png"></div>
+  <div class="layer" data-depth="0.20"><img src="graphics/layer2.png"></div>
+  <div class="layer" data-depth="0.40"><img src="graphics/layer3.png"></div>
+  <div class="layer" data-depth="0.60"><img src="graphics/layer4.png"></div>
+  <div class="layer" data-depth="0.80"><img src="graphics/layer5.png"></div>
+  <div class="layer" data-depth="1.00"><img src="graphics/layer6.png"></div>
+</div>
 ```
 
 ### Behaviours: Constructor Object Example
