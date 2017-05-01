@@ -49,7 +49,7 @@ var parallax = new Parallax(scene)
 ## Interactivity
 
 If you need to interact with the layers, don't forget to set the `pointerEvents` option, and adjust your layer CSS.  
-This can be done by setting and absolute position for all layer child elements, as it's done in `examples/pages/interactive.html`. Alternatively, set `pointer-events: none` on the layers and `pointer-events: all` on the layer child elements.
+Then set an absolute position for all layer child elements, just like it's done in `examples/pages/interactive.html`. Alternatively, set `pointer-events: none` on the layers and `pointer-events: all` on the layer child elements.
 
 ## Understanding Layer Motion Calculations
 
