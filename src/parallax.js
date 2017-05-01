@@ -507,12 +507,16 @@ class Parallax {
         clientY = Math.min(clientY, this.elementPositionY + this.elementHeight)
       }
       // Calculate input relative to the element.
-      this.inputX = (clientX - this.elementPositionX - this.elementCenterX) / this.elementRangeX
-      this.inputY = (clientY - this.elementPositionY - this.elementCenterY) / this.elementRangeY
+      if(this.elementRangeX && this.elementRangeY) {
+        this.inputX = (clientX - this.elementPositionX - this.elementCenterX) / this.elementRangeX
+        this.inputY = (clientY - this.elementPositionY - this.elementCenterY) / this.elementRangeY
+      }
     } else {
       // Calculate input relative to the window.
-      this.inputX = (clientX - this.windowCenterX) / this.windowRadiusX
-      this.inputY = (clientY - this.windowCenterY) / this.windowRadiusY
+      if(this.windowRadiusX && this.windowRadiusY) {
+        this.inputX = (clientX - this.windowCenterX) / this.windowRadiusX
+        this.inputY = (clientY - this.windowCenterY) / this.windowRadiusY
+      }
     }
   }
 
