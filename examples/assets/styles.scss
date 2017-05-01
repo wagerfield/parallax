@@ -1,0 +1,112 @@
+$color-green: #00ffaa;
+$color-background: #111;
+$color-text: #555;
+
+
+body {
+  background: $color-background;
+  color: $color-text;
+  font-family: monospace;
+  font-size: 18px;
+  margin: 0;
+}
+
+img {
+  display: block;
+  width: 100%;
+}
+
+input[type=checkbox] {
+  display: none;
+}
+
+label {
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 1em;
+  padding: 0.4em 0;
+}
+
+button {
+  background: $color-text;
+  border: 10px solid $color-green;
+  cursor: pointer;
+  display: block;
+  font-family: monospace;
+  font-size: 24px;
+  height: 80px;
+  left: 10%;
+  line-height: 60px;
+  margin: 0;
+  outline: none;
+  padding: 0 1.2em;
+  position: absolute;
+  text-align: right;
+  top: 260px;
+  width: 80%;
+
+  &:hover {
+    background: $color-green;
+  }
+}
+
+input[type=checkbox] + label:before {
+  background: $color-text;
+  content: '';
+  display: inline-block;
+  height: 16px;
+  margin-right: 8px;
+  position: relative;
+  top: 1px;
+  width: 16px;
+}
+
+input[type=checkbox]:checked + label:before {
+  background: $color-green;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 10px;
+  position: relative;
+}
+
+.container--offset {
+  margin-left: 0;
+}
+
+.scene {
+  margin: 0;
+  padding: 0;
+}
+
+.fill {
+  bottom: 5%;
+  left: 5%;
+  position: absolute;
+  right: 5%;
+  top: 5%;
+}
+
+.expand-width {
+  width: 100%;
+}
+
+.border {
+  border: 2px dashed $color-green;
+}
+
+.aspect {
+  opacity: 0.2;
+}
+
+@for $i from 1 through 6 {
+  .layer:nth-child(#{$i}) {
+    opacity: #{0.15 * $i};
+
+    button {
+      transform: rotate(#{180 - 30 * $i}deg)
+    }
+  }
+}

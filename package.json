@@ -1,16 +1,16 @@
 {
   "name": "parallax-js",
   "description": "Parallax Engine that reacts to the orientation of a smart device.",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "license": "MIT",
-  "main": "deploy/parallax.js",
+  "main": "dist/parallax.js",
   "homepage": "http://wagerfield.github.io/parallax/",
-  "author": "Matthew Wagerfield <matthew@wagerfield.com>",
+  "author": "Matthew Wagerfield <matthew@wagerfield.com>, René Roth <mail@reneroth.org>",
   "directories": {
     "example": "examples"
   },
   "scripts": {
-    "build": "gulp"
+    "install": "rm -rf dist && mkdir dist && browserify src/parallax.js --standalone Parallax -o dist/parallax.js -t babelify && uglifyjs dist/parallax.js -o dist/parallax.min.js --source-map dist/parallax.min.js.map -p relative"
   },
   "repository": {
     "type": "git",
@@ -27,14 +27,25 @@
     "url": "https://github.com/wagerfield/parallax/issues"
   },
   "devDependencies": {
-    "gulp": "^3.6.1",
-    "gulp-load-plugins": "^0.5.0",
-    "gulp-clean": "^0.2.4",
-    "gulp-concat": "^2.2.0",
-    "gulp-notify": "^1.2.5",
-    "gulp-rename": "^1.2.0",
-    "gulp-jshint": "^1.5.3",
-    "gulp-uglify": "^0.2.1",
-    "jshint-stylish": "^0.1.5"
+    "autoprefixer": "^6.7.2",
+    "browser-sync": "^2.18.7",
+    "gulp": "^3.9.1",
+    "gulp-postcss": "^6.3.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.4.0",
+    "gulp-uglify": "^2.0.1",
+    "gulp-util": "^3.0.8",
+    "node-notifier": "^5.0.2",
+    "rimraf": "^2.5.4",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "babel-preset-env": "^1.1.8",
+    "babelify": "^7.3.0",
+    "browserify": "^14.0.0",
+    "raf": "^3.3.0",
+    "uglify-js": "^2.7.5"
   }
 }
