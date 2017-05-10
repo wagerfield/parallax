@@ -128,6 +128,7 @@ const MAGIC_NUMBER = 30,
       DEFAULTS = {
         relativeInput: false,
         clipRelativeInput: false,
+        hoverOnly: false,
         calibrationThreshold: 100,
         calibrationDelay: 500,
         supportDelay: 500,
@@ -169,7 +170,8 @@ class Parallax {
       pointerEvents: helpers.data(this.element, 'pointer-events'),
       precision: helpers.data(this.element, 'precision'),
       relativeInput: helpers.data(this.element, 'relative-input'),
-      clipRelativeInput: helpers.data(this.element, 'clip-relative-input')
+      clipRelativeInput: helpers.data(this.element, 'clip-relative-input'),
+      hoverOnly: helpers.data(this.element, 'hover-only')
     }
 
     for (let key in data) {
@@ -499,6 +501,15 @@ class Parallax {
   onMouseMove(event) {
     let clientX = event.clientX,
         clientY = event.clientY
+
+    // reset input to center if hoverOnly is set and we're not hovering the element
+    if(this.hoverOnly &&
+      (clientX < this.elementPositionX || clientX > this.elementPositionX + this.elementWidth) ||
+      (clientY < this.elementPositionY || clientY > this.elementPositionY + this.elementHeight)) {
+        this.inputX = 0
+        this.inputY = 0
+        return
+      }
 
     if (!this.orientationSupport && this.relativeInput) {
       // Clip mouse coordinates inside element bounds.

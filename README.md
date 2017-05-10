@@ -79,8 +79,9 @@ There are a number of behaviours that you can setup for any given **Parallax** i
 
 | Behaviour           | Values              | Default       | Description                                                                                                                                          |
 | ------------------- | ------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `relativeInput`     | `true` or `false`   | `false`       | Specifies whether or not to use the coordinate system of the `element` passed to the parallax `constructor`. **Mouse input only.**                   |
-| `clipRelativeInput` | `true` or `false`   | `false`       |  Specifies whether or not to clip the mouse input to the bounds of the `element` passed to the parallax `constructor`. **Mouse input only.**          |
+| `relativeInput`     | `true` or `false`   | `false`       | Specifies whether or not to use the coordinate system of the scene. **Mouse input only.**                                                            |
+| `clipRelativeInput` | `true` or `false`   | `false`       | Specifies whether or not to clip the mouse input to the scene bounds. No effect in combination with `hoverOnly`. **Mouse input only.**               |
+| `hoverOnly`         | `true` or `false`   | `false`       | Apply the parallax effect only while the cursor is over the scene. Best together with `relativeInput` set to true. **Mouse input only.**             |
 | `calibrate-x`       | `true` or `false`   | `false`       | Specifies whether or not to cache & calculate the motion relative to the initial `x` axis value on initialisation.                                   |
 | `calibrate-y`       | `true` or `false`   | `true`        | Specifies whether or not to cache & calculate the motion relative to the initial `y` axis value on initialisation.                                   |
 | `invert-x`          | `true` or `false`   | `true`        | `true` moves layers in opposition to the device motion, `false` slides them away.                                                                    |
@@ -96,12 +97,15 @@ There are a number of behaviours that you can setup for any given **Parallax** i
 | `precision`         | `integer`           | `1`           | Decimals the element positions should be rounded to. Changing this value should not be necessary anytime soon.                                       |
 | `pointerEvents`     | `true` or `false`   | `false`       | Leaving this at false might increase the performance in some instances, while removing pointer events for the scene - eg, Links are not clickable    |
 
-In addition to the behaviours described above, there are **two** methods `enable()` and `disable()` that *activate* and *deactivate* the **Parallax** instance respectively.
+In addition to the behaviours described above, there are the methods `enable()` and `disable()` that *activate* and *deactivate* the **Parallax** instance respectively.
 
 ### Behaviours: Data Attributes Example
 
 ```html
 <div id="scene"
+  data-relative-input="true"
+  data-clip-relative-input="false"
+  data-hover-only="true"
   data-calibrate-x="false"
   data-calibrate-y="true"
   data-invert-x="false"
@@ -113,7 +117,9 @@ In addition to the behaviours described above, there are **two** methods `enable
   data-friction-x="0.2"
   data-friction-y="0.8"
   data-origin-x="0.0"
-  data-origin-y="1.0">
+  data-origin-y="1.0"
+  data-precision="1"
+  data-pointer-events="false">
   <div class="layer" data-depth="0.00"><img src="graphics/layer1.png"></div>
   <div class="layer" data-depth="0.20"><img src="graphics/layer2.png"></div>
   <div class="layer" data-depth="0.40"><img src="graphics/layer3.png"></div>
@@ -128,6 +134,9 @@ In addition to the behaviours described above, there are **two** methods `enable
 ```javascript
 var scene = document.getElementById('scene');
 var parallax = new Parallax(scene, {
+  relativeInput: true,
+  clipRelativeInput: false,
+  hoverOnly: true,
   calibrateX: false,
   calibrateY: true,
   invertX: false,
@@ -139,7 +148,9 @@ var parallax = new Parallax(scene, {
   frictionX: 0.2,
   frictionY: 0.8,
   originX: 0.0,
-  originY: 1.0
+  originY: 1.0,
+  precision: 1,
+  pointerEvents: false
 });
 ```
 
