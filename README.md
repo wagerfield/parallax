@@ -6,7 +6,7 @@ Check out this **[demo][demo]** to see it in action!
 
 ## Setup
 
-Add parallax.js to your project with `npm install --save parallax-js` or `yarn add parallax-js`.   
+Add parallax.js to your project with `npm install --save https://github.com/wagerfield/parallax` or `yarn add https://github.com/wagerfield/parallax`.  
 Now, you can require or import the library, depending on your favorite workflow.
 
 ```javascript
@@ -15,7 +15,7 @@ const Parallax = require('parallax-js')
 import Parallax from 'parallax-js'
 ```
 
-Of course you can also simply copy over the compiled file from the `dist` folder and include it like any other 3rd party script.
+Of course you can also simply copy over the compiled file from the `dist` folder and include it like any other 3rd party script. Make sure to run `npm install` in the Parallax folder to compile the project. Or download the precompiled files from the [release section](https://github.com/wagerfield/parallax/releases).
 
 ```html
 <script src="dist/parallax.js"></script>
