@@ -504,8 +504,8 @@ class Parallax {
 
     // reset input to center if hoverOnly is set and we're not hovering the element
     if(this.hoverOnly &&
-      (clientX < this.elementPositionX || clientX > this.elementPositionX + this.elementWidth) ||
-      (clientY < this.elementPositionY || clientY > this.elementPositionY + this.elementHeight)) {
+      ((clientX < this.elementPositionX || clientX > this.elementPositionX + this.elementWidth) ||
+      (clientY < this.elementPositionY || clientY > this.elementPositionY + this.elementHeight))) {
         this.inputX = 0
         this.inputY = 0
         return
