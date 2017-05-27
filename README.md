@@ -82,6 +82,7 @@ There are a number of behaviours that you can setup for any given **Parallax** i
 | `relativeInput`     | `true` or `false`   | `false`       | Specifies whether or not to use the coordinate system of the scene. **Mouse input only.**                                                            |
 | `clipRelativeInput` | `true` or `false`   | `false`       | Specifies whether or not to clip the mouse input to the scene bounds. No effect in combination with `hoverOnly`. **Mouse input only.**               |
 | `hoverOnly`         | `true` or `false`   | `false`       | Apply the parallax effect only while the cursor is over the scene. Best together with `relativeInput` set to true. **Mouse input only.**             |
+| `inputElement`         | `null` or HTML element   | `null`       | Element used for input calculations. Works only with `relativeInput`, might make sense to set `hoverOnly`. When set via `data-input-element` attribute, takes a query selector. **Mouse input only.** |
 | `calibrate-x`       | `true` or `false`   | `false`       | Specifies whether or not to cache & calculate the motion relative to the initial `x` axis value on initialisation.                                   |
 | `calibrate-y`       | `true` or `false`   | `true`        | Specifies whether or not to cache & calculate the motion relative to the initial `y` axis value on initialisation.                                   |
 | `invert-x`          | `true` or `false`   | `true`        | `true` moves layers in opposition to the device motion, `false` slides them away.                                                                    |
@@ -106,6 +107,7 @@ In addition to the behaviours described above, there are the methods `enable()` 
   data-relative-input="true"
   data-clip-relative-input="false"
   data-hover-only="true"
+  data-input-element="#myinput"
   data-calibrate-x="false"
   data-calibrate-y="true"
   data-invert-x="false"
@@ -137,6 +139,7 @@ var parallax = new Parallax(scene, {
   relativeInput: true,
   clipRelativeInput: false,
   hoverOnly: true,
+  inputElement: document.getElementById('myinput'),
   calibrateX: false,
   calibrateY: true,
   invertX: false,
@@ -168,6 +171,7 @@ parallax.limit(false, 10);
 parallax.scalar(2, 8);
 parallax.friction(0.2, 0.8);
 parallax.origin(0.0, 1.0);
+parallax.setInputElement(document.getElementById('newinput'));
 ```
 
 ## iOS

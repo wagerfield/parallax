@@ -128,6 +128,7 @@ const MAGIC_NUMBER = 30,
       DEFAULTS = {
         relativeInput: false,
         clipRelativeInput: false,
+        inputElement: null,
         hoverOnly: false,
         calibrationThreshold: 100,
         calibrationDelay: 500,
@@ -171,7 +172,8 @@ class Parallax {
       precision: helpers.data(this.element, 'precision'),
       relativeInput: helpers.data(this.element, 'relative-input'),
       clipRelativeInput: helpers.data(this.element, 'clip-relative-input'),
-      hoverOnly: helpers.data(this.element, 'hover-only')
+      hoverOnly: helpers.data(this.element, 'hover-only'),
+      inputElement: document.querySelector(helpers.data(this.element, 'input-element'))
     }
 
     for (let key in data) {
@@ -181,6 +183,10 @@ class Parallax {
     }
 
     Object.assign(this, DEFAULTS, data, options)
+
+    if(!this.inputElement) {
+      this.inputElement = this.element
+    }
 
     this.calibrationTimer = null
     this.calibrationFlag = true
@@ -297,7 +303,7 @@ class Parallax {
   }
 
   updateBounds() {
-    this.bounds = this.element.getBoundingClientRect()
+    this.bounds = this.inputElement.getBoundingClientRect()
     this.elementPositionX = this.bounds.left
     this.elementPositionY = this.bounds.top
     this.elementWidth = this.bounds.width
@@ -384,6 +390,11 @@ class Parallax {
   origin(x, y) {
     this.originX = x === undefined ? this.originX : x
     this.originY = y === undefined ? this.originY : y
+  }
+
+  setInputElement(element) {
+    this.inputElement = element
+    this.updateDimensions()
   }
 
   setPosition(element, x, y) {
