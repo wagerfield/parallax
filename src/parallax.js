@@ -222,6 +222,7 @@ class Parallax {
 
     this.onMouseMove = this.onMouseMove.bind(this)
     this.onDeviceOrientation = this.onDeviceOrientation.bind(this)
+    this.onDeviceMotion = this.onDeviceMotion.bind(this)
     this.onOrientationTimer = this.onOrientationTimer.bind(this)
     this.onCalibrationTimer = this.onCalibrationTimer.bind(this)
     this.onAnimationFrame = this.onAnimationFrame.bind(this)
@@ -472,8 +473,8 @@ class Parallax {
 
   rotate(beta, gamma){
     // Extract Rotation
-    let x = (beta || event.beta || 0) / MAGIC_NUMBER, //  -90 :: 90
-        y = (gamma || event.gamma || 0) / MAGIC_NUMBER // -180 :: 180
+    let x = (beta || 0) / MAGIC_NUMBER, //  -90 :: 90
+        y = (gamma || 0) / MAGIC_NUMBER // -180 :: 180
 
     // Detect Orientation Change
     let portrait = this.windowHeight > this.windowWidth
