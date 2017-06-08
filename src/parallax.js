@@ -7,6 +7,7 @@
 */
 
 import rqAnFr from 'raf'
+import objectAssign from 'object-assign'
 
 const helpers = {
   propertyCache: {},
@@ -182,7 +183,7 @@ class Parallax {
       }
     }
 
-    Object.assign(this, DEFAULTS, data, options)
+    objectAssign(this, DEFAULTS, data, options)
 
     if(!this.inputElement) {
       this.inputElement = this.element
