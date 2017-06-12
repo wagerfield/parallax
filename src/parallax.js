@@ -234,7 +234,7 @@ class Parallax {
     this.windowCenterY = null
     this.windowRadiusX = null
     this.windowRadiusY = null
-    this.portrait = null
+    this.portrait = false
     this.desktop = !navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|BB10|mobi|tablet|opera mini|nexus 7)/i)
     this.motionSupport = !!window.DeviceMotionEvent && !this.desktop
     this.orientationSupport = !!window.DeviceOrientationEvent && !this.desktop
@@ -328,11 +328,11 @@ class Parallax {
     this.enabled = true
 
     if (this.orientationSupport) {
-      this.portrait = null
+      this.portrait = false
       window.addEventListener('deviceorientation', this.onDeviceOrientation)
       setTimeout(this.onOrientationTimer, this.supportDelay)
     } else if (this.motionSupport) {
-      this.portrait = null
+      this.portrait = false
       window.addEventListener('devicemotion', this.onDeviceMotion)
       setTimeout(this.onMotionTimer, this.supportDelay)
     } else {
@@ -496,7 +496,7 @@ class Parallax {
   onDeviceOrientation(event) {
     let beta = event.beta
     let gamma = event.gamma
-    if (!this.desktop && beta !== null && gamma !== null) {
+    if (beta !== null && gamma !== null) {
       this.orientationStatus = 1
       this.rotate(beta, gamma)
     }
@@ -505,7 +505,7 @@ class Parallax {
   onDeviceMotion(event) {
     let beta = event.rotationRate.beta
     let gamma = event.rotationRate.gamma
-    if (!this.desktop && beta !== null && gamma !== null) {
+    if (beta !== null && gamma !== null) {
       this.motionStatus = 1
       this.rotate(beta, gamma)
     }
