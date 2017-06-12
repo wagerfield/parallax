@@ -6,8 +6,8 @@
 *              If no gyroscope is available, the cursor position is used.
 */
 
-import rqAnFr from 'raf'
-import objectAssign from 'object-assign'
+const rqAnFr = require('raf')
+const objectAssign = require('object-assign')
 
 const helpers = {
   propertyCache: {},
