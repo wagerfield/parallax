@@ -56,7 +56,7 @@ gulp.task('build:scss', () => {
 
 gulp.task('build:js', () => {
   return browserify({entries: path.join('src', 'parallax.js'), debug: true, standalone: 'Parallax'})
-        .transform("babelify")
+        .transform("babelify", {presets: ["es2015"]})
         .bundle()
           .on('error', showError)
         .pipe(source('parallax.js'))

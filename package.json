@@ -10,7 +10,8 @@
     "example": "examples"
   },
   "scripts": {
-    "install": "rm -rf dist && mkdir dist && NODE_ENV=development browserify src/parallax.js --standalone Parallax -o dist/parallax.js -t babelify && uglifyjs dist/parallax.js -o dist/parallax.min.js --source-map dist/parallax.min.js.map -p relative"
+    "install": "npm run build",
+    "build": "rm -rf dist && mkdir dist && browserify src/parallax.js --standalone Parallax -o dist/parallax.js && babel dist/parallax.js --no-babelrc --presets=es2015 --out-file dist/parallax.js && uglifyjs dist/parallax.js -o dist/parallax.min.js --source-map dist/parallax.min.js.map -p relative"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
+    "babelify": "^7.3.0",
     "browser-sync": "^2.18.7",
     "gulp": "^3.9.1",
     "gulp-postcss": "^6.3.0",
@@ -42,8 +44,8 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "babel-preset-env": "^1.1.8",
-    "babelify": "^7.3.0",
+    "babel-cli": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
     "browserify": "^14.0.0",
     "object-assign": "^4.1.1",
     "raf": "^3.3.0",
