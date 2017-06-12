@@ -224,6 +224,7 @@ class Parallax {
     this.onDeviceOrientation = this.onDeviceOrientation.bind(this)
     this.onDeviceMotion = this.onDeviceMotion.bind(this)
     this.onOrientationTimer = this.onOrientationTimer.bind(this)
+    this.onMotionTimer = this.onMotionTimer.bind(this)
     this.onCalibrationTimer = this.onCalibrationTimer.bind(this)
     this.onAnimationFrame = this.onAnimationFrame.bind(this)
     this.onWindowResize = this.onWindowResize.bind(this)
