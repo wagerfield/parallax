@@ -524,7 +524,7 @@ class Parallax {
         return
       }
 
-    if (!this.orientationSupport && this.relativeInput) {
+    if (this.relativeInput) {
       // Clip mouse coordinates inside element bounds.
       if (this.clipRelativeInput) {
         clientX = Math.max(clientX, this.elementPositionX)
