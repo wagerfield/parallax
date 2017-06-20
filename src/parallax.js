@@ -147,7 +147,8 @@ const MAGIC_NUMBER = 30,
         originX: 0.5,
         originY: 0.5,
         pointerEvents: false,
-        precision: 1
+        precision: 1,
+        onReady: null
       }
 
 class Parallax {
@@ -273,6 +274,12 @@ class Parallax {
     this.queueCalibration(this.calibrationDelay)
   }
 
+  doReadyCallback() {
+    if(this.onReady) {
+      this.onReady()
+    }
+  }
+
   updateLayers() {
     this.layers = this.element.getElementsByClassName('layer')
     this.depthsX = []
@@ -341,6 +348,7 @@ class Parallax {
       this.calibrationY = 0
       this.portrait = false
       window.addEventListener('mousemove', this.onMouseMove)
+      this.doReadyCallback()
     }
 
     window.addEventListener('resize', this.onWindowResize)
@@ -418,6 +426,8 @@ class Parallax {
       this.disable()
       this.orientationSupport = false
       this.enable()
+    } else {
+      this.doReadyCallback()
     }
   }
 
@@ -426,6 +436,8 @@ class Parallax {
       this.disable()
       this.motionSupport = false
       this.enable()
+    } else {
+      this.doReadyCallback()
     }
   }
 
