@@ -102,7 +102,7 @@ input[type=checkbox]:checked + label:before {
 }
 
 @for $i from 1 through 6 {
-  .layer:nth-child(#{$i}) {
+  .scene > *:nth-child(#{$i}) {
     opacity: #{0.15 * $i};
 
     button {

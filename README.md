@@ -23,16 +23,16 @@ Of course you can also simply copy over the compiled file from the `dist` folder
 <script src="dist/parallax.min.js"></script>
 ```
 
-Create a list of elements giving each item that you want to move within your parallax scene a class of `layer` and a `data-depth` attribute specifying its depth within the scene. A depth of **0** will cause the layer to remain stationary, and a depth of **1** will cause the layer to move by the total effect of the calculated motion. Values inbetween **0** and **1** will cause the layer to move by an amount relative to the supplied ratio.
+Give each element within your scene a `data-depth` attribute specifying its depth within the scene. A depth of **0** will cause the layer to remain stationary, and a depth of **1** will cause the layer to move by the total effect of the calculated motion. Values inbetween **0** and **1** will cause the layer to move by an amount relative to the supplied ratio.
 
 ```html
 <div id="scene">
-  <div class="layer" data-depth="0.00"><img src="layer1.png"></div>
-  <div class="layer" data-depth="0.20"><img src="layer2.png"></div>
-  <div class="layer" data-depth="0.40"><img src="layer3.png"></div>
-  <div class="layer" data-depth="0.60"><img src="layer4.png"></div>
-  <div class="layer" data-depth="0.80"><img src="layer5.png"></div>
-  <div class="layer" data-depth="1.00"><img src="layer6.png"></div>
+  <div data-depth="0.00"><img src="layer1.png"></div>
+  <div data-depth="0.20"><img src="layer2.png"></div>
+  <div data-depth="0.40"><img src="layer3.png"></div>
+  <div data-depth="0.60"><img src="layer4.png"></div>
+  <div data-depth="0.80"><img src="layer5.png"></div>
+  <div data-depth="1.00"><img src="layer6.png"></div>
 </div>
 ```
 
@@ -123,12 +123,12 @@ In addition to the behaviours described above, there are the methods `enable()` 
   data-origin-y="1.0"
   data-precision="1"
   data-pointer-events="false">
-  <div class="layer" data-depth="0.00"><img src="graphics/layer1.png"></div>
-  <div class="layer" data-depth="0.20"><img src="graphics/layer2.png"></div>
-  <div class="layer" data-depth="0.40"><img src="graphics/layer3.png"></div>
-  <div class="layer" data-depth="0.60"><img src="graphics/layer4.png"></div>
-  <div class="layer" data-depth="0.80"><img src="graphics/layer5.png"></div>
-  <div class="layer" data-depth="1.00"><img src="graphics/layer6.png"></div>
+  <div data-depth="0.00"><img src="graphics/layer1.png"></div>
+  <div data-depth="0.20"><img src="graphics/layer2.png"></div>
+  <div data-depth="0.40"><img src="graphics/layer3.png"></div>
+  <div data-depth="0.60"><img src="graphics/layer4.png"></div>
+  <div data-depth="0.80"><img src="graphics/layer5.png"></div>
+  <div data-depth="1.00"><img src="graphics/layer6.png"></div>
 </div>
 ```
 

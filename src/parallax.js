@@ -281,7 +281,7 @@ class Parallax {
   }
 
   updateLayers() {
-    this.layers = this.element.getElementsByClassName('layer')
+    this.layers = this.element.children
     this.depthsX = []
     this.depthsY = []
 
