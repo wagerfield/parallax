@@ -96,8 +96,9 @@ There are a number of behaviours that you can setup for any given **Parallax** i
 | `origin-x`          | `number`            | `0.5`         | The `x` origin of the mouse input. Defaults to 0.5 (the center). `0` moves the origin to the left edge, `1` to the right edge. **Mouse input only.** |
 | `origin-y`          | `number`            | `0.5`         | The `y` origin of the mouse input. Defaults to 0.5 (the center). `0` moves the origin to the top edge, `1` to the bottom edge. **Mouse input only.** |
 | `precision`         | `integer`           | `1`           | Decimals the element positions should be rounded to. Changing this value should not be necessary anytime soon.                                       |
+| `selector`          | `string`            | `null`        | String that will be fed to querySelectorAll on the scene element. You could enter a value of `.layer` to restore old, class-based behaviour |
 | `pointerEvents`     | `true` or `false`   | `false`       | Leaving this at false might increase the performance in some instances, while removing pointer events for the scene - eg, Links are not clickable    |
-| `onReady`     | `null` or `function`   | `null`       | Function that will be called as soon as Parallax setup is completed. Might take up to 1000ms (`calibrationDelay * 2`)    |
+| `onReady`           | `null` or `function`| `null`        | Function that will be called as soon as Parallax setup is completed. Might take up to 1000ms (`calibrationDelay * 2`)    |
 
 In addition to the behaviours described above, there are the methods `enable()` and `disable()` that *activate* and *deactivate* the **Parallax** instance respectively.
 

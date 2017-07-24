@@ -148,7 +148,8 @@ const MAGIC_NUMBER = 30,
         originY: 0.5,
         pointerEvents: false,
         precision: 1,
-        onReady: null
+        onReady: null,
+        selector: null
       }
 
 class Parallax {
@@ -175,7 +176,8 @@ class Parallax {
       relativeInput: helpers.data(this.element, 'relative-input'),
       clipRelativeInput: helpers.data(this.element, 'clip-relative-input'),
       hoverOnly: helpers.data(this.element, 'hover-only'),
-      inputElement: document.querySelector(helpers.data(this.element, 'input-element'))
+      inputElement: document.querySelector(helpers.data(this.element, 'input-element')),
+      selector: helpers.data(this.element, 'selector')
     }
 
     for (let key in data) {
@@ -281,7 +283,16 @@ class Parallax {
   }
 
   updateLayers() {
-    this.layers = this.element.children
+    if(this.selector) {
+      this.layers = this.element.querySelectorAll(this.selector)
+    } else {
+      this.layers = this.element.children
+    }
+
+    if(!this.layers.length) {
+      console.warn('ParallaxJS: Your scene does not have any layers.')
+    }
+
     this.depthsX = []
     this.depthsY = []
 
