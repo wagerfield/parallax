@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+
+	<title>Parallax.js | Instance Destruction Example</title>
+
+	<!-- Behavioral Meta Data -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+	<!-- Styles -->
+	<link rel="stylesheet" type="text/css" href="styles.css"/>
+
+</head>
+<body>
+
+	<button id="deleteme">Delete me!</button>
+
+	<div id="container" class="container">
+		<div id="scene" class="scene">
+			<div data-depth="1.00"><img src="images/layer1.png"></div>
+			<div data-depth="0.80"><img src="images/layer2.png"></div>
+			<div data-depth="0.60"><img src="images/layer3.png"></div>
+			<div data-depth="0.40"><img src="images/layer4.png"></div>
+			<div data-depth="0.20"><img src="images/layer5.png"></div>
+			<div data-depth="0.00"><img src="images/layer6.png"></div>
+		</div>
+	</div>
+
+	<!-- Scripts -->
+	<script src="./parallax.js"></script>
+	<script>
+
+	var scene = document.getElementById('scene');
+	var parallax = new Parallax(scene);
+
+	document.getElementById('deleteme').onclick = function() {
+		parallax.destroy();
+		parallax = null;
+
+		this.onclick = null;
+		this.style.display = 'none';
+	};
+
+	</script>
+
+</body>
+</html>

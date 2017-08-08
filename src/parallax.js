@@ -156,7 +156,6 @@ class Parallax {
   constructor(element, options) {
 
     this.element = element
-    this.layers = element.getElementsByClassName('layer')
 
     const data = {
       calibrateX: helpers.data(this.element, 'calibrate-x'),
@@ -349,11 +348,11 @@ class Parallax {
     if (this.orientationSupport) {
       this.portrait = false
       window.addEventListener('deviceorientation', this.onDeviceOrientation)
-      setTimeout(this.onOrientationTimer, this.supportDelay)
+      this.detectionTimer = setTimeout(this.onOrientationTimer, this.supportDelay)
     } else if (this.motionSupport) {
       this.portrait = false
       window.addEventListener('devicemotion', this.onDeviceMotion)
-      setTimeout(this.onMotionTimer, this.supportDelay)
+      this.detectionTimer = setTimeout(this.onMotionTimer, this.supportDelay)
     } else {
       this.calibrationX = 0
       this.calibrationY = 0
@@ -568,6 +567,21 @@ class Parallax {
         this.inputY = (clientY - this.windowCenterY) / this.windowRadiusY
       }
     }
+  }
+
+  destroy() {
+    this.disable()
+
+    clearTimeout(this.calibrationTimer)
+    clearTimeout(this.detectionTimer)
+
+    this.element.removeAttribute('style')
+    for (let index = 0; index < this.layers.length; index++) {
+      this.layers[index].removeAttribute('style')
+    }
+
+    delete this.element
+    delete this.layers
   }
 
 }

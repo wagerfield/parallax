@@ -27,29 +27,6 @@ label {
   padding: 0.4em 0;
 }
 
-button {
-  background: $color-text;
-  border: 10px solid $color-green;
-  cursor: pointer;
-  display: block;
-  font-family: monospace;
-  font-size: 24px;
-  height: 80px;
-  left: 10%;
-  line-height: 60px;
-  margin: 0;
-  outline: none;
-  padding: 0 1.2em;
-  position: absolute;
-  text-align: right;
-  top: 260px;
-  width: 80%;
-
-  &:hover {
-    background: $color-green;
-  }
-}
-
 input[type=checkbox] + label:before {
   background: $color-text;
   content: '';
@@ -76,9 +53,39 @@ input[type=checkbox]:checked + label:before {
   margin-left: 0;
 }
 
+button {
+  background: $color-text;
+  border: 10px solid $color-green;
+  cursor: pointer;
+  display: block;
+  font-family: monospace;
+  font-size: 24px;
+  height: 80px;
+  line-height: 60px;
+  margin: 0;
+  outline: none;
+  padding: 0 1.2em;
+  text-align: right;
+
+  &:hover {
+    background: $color-green;
+  }
+
+  &#deleteme {
+    margin: 2rem;
+  }
+}
+
 .scene {
   margin: 0;
   padding: 0;
+
+  button {
+    left: 10%;
+    top: 260px;
+    width: 80%;
+    position: absolute;
+  }
 }
 
 .fill {
