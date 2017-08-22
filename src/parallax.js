@@ -11,7 +11,7 @@ const objectAssign = require('object-assign')
 
 const helpers = {
   propertyCache: {},
-  vendors: [null,['-webkit-','webkit'],['-moz-','Moz'],['-o-','O'],['-ms-','ms']],
+  vendors: [null, ['-webkit-','webkit'], ['-moz-','Moz'], ['-o-','O'], ['-ms-','ms']],
 
   clamp(value, min, max) {
     return min < max
@@ -582,6 +582,10 @@ class Parallax {
 
     delete this.element
     delete this.layers
+  }
+
+  version() {
+    return '3.0.0'
   }
 
 }
