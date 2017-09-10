@@ -9,10 +9,7 @@
   "directories": {
     "example": "examples"
   },
-  "scripts": {
-    "install": "npm run build",
-    "build": "rm -rf dist && mkdir dist && browserify src/parallax.js --standalone Parallax -o dist/parallax.js && babel dist/parallax.js --no-babelrc --presets=es2015 --out-file dist/parallax.js && uglifyjs dist/parallax.js -o dist/parallax.min.js --source-map dist/parallax.min.js.map -p relative"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git://github.com/wagerfield/parallax.git"
@@ -28,15 +25,17 @@
     "url": "https://github.com/wagerfield/parallax/issues"
   },
   "devDependencies": {
-    "autoprefixer": "^6.7.2",
+    "autoprefixer": "^7.1.4",
+    "babel-preset-es2015": "^6.24.1",
     "babelify": "^7.3.0",
-    "browser-sync": "^2.18.7",
+    "browser-sync": "^2.18.13",
+    "browserify": "^14.0.0",
     "gulp": "^3.9.1",
-    "gulp-postcss": "^6.3.0",
+    "gulp-postcss": "^7.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
-    "gulp-sourcemaps": "^2.4.0",
-    "gulp-uglify": "^2.0.1",
+    "gulp-sourcemaps": "^2.6.1",
+    "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.8",
     "node-notifier": "^5.0.2",
     "rimraf": "^2.5.4",
@@ -44,11 +43,7 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-preset-es2015": "^6.24.1",
-    "browserify": "^14.0.0",
     "object-assign": "^4.1.1",
-    "raf": "^3.3.0",
-    "uglify-js": "^2.7.5"
+    "raf": "^3.3.0"
   }
 }
