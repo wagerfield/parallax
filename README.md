@@ -17,6 +17,7 @@ Check out the **[demo](http://wagerfield.github.com/parallax/)** to see it in ac
 - [4. Development](#4-development)
 	- [4.1 Running the Project](#41-running-the-project)
 	- [4.2 Opening an Issue](#42-opening-an-issue)
+	- [4.3 Known Issues](#42-known-issues)
 - [5. FAQ](#5-faq)
 - [6. Information](#6-information)
    - [6.1 License](#61-license)
@@ -316,6 +317,12 @@ Returns the version number of the Parallax library.
 If you need help relating the direct usage of this library in a project of yours, provide us with a working, running example of your work. This can be a GitHub repository, a ZIP file containing your work, a project on CodePen or JSFiddle, you name it.  
 *Do not complain about something not working without giving us some way to help you.* Thank you!
 
+## 4.3 Known Issues
+
+### SVG-Bug in MS Edge
+
+It seems MS Edge does not support the `children` or `querySelectorAll` methods for SVG elements.
+
 # 5. FAQ
 
 ### How can I use this Library with jQuery?
@@ -334,8 +341,6 @@ Check out the section on the configuration option `pointerEvents` above.
 ### How do I get the demo files to work?
 
 Either download compiled_with_examples.zip from the [GitHub Releases](https://github.com/wagerfield/parallax/releases) section, or follow section 4.1
-
-*More to be added soon...*
 
 
 # 6. Information
