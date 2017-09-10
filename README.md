@@ -331,6 +331,9 @@ var parallaxInstance = new Parallax(scene);
 
 Check out the section on the configuration option `pointerEvents` above.
 
+### How do I get the demo files to work?
+
+Either download compiled_with_examples.zip from the [GitHub Releases](https://github.com/wagerfield/parallax/releases) section, or follow section 4.1
 
 *More to be added soon...*
 
