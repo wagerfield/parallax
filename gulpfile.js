@@ -70,6 +70,7 @@ gulp.task('build:js', () => {
         .pipe(gulp.dest('dist'))
         .pipe(browsersync.stream({match: path.join('**','*.js')}))
 })
+
 gulp.task('watch', ['build'], () => {
   browsersync.init({
     notify: false,
@@ -79,7 +80,6 @@ gulp.task('watch', ['build'], () => {
       directory: true
     }
   })
-
    gulp.watch(path.join('src', '*.js'), ['build:js'])
    gulp.watch(path.join('examples', 'assets', '*.scss'), ['build:scss'])
    gulp.watch(path.join('examples', 'pages', '*.html'), browsersync.reload)
