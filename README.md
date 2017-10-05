@@ -29,7 +29,7 @@ Check out the **[demo](http://wagerfield.github.com/parallax/)** to see it in ac
 
 ### 1.1 a) Beginners
 
-1. Head over to the [releases](releases) Section
+1. Head over to the [releases](https://github.com/wagerfield/parallax/releases) Section
 2. Download `compiled.zip` from the latest release
 3. Extract the ZIP archive and locate the `parallax.js` and `parallax.min.js` files
 	- Use `parallax.js` if you want to snoop around in the code
