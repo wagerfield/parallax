@@ -1,5 +1,7 @@
 ![Parallax.js](logo.png)
 
+[![CDNJS](https://img.shields.io/cdnjs/v/parallax.svg)](https://cdnjs.com/libraries/parallax)
+
 Parallax Engine that reacts to the orientation of a smart device. Where no gyroscope or motion detection hardware is available, the position of the cursor is used instead.
 
 Check out the **[demo](http://wagerfield.github.com/parallax/)** to see it in action!
