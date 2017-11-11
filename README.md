@@ -29,7 +29,14 @@ Check out the **[demo](http://wagerfield.github.com/parallax/)** to see it in ac
 
 ## 1.1 Installation
 
-### 1.1 a) Beginners
+### 1.1 a) Using the CDN
+
+1. Add `<script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>` to your markup
+2. Done!
+
+Many thanks to the fine folks over at [cdnjs](https://cdnjs.com/) for hosting our library.
+
+### 1.1 b) Beginners
 
 1. Head over to the [releases](https://github.com/wagerfield/parallax/releases) Section
 2. Download `compiled.zip` from the latest release
@@ -39,7 +46,7 @@ Check out the **[demo](http://wagerfield.github.com/parallax/)** to see it in ac
 4. Copy the file of your choice into your project directory
 5. So far, so good!
 
-### 1.1 b) Professionals
+### 1.1 c) Professionals
 
 `npm i -s parallax-js`
 
