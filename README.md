@@ -19,7 +19,7 @@ Check out the **[demo](http://wagerfield.github.com/parallax/)** to see it in ac
 - [4. Development](#4-development)
 	- [4.1 Running the Project](#41-running-the-project)
 	- [4.2 Opening an Issue](#42-opening-an-issue)
-	- [4.3 Known Issues](#42-known-issues)
+	- [4.3 Known Issues](#43-known-issues)
 - [5. FAQ](#5-faq)
 - [6. Information](#6-information)
    - [6.1 License](#61-license)
