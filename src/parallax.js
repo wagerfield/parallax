@@ -130,6 +130,8 @@ const MAGIC_NUMBER = 30,
         relativeInput: false,
         clipRelativeInput: false,
         tilt: false,
+        tiltPerspective: 2000,
+        tiltScale: 1,
         inputElement: null,
         hoverOnly: false,
         calibrationThreshold: 100,
@@ -176,6 +178,8 @@ class Parallax {
       relativeInput: helpers.data(this.element, 'relative-input'),
       clipRelativeInput: helpers.data(this.element, 'clip-relative-input'),
       tilt: helpers.data(this.element, 'tilt'),
+      tiltPerspective: helpers.data(this.element, 'tilt-perspective'),
+      tiltScale: helpers.data(this.element, 'tilt-scale'),
       hoverOnly: helpers.data(this.element, 'hover-only'),
       inputElement: document.querySelector(helpers.data(this.element, 'input-element')),
       selector: helpers.data(this.element, 'selector')
@@ -434,8 +438,8 @@ class Parallax {
   }
 
   setTransform(element, x, y) {
-    var perspective = 2000;
-    var scale = 1;
+    var perspective = this.tiltPerspective;
+    var scale = this.tiltScale;
     element.style.transform = "perspective(" + perspective + "px) " +
       "rotateX(" + y + "deg) " +
       "rotateY(" + x + "deg) " +
