@@ -152,7 +152,8 @@ const MAGIC_NUMBER = 30,
         pointerEvents: false,
         precision: 1,
         onReady: null,
-        selector: null
+        selector: null,
+        continueAnimatingWhileDisabled: false,
       }
 
 class Parallax {
@@ -182,7 +183,8 @@ class Parallax {
       tiltScale: helpers.data(this.element, 'tilt-scale'),
       hoverOnly: helpers.data(this.element, 'hover-only'),
       inputElement: document.querySelector(helpers.data(this.element, 'input-element')),
-      selector: helpers.data(this.element, 'selector')
+      selector: helpers.data(this.element, 'selector'),
+      continueAnimatingWhileDisabled: helpers.data(this.element, 'continue-animating-while-disabled')
     }
 
     for (let key in data) {
@@ -386,7 +388,10 @@ class Parallax {
     }
 
     window.removeEventListener('resize', this.onWindowResize)
-    rqAnFr.cancel(this.raf)
+
+    if (!this.continueAnimatingWhileDisabled) {
+      rqAnFr.cancel(this.raf)
+    }
   }
 
   calibrate(x, y) {
@@ -442,8 +447,13 @@ class Parallax {
     var scale = this.tiltScale;
     element.style.transform = "perspective(" + perspective + "px) " +
       "rotateX(" + y + "deg) " +
-      "rotateY(" + x + "deg) " +
+      "rotateY(" + -x + "deg) " +
       "scale3d(" + scale + ", " + scale + ", " + scale + ")";
+  }
+
+  resetTransform() {
+    this.inputX = this.calibrationX;
+    this.inputY = this.calibrationY;
   }
 
   onOrientationTimer() {
