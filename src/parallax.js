@@ -418,13 +418,13 @@ class Parallax {
     this.updateDimensions()
   }
 
-  setPosition(element, x, y) {
+  setPosition(element, x, y, z) {
     x = x.toFixed(this.precision) + 'px'
     y = y.toFixed(this.precision) + 'px'
     if (this.transform3DSupport) {
-      helpers.css(element, 'transform', 'translate3d(' + x + ',' + y + ',0)')
+      helpers.css(element, 'transform', 'translate3d(' + x + ',' + y + ',0)' + (z !== null ? ' scale(' + z + ')' : ''))
     } else if (this.transform2DSupport) {
-      helpers.css(element, 'transform', 'translate(' + x + ',' + y + ')')
+      helpers.css(element, 'transform', 'translate(' + x + ',' + y + ')' + (z !== null ? ' scale(' + z + ')' : ''))
     } else {
       element.style.left = x
       element.style.top = y
@@ -456,7 +456,11 @@ class Parallax {
   }
 
   onWindowResize() {
-    this.updateDimensions()
+    // this.updateDimensions()
+  }
+
+  setScaler(scaler) {
+    this.scaler = scaler;
   }
 
   onAnimationFrame() {
@@ -488,8 +492,9 @@ class Parallax {
           depthX = this.depthsX[index],
           depthY = this.depthsY[index],
           xOffset = this.velocityX * (depthX * (this.invertX ? -1 : 1)),
-          yOffset = this.velocityY * (depthY * (this.invertY ? -1 : 1))
-      this.setPosition(layer, xOffset, yOffset)
+          yOffset = this.velocityY * (depthY * (this.invertY ? -1 : 1)),
+          zOffset = this.scaler ? this.scaler(depthX, depthY, xOffset, yOffset) : null
+      this.setPosition(layer, xOffset, yOffset, zOffset)
     }
     this.raf = rqAnFr(this.onAnimationFrame)
   }
