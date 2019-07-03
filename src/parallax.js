@@ -295,6 +295,9 @@ class Parallax {
     this.depthsX = []
     this.depthsY = []
 
+    this.limitsX = []
+    this.limitsY = []
+
     for (let index = 0; index < this.layers.length; index++) {
       let layer = this.layers[index]
 
@@ -310,6 +313,12 @@ class Parallax {
       let depth = helpers.data(layer, 'depth') || 0
       this.depthsX.push(helpers.data(layer, 'depth-x') || depth)
       this.depthsY.push(helpers.data(layer, 'depth-y') || depth)
+
+      const limitX = (helpers.data(layer, 'limit-x') || '').split(',');
+      this.limitsX.push(limitX)
+
+      const limitY = (helpers.data(layer, 'limit-y') || '').split(',');
+      this.limitsY.push(limitY)
     }
   }
 
@@ -489,6 +498,15 @@ class Parallax {
           depthY = this.depthsY[index],
           xOffset = this.velocityX * (depthX * (this.invertX ? -1 : 1)),
           yOffset = this.velocityY * (depthY * (this.invertY ? -1 : 1))
+
+      if (!isNaN(parseFloat(this.limitsX[index][0])) && !isNaN(parseFloat(this.limitsX[index][1]))) {
+        xOffset = helpers.clamp(xOffset, parseFloat(this.limitsX[index][0]), parseFloat(this.limitsX[index][1]))
+      }
+
+      if (!isNaN(parseFloat(this.limitsY[index][0])) && !isNaN(parseFloat(this.limitsY[index][1]))) {
+        yOffset = helpers.clamp(yOffset, parseFloat(this.limitsY[index][0]), parseFloat(this.limitsY[index][1]))
+      }
+
       this.setPosition(layer, xOffset, yOffset)
     }
     this.raf = rqAnFr(this.onAnimationFrame)
