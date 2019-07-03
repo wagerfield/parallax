@@ -4,7 +4,7 @@
 
 Parallax Engine that reacts to the orientation of a smart device. Where no gyroscope or motion detection hardware is available, the position of the cursor is used instead.
 
-Check out the **[demo](http://wagerfield.github.com/parallax/)** to see it in action!
+Check out the **[demo](https://wagerfield.github.com/parallax/)** to see it in action!
 
 # Table of Contents
 
