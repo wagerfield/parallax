@@ -16,14 +16,6 @@ const sourcemaps = require('gulp-sourcemaps')
 const uglify = require('gulp-uglify')
 const util = require('gulp-util')
 
-gulp.task('clean', (cb) => {
-  rimraf('./dist', cb)
-})
-
-gulp.task('build', ['clean'], () => {
-  gulp.start('build:js', 'build:scss')
-})
-
 function showError(arg) {
   notifier.notify({
     title: 'Error',
@@ -33,6 +25,10 @@ function showError(arg) {
   console.log(arg)
   this.emit('end')
 }
+
+gulp.task('clean', (cb) => {
+  rimraf('./dist', cb)
+})
 
 gulp.task('build:scss', () => {
   return gulp.src(path.join('examples', 'assets', 'styles.scss'))
@@ -46,9 +42,7 @@ gulp.task('build:scss', () => {
       this.emit('end')
     }))
     .pipe(postcss([
-      autoprefixer({
-        browsers: ['last 2 versions', 'Firefox ESR', 'Explorer >= 9', 'Android >= 4.0', '> 2%']
-      })
+      autoprefixer()
     ]))
     .pipe(gulp.dest(path.join('examples', 'assets')))
     .pipe(browsersync.stream({match: '**/*.css'}))
@@ -56,7 +50,7 @@ gulp.task('build:scss', () => {
 
 gulp.task('build:js', () => {
   return browserify({entries: path.join('src', 'parallax.js'), debug: false, standalone: 'Parallax'})
-        .transform("babelify", {presets: ["es2015"]})
+        .transform("babelify", {presets: ["@babel/preset-env"]})
         .bundle()
           .on('error', showError)
         .pipe(source('parallax.js'))
@@ -71,7 +65,13 @@ gulp.task('build:js', () => {
         .pipe(browsersync.stream({match: path.join('**','*.js')}))
 })
 
-gulp.task('watch', ['build'], () => {
+gulp.task('build',
+  gulp.series('clean',
+    gulp.parallel('build:scss', 'build:js')
+  )
+);
+
+gulp.task('watch', gulp.series('build', () => {
   browsersync.init({
     notify: false,
     port: 9000,
@@ -80,9 +80,9 @@ gulp.task('watch', ['build'], () => {
       directory: true
     }
   })
-   gulp.watch(path.join('src', '*.js'), ['build:js'])
-   gulp.watch(path.join('examples', 'assets', '*.scss'), ['build:scss'])
+   gulp.watch(path.join('src', '*.js'), gulp.series('build:js'))
+   gulp.watch(path.join('examples', 'assets', '*.scss'), gulp.series('build:scss'))
    gulp.watch(path.join('examples', 'pages', '*.html'), browsersync.reload)
-})
+}));
 
-gulp.task('default', ['watch'])
+gulp.task('default', gulp.series('watch'));
