@@ -3,3 +3,5 @@ node_modules
 dist
 **/*.css
 npm-debug.log
+*.sublime-project
+*.sublime-workspace
