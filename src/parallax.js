@@ -318,9 +318,9 @@ class Parallax {
       this.depthsX.push(helpers.data(layer, 'depth-x') || depth)
       this.depthsY.push(helpers.data(layer, 'depth-y') || depth)
 
-      var layerFriction = helpers.data(layer, 'friction') || false
-      var rawFrictionX = helpers.data(layer, 'friction-x') || (layerFriction || this.frictionX)
-      var rawFrictionY = helpers.data(layer, 'friction-y') || (layerFriction || this.frictionY)
+      let layerFriction = helpers.data(layer, 'friction') || false
+      let rawFrictionX = helpers.data(layer, 'friction-x') || (layerFriction || this.frictionX)
+      let rawFrictionY = helpers.data(layer, 'friction-y') || (layerFriction || this.frictionY)
       this.frictionsX.push( rawFrictionX < 1 ? rawFrictionX : 1 )
       this.frictionsY.push( rawFrictionX < 1 ? rawFrictionX : 1 )
 
