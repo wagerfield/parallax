@@ -508,12 +508,6 @@ class Parallax {
           depthY  = this.depthsY[index],
           xOffset = this.velocitysX[index] * (depthX * (this.invertX ? -1 : 1)),
           yOffset = this.velocitysY[index] * (depthY * (this.invertY ? -1 : 1))
-
-      let layer = this.layers[index],
-          depthX = this.depthsX[index],
-          depthY = this.depthsY[index],
-          xOffset = this.velocityX * (depthX * (this.invertX ? -1 : 1)),
-          yOffset = this.velocityY * (depthY * (this.invertY ? -1 : 1))
       this.setPosition(layer, xOffset, yOffset)
     }
     this.raf = rqAnFr(this.onAnimationFrame)
