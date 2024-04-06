@@ -336,6 +336,14 @@ It seems MS Edge does not support the `children` or `querySelectorAll` methods f
 
 Depending on your site, the GPU might have a bit too much to do. You can try adding the CSS definition `will-change: transform` to the layer elements to speed things up. Use sparingly!
 
+### Gyroscope not working on Android
+
+Android will only allow access to the gyroscope o secure origins (that is, with `https` protocol).
+
+### Gyroscope not working on iOS
+
+Because gyroscope data had been abused to track users, it's disabled on iDevices by default and needs to be enabled by the user in the settings app. :(
+
 # 5. FAQ
 
 ### How can I use this Library with jQuery?
