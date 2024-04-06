@@ -342,7 +342,7 @@ Android will only allow access to the gyroscope o secure origins (that is, with 
 
 ### Gyroscope not working on iOS
 
-Because gyroscope data had been abused to track users, it's disabled on iDevices by default and needs to be enabled by the user in the settings app. :(
+Because gyroscope data had been abused to track users, it's disabled on iDevices by default and needs to be enabled by the users. You can try asking for permission via [DeviceOrientationEvent.requestPermission](https://www.w3.org/TR/orientation-event/#dom-deviceorientationevent-requestpermission).
 
 # 5. FAQ
 
