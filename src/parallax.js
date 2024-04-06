@@ -129,6 +129,9 @@ const MAGIC_NUMBER = 30,
       DEFAULTS = {
         relativeInput: false,
         clipRelativeInput: false,
+        tilt: false,
+        tiltPerspective: 2000,
+        tiltScale: 1,
         inputElement: null,
         hoverOnly: false,
         calibrationThreshold: 100,
@@ -149,7 +152,8 @@ const MAGIC_NUMBER = 30,
         pointerEvents: false,
         precision: 1,
         onReady: null,
-        selector: null
+        selector: null,
+        continueAnimatingWhileDisabled: false,
       }
 
 class Parallax {
@@ -174,9 +178,13 @@ class Parallax {
       precision: helpers.data(this.element, 'precision'),
       relativeInput: helpers.data(this.element, 'relative-input'),
       clipRelativeInput: helpers.data(this.element, 'clip-relative-input'),
+      tilt: helpers.data(this.element, 'tilt'),
+      tiltPerspective: helpers.data(this.element, 'tilt-perspective'),
+      tiltScale: helpers.data(this.element, 'tilt-scale'),
       hoverOnly: helpers.data(this.element, 'hover-only'),
       inputElement: document.querySelector(helpers.data(this.element, 'input-element')),
-      selector: helpers.data(this.element, 'selector')
+      selector: helpers.data(this.element, 'selector'),
+      continueAnimatingWhileDisabled: helpers.data(this.element, 'continue-animating-while-disabled')
     }
 
     for (let key in data) {
@@ -380,7 +388,10 @@ class Parallax {
     }
 
     window.removeEventListener('resize', this.onWindowResize)
-    rqAnFr.cancel(this.raf)
+
+    if (!this.continueAnimatingWhileDisabled) {
+      rqAnFr.cancel(this.raf)
+    }
   }
 
   calibrate(x, y) {
@@ -429,6 +440,20 @@ class Parallax {
       element.style.left = x
       element.style.top = y
     }
+  }
+
+  setTransform(element, x, y) {
+    var perspective = this.tiltPerspective;
+    var scale = this.tiltScale;
+    element.style.transform = "perspective(" + perspective + "px) " +
+      "rotateX(" + y + "deg) " +
+      "rotateY(" + -x + "deg) " +
+      "scale3d(" + scale + ", " + scale + ", " + scale + ")";
+  }
+
+  resetTransform() {
+    this.inputX = this.calibrationX;
+    this.inputY = this.calibrationY;
   }
 
   onOrientationTimer() {
@@ -489,7 +514,11 @@ class Parallax {
           depthY = this.depthsY[index],
           xOffset = this.velocityX * (depthX * (this.invertX ? -1 : 1)),
           yOffset = this.velocityY * (depthY * (this.invertY ? -1 : 1))
-      this.setPosition(layer, xOffset, yOffset)
+        if (this.tilt) {
+          this.setTransform(layer, xOffset, yOffset);
+        } else {
+          this.setPosition(layer, xOffset, yOffset);
+        }
     }
     this.raf = rqAnFr(this.onAnimationFrame)
   }
