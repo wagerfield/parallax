@@ -344,6 +344,16 @@ Android will only allow access to the gyroscope o secure origins (that is, with 
 
 Because gyroscope data had been abused to track users, it's disabled on iDevices by default and needs to be enabled by the users. You can try asking for permission via [DeviceOrientationEvent.requestPermission](https://www.w3.org/TR/orientation-event/#dom-deviceorientationevent-requestpermission).
 
+Do something like:
+
+```js
+DeviceOrientationEvent
+  .requestPermission()
+  .then(() => {
+    new Parallax(scene)
+  })
+```
+
 # 5. FAQ
 
 ### How can I use this Library with jQuery?
