@@ -196,6 +196,8 @@ class Parallax {
     this.enabled = false
     this.depthsX = []
     this.depthsY = []
+    this.frictionsX = []
+    this.frictionsY = []
     this.raf = null
 
     this.bounds = null
@@ -221,6 +223,9 @@ class Parallax {
 
     this.velocityX = 0
     this.velocityY = 0
+
+    this.velocitysX = []
+    this.velocitysY = []
 
     this.onMouseMove = this.onMouseMove.bind(this)
     this.onDeviceOrientation = this.onDeviceOrientation.bind(this)
@@ -294,6 +299,8 @@ class Parallax {
 
     this.depthsX = []
     this.depthsY = []
+    this.frictionsX = []
+    this.frictionsY = []
 
     for (let index = 0; index < this.layers.length; index++) {
       let layer = this.layers[index]
@@ -310,6 +317,15 @@ class Parallax {
       let depth = helpers.data(layer, 'depth') || 0
       this.depthsX.push(helpers.data(layer, 'depth-x') || depth)
       this.depthsY.push(helpers.data(layer, 'depth-y') || depth)
+
+      let layerFriction = helpers.data(layer, 'friction') || false
+      let rawFrictionX = helpers.data(layer, 'friction-x') || (layerFriction || this.frictionX)
+      let rawFrictionY = helpers.data(layer, 'friction-y') || (layerFriction || this.frictionY)
+      this.frictionsX.push( rawFrictionX < 1 ? rawFrictionX : 1 )
+      this.frictionsY.push( rawFrictionX < 1 ? rawFrictionX : 1 )
+
+      this.velocitysX.push(0)
+      this.velocitysY.push(0)
     }
   }
 
@@ -484,11 +500,14 @@ class Parallax {
     this.velocityX += (this.motionX - this.velocityX) * this.frictionX
     this.velocityY += (this.motionY - this.velocityY) * this.frictionY
     for (let index = 0; index < this.layers.length; index++) {
-      let layer = this.layers[index],
-          depthX = this.depthsX[index],
-          depthY = this.depthsY[index],
-          xOffset = this.velocityX * (depthX * (this.invertX ? -1 : 1)),
-          yOffset = this.velocityY * (depthY * (this.invertY ? -1 : 1))
+
+      this.velocitysX[index] += (this.motionX - this.velocitysX[index]) * this.frictionsX[index]
+      this.velocitysY[index] += (this.motionY - this.velocitysY[index]) * this.frictionsY[index]
+      let layer   = this.layers[index],
+          depthX  = this.depthsX[index],
+          depthY  = this.depthsY[index],
+          xOffset = this.velocitysX[index] * (depthX * (this.invertX ? -1 : 1)),
+          yOffset = this.velocitysY[index] * (depthY * (this.invertY ? -1 : 1))
       this.setPosition(layer, xOffset, yOffset)
     }
     this.raf = rqAnFr(this.onAnimationFrame)
