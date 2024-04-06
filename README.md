@@ -354,6 +354,10 @@ DeviceOrientationEvent
   })
 ```
 
+### Unable to manually set position of layers
+
+Since this often lead to issues, this library forces the positioning of the layers to be absolute. If you need to override this, add `!important` to your CSS positioning.
+
 # 5. FAQ
 
 ### How can I use this Library with jQuery?
