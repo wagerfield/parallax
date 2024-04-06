@@ -332,6 +332,10 @@ If you need help relating the direct usage of this library in a project of yours
 
 It seems MS Edge does not support the `children` or `querySelectorAll` methods for SVG elements.
 
+### Animation running really slow
+
+Depending on your site, the GPU might have a bit too much to do. You can try adding the CSS definition `will-change: transform` to the layer elements to speed things up. Use sparingly!
+
 # 5. FAQ
 
 ### How can I use this Library with jQuery?
